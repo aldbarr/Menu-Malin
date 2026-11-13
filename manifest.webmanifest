@@ -1,7 +1,7 @@
 {
   "name": "Menu Malin",
   "short_name": "Menu Malin",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#f4f6ee",
   "theme_color": "#23573a",

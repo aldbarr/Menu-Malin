@@ -255,6 +255,8 @@ details.fold>summary::-webkit-details-marker{display:none}
 .dl:first-child{border-top:0}
 .dl .p{font-weight:700}
 .dl .p s{font-weight:400;color:var(--muted);font-size:14px;margin-left:4px}
+.foyer{background:var(--accent-soft);border-radius:14px;padding:12px 14px;margin-top:10px;display:flex;flex-direction:column;gap:10px}
+.foyer code{font:800 18px var(--display);letter-spacing:.06em;color:var(--accent)}
 .empty{background:var(--surface);border-radius:14px;padding:18px;margin-top:10px;color:var(--muted)}
 
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:15px;z-index:30;max-width:calc(100% - 32px)}
@@ -550,8 +552,11 @@ const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const WEB=!(window.claude&&window.claude.use)&&/^https?:$/.test(location.protocol);
 function foyerCode(){let m=location.hash.match(/foyer-([a-z0-9]{6,40})/i),c=m?m[1].toLowerCase():null;
   try{if(c)localStorage.setItem('menu-malin-foyer',c);else c=localStorage.getItem('menu-malin-foyer');}catch(e){}
-  if(!c){c=(crypto.getRandomValues(new Uint32Array(2))).reduce((s,n)=>s+n.toString(36),'').slice(0,12);try{localStorage.setItem('menu-malin-foyer',c);}catch(e){}}
-  if(m)history.replaceState(null,'',location.pathname);return c;}
+  if(!c){c=(crypto.getRandomValues(new Uint32Array(2))).reduce((s,n)=>s+n.toString(36),'').slice(0,8);try{localStorage.setItem('menu-malin-foyer',c);}catch(e){}}
+  if(!m)history.replaceState(null,'',location.pathname+'#foyer-'+c);return c;}
+let JOINING=false;
+function parseFoyer(v){v=(v||'').trim().toLowerCase();const m=v.match(/foyer-([a-z0-9]{6,40})/);if(m)return m[1];return /^[a-z0-9]{6,40}$/.test(v)?v:null;}
+function joinFoyer(c){try{localStorage.setItem('menu-malin-foyer',c);}catch(e){}location.hash='foyer-'+c;location.reload();}
 function shareUrl(){return location.origin+location.pathname+'#foyer-'+foyerCode();}
 // Petit client qui imite l'interface de la base Claude, sur l'API /api/liste (Netlify)
 function restDB(foyer){const base='/api/liste?f='+encodeURIComponent(foyer);const subs={liste:[],favoris:[]};let timer=null;
@@ -812,7 +817,7 @@ function closeSheet(){const ref=OPEN;OPEN=null;renderSheet();const b=document.qu
 /* ---- courses ---- */
 function listShellHTML(){return `<div class="addbar"><input type="text" id="q" placeholder="Ajouter un article, ex. lait" autocomplete="off" aria-label="Ajouter un article" value="${esc(QTXT)}"><button class="btn" id="qadd">Ajouter</button></div><div class="sugg" id="sugg"></div><div id="listbody">${listBodyHTML()}</div>`;}
 function syncLine(){
-  if(SYNC.mode==='db')return `<span class="dot ${SYNC.note?'warn':'on'}"></span><span>${SYNC.note?esc(SYNC.note):'Liste partagée avec ton foyer, à jour en direct'}${CANWRITE?'':' · lecture seule'}</span>${WEB?'<button class="btn quiet sm" id="sharelink" style="margin-left:auto">Partager la liste</button>':''}`;
+  if(SYNC.mode==='db')return `<span class="dot ${SYNC.note?'warn':'on'}"></span><span>${SYNC.note?esc(SYNC.note):'Liste partagée avec ton foyer, à jour en direct'}${CANWRITE?'':' · lecture seule'}</span>`;
   if(SYNC.mode==='loading')return `<span class="dot warn"></span><span>${SYNC.note?esc(SYNC.note):'Connexion à la liste partagée…'}</span>`;
   if(SYNC.mode==='error')return `<span class="dot warn"></span><span>${esc(SYNC.note)} Liste de cet appareil affichée.</span>`;
   return `<span class="dot"></span><span>Liste enregistrée sur cet appareil seulement</span>`;}
@@ -834,6 +839,10 @@ function mealGroupsHTML(){
        return `<div class="li ${x.ok?'done have':''}"><button class="ck" data-mealck="${esc(name)}" data-q="${esc(qty(x.q,x.u))}" data-r="${esc(r.n)}" aria-label="${esc(name)} : ${x.ok?'pas encore':'je l\'ai'}" aria-pressed="${x.ok}">✓</button><div class="li-txt"><span class="nm">${esc(name)}</span><span class="nt">${qty(x.q,x.u)}</span></div><span class="state">${state}</span></div>`;}).join('')}
      ${st.ok<st.n?`<div class="mealfoot"><button class="btn quiet sm" data-haveall="${id}">J'ai déjà tout</button></div>`:''}</section>`;}).join('');
 }
+function foyerBox(){if(!WEB)return '';const c=foyerCode();
+  return `<div class="foyer"><div class="li-txt"><span class="nm">Code du foyer : <code>${c}</code></span><span class="nt">Tous ceux qui utilisent ce code partagent la liste de courses et les favoris.</span></div>
+  <div class="row"><button class="btn sm" id="sharelink">Partager avec mon foyer</button><button class="btn quiet sm" id="joinfoyer">Rejoindre un autre foyer</button></div>
+  ${JOINING?`<div class="editrow" style="width:100%"><input type="text" id="foyer-in" placeholder="Colle le lien ou tape le code reçu" aria-label="Code ou lien du foyer" autocomplete="off"><button class="btn sm" id="foyer-ok">Rejoindre</button></div>`:''}</div>`;}
 function listBodyHTML(){
   const act=LIST.filter(i=>!i.done),done=LIST.filter(i=>i.done).sort((a,b)=>(b.doneAt||0)-(a.doneAt||0));
   const deals=storeDeals().slice().sort((a,b)=>pct(b)-pct(a));
@@ -847,7 +856,7 @@ function listBodyHTML(){
     else groups=CATS.map(([c,l])=>[l,act.filter(i=>(i.cat||catOf(i.name))===c)]);
     groups=groups.filter(g=>g[1].length).map(([l,it])=>[l,it.sort((a,b)=>a.name.localeCompare(b.name,'fr'))]);
     body=groups.map(([l,items])=>`<section class="group"><h3><span>${l}</span><span>${items.length}</span></h3>${items.map(itemHTML).join('')}</section>`).join('');}
-  return `<p class="sync">${syncLine()}</p>${seg}${body}
+  return `${foyerBox()}<p class="sync">${syncLine()}</p>${seg}${body}
    ${done.length&&S.group!=='repas'?`<details class="fold" id="fold-done"><summary>Dans le panier (${done.length})</summary><div class="fold-body">${done.slice(0,40).map(itemHTML).join('')}<div class="row" style="margin-top:10px"><button class="btn quiet sm" id="cleardone">Retirer les articles cochés</button></div></div></details>`:''}
    <details class="fold" id="fold-quick"><summary>Ajout rapide</summary><div class="fold-body">${quick}</div></details>
    <details class="fold" id="fold-deals"><summary>Toutes les actions de tes magasins (${deals.length})</summary><div class="fold-body">${deals.length?deals.map(d=>`<div class="dl"><div><div class="p">${esc(d.p)}</div><div class="muted small">${sn(d.s)}${d.ti?' · Tessin':''} · ${chf(d.pr)}${unitP(d)} <s>${chf(d.rg)}</s> · jusqu'au ${d.until||fmtD(META.to)}${srcText(d)?` · ${srcText(d)}`:''} · ${dealLink(d)}</div></div><div class="row"><span class="chip">−${pct(d)} %</span><button class="btn quiet sm" data-adddeal="${DEALS.indexOf(d)}" aria-label="Ajouter ${esc(d.p)} à la liste">+</button></div></div>`).join(''):'<p class="muted">Aucune action relevée pour tes magasins cette semaine.</p>'}</div></details>`;
@@ -916,7 +925,11 @@ document.addEventListener('click',e=>{
   if(t.dataset.adddeal!==undefined){const d=DEALS[+t.dataset.adddeal];if(d)addItem(ingName(d.k),'',d);return;}
   if(t.dataset.group){S.group=t.dataset.group;persist();refreshList();return;}
   if(t.dataset.mf){S.mf=t.dataset.mf;render();return;}
-  if(t.id==='sharelink'){const u=shareUrl();navigator.clipboard.writeText(u).then(()=>toast('Lien copié : envoie-le à ton foyer')).catch(()=>{window.prompt?toast(u):0;});return;}
+  if(t.id==='sharelink'){const u=shareUrl(),msg=`Rejoins notre liste de courses Menu Malin : ${u} (code du foyer : ${foyerCode()})`;
+    if(navigator.share){navigator.share({title:'Menu Malin',text:msg}).catch(()=>{});return;}
+    navigator.clipboard.writeText(msg).then(()=>toast('Lien copié : colle-le dans un message')).catch(()=>toast(u));return;}
+  if(t.id==='joinfoyer'){JOINING=!JOINING;refreshList();setTimeout(()=>{const i=document.getElementById('foyer-in');if(i)i.focus();},0);return;}
+  if(t.id==='foyer-ok'){const i=document.getElementById('foyer-in'),c=parseFoyer(i&&i.value);if(!c){toast('Code non reconnu : 6 lettres ou chiffres au moins');return;}if(c===foyerCode()){toast('Tu es déjà dans ce foyer');return;}joinFoyer(c);return;}
   if(t.id==='cleardone'){clearDone();return;}
   if(t.id==='qadd'){addTyped();return;}
   if(t.id==='copy'){const txt=listText();navigator.clipboard.writeText(txt).then(()=>toast('Liste copiée')).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Liste copiée');}catch(_){toast('Copie impossible ici');}ta.remove();});}
@@ -929,6 +942,7 @@ document.addEventListener('toggle',e=>{if(e.target.id==='more'){S.moreOpen=e.tar
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&OPEN!==null){closeSheet();return;}
   if(e.target.id==='q'&&e.key==='Enter'){e.preventDefault();addTyped();}
+  if(e.target.id==='foyer-in'&&e.key==='Enter'){e.preventDefault();const c=parseFoyer(e.target.value);if(c&&c!==foyerCode())joinFoyer(c);else toast('Code non reconnu');}
   if(e.target.id==='note-in'&&e.key==='Enter'){e.preventDefault();saveNote(EDITING,e.target.value.trim());}
 });
 document.addEventListener('input',e=>{
@@ -944,6 +958,7 @@ function boot(){renderValidity();const stamp=META.to+'|'+META.collected;
   if(S.ev.ids&&!['e','p','d'].every(c=>!S.ev.ids[c]||R.some(r=>r.id===S.ev.ids[c])))S.ev.ids=null;
   S.dealsTo=stamp;render();}
 const getJ=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+window.addEventListener('hashchange',()=>{const m=location.hash.match(/foyer-([a-z0-9]{6,40})/i);if(m){let cur=null;try{cur=localStorage.getItem('menu-malin-foyer');}catch(e){}if(m[1].toLowerCase()!==cur)joinFoyer(m[1].toLowerCase());}});
 Promise.all([getJ('photos.json'),getJ('deals.json')]).then(([ph,j])=>{if(ph&&Array.isArray(ph.ids))AIPHOTOS=ph.ids;if(j&&Array.isArray(j.deals)){DEALS=j.deals;META={...META,...j.meta};}}).finally(()=>{boot();initSync();});
 </script>
 

@@ -1,0 +1,37 @@
+# Met à jour deals.json chaque jeudi matin, puis Netlify republie le site.
+name: Actions de la semaine
+
+on:
+  schedule:
+    - cron: "30 5 * * 4"   # jeudi 05:30 UTC = 06:30 en hiver, 07:30 en été (heure suisse)
+  workflow_dispatch:        # bouton « Run workflow » pour lancer à la main
+
+permissions:
+  contents: write   # enregistrer deals.json
+  models: read      # IA gratuite GitHub Models
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Relever les actions
+        run: node scripts/update-deals.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AI_MODEL: ${{ vars.AI_MODEL }}
+          # Facultatif : si ce secret existe, l'API Claude est utilisée à la place
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+      - name: Enregistrer deals.json
+        run: |
+          git config user.name "menu-malin-bot"
+          git config user.email "menu-malin-bot@users.noreply.github.com"
+          git add deals.json
+          if git diff --cached --quiet; then echo "Aucun changement"; exit 0; fi
+          git commit -m "Actions de la semaine du $(date -u +%d.%m.%Y)"
+          git push

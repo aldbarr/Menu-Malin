@@ -1,0 +1,478 @@
+{
+ "meta": {
+  "from": "2026-11-12",
+  "to": "2026-11-18",
+  "collected": "2026-11-13",
+  "sources": [
+   "https://www.aktionis.ch/vendors/migros",
+   "https://www.aktionis.ch/vendors/denner/futuredeals",
+   "https://www.aktionis.ch/vendors/lidl/futuredeals",
+   "https://rappn.ch/en/offers/migros",
+   "https://rappn.ch/en/offers/coop",
+   "https://rappn.ch/en/offers/lidl",
+   "https://www.denner.ch/fr/actions"
+  ],
+  "missing": [
+   "aldi"
+  ]
+ },
+ "deals": [
+  {
+   "s": "migros",
+   "k": "saumonfume",
+   "p": "Saumon fumé d'Islande 250 g",
+   "pr": 9.95,
+   "rg": 17.35,
+   "sz": 250,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "tomates",
+   "p": "Tomates datterini 250 g",
+   "pr": 1.75,
+   "rg": 2.95,
+   "sz": 250,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "courge",
+   "p": "Courge Hokkaïdo bio 1 kg",
+   "pr": 3.75,
+   "rg": 5.8,
+   "sz": 1000,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "pdt",
+   "p": "Pommes de terre 2,5 kg",
+   "pr": 3.45,
+   "rg": 4.6,
+   "sz": 2500,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "poireau",
+   "p": "Poireaux bio 1 kg",
+   "pr": 6.95,
+   "rg": 9.95,
+   "sz": 1000,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "tomboite",
+   "p": "Longobardi tomates concassées 6×230 g",
+   "pr": 5.45,
+   "rg": 7.8,
+   "sz": 1380,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "fromagetr",
+   "p": "Fol Epi en tranches 270 g",
+   "pr": 4.95,
+   "rg": 6.3,
+   "sz": 12,
+   "est": true,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "schufeli",
+   "p": "Schüfeli Quick IP-Suisse",
+   "pr": 1.65,
+   "rg": 2.5,
+   "per": 100,
+   "until": "30.12",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "jambon",
+   "p": "Noix de jambon Quick IP-Suisse (jambon cuit)",
+   "pr": 1.95,
+   "rg": 2.95,
+   "per": 100,
+   "until": "30.12",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "jambon",
+   "p": "Rollschinkli Quick M-Classic (jambon cuit)",
+   "pr": 1.6,
+   "rg": 2.4,
+   "per": 100,
+   "until": "30.12",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "schufeli",
+   "p": "Bell Schüfeli Quick 820 g",
+   "pr": 11.85,
+   "rg": 23.75,
+   "sz": 820,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "jambon",
+   "p": "Jambon cru, chutes env. 300 g",
+   "pr": 7.05,
+   "rg": 14.1,
+   "sz": 300,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "saumonfume",
+   "p": "Norske saumon fumé ASC 250 g",
+   "pr": 8.5,
+   "rg": 17.0,
+   "sz": 250,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "fromagetr",
+   "p": "Tranches de fromage fondu Burger XXL 200 g",
+   "pr": 1.6,
+   "rg": 3.25,
+   "sz": 10,
+   "est": true,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "fromagetr",
+   "p": "Fol Epi Caractère en tranches 260 g",
+   "pr": 4.95,
+   "rg": 7.2,
+   "sz": 12,
+   "est": true,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "pates",
+   "p": "Barilla Bavette n°13 500 g",
+   "pr": 1.5,
+   "rg": 2.5,
+   "sz": 500,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "mais",
+   "p": "Maïs doux 6×285 g",
+   "pr": 3.9,
+   "rg": 7.8,
+   "sz": 1710,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "boeuf",
+   "p": "Romsteck de bœuf Black Angus en pièce env. 800 g",
+   "pr": 2.99,
+   "rg": 5.9,
+   "per": 100,
+   "u": "https://www.denner.ch/fr/actions/romsteck-de-boeuf-black-angus~p1002961",
+   "until": "18.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "boeuf",
+   "p": "Prime Black Angus filet Florentino 4× env. 170 g",
+   "pr": 5.19,
+   "rg": 6.49,
+   "per": 100,
+   "u": "https://www.denner.ch/fr/actions/prime-black-angus-filet-florentino~p1139588",
+   "until": "15.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "porc",
+   "p": "Quasi de porc Denner en pièce env. 600 g",
+   "pr": 0.89,
+   "rg": 1.85,
+   "per": 100,
+   "u": "https://www.denner.ch/fr/actions/quasi-de-porc-denner~p1003706",
+   "until": "18.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "poulet",
+   "p": "Blancs de poulet Denner env. 1 kg",
+   "pr": 1.09,
+   "rg": 1.56,
+   "per": 100,
+   "u": "https://www.denner.ch/fr/actions/blancs-de-poulet-denner~p1118498",
+   "until": "18.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "courge",
+   "p": "Courge butternut IP-Suisse",
+   "pr": 1.95,
+   "rg": 2.85,
+   "per": 1000,
+   "u": "https://www.denner.ch/fr/actions/courge-butternut-ip-suisse~p1006110",
+   "until": "18.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "chou",
+   "p": "Pak-choï 2 pièces",
+   "pr": 1.49,
+   "rg": 1.95,
+   "sz": 500,
+   "est": true,
+   "u": "https://www.denner.ch/fr/actions/pak-choi~p1102514",
+   "until": "18.11",
+   "src": [
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "jambon",
+   "p": "Menatti jambon cru italien tranché 2×100 g",
+   "pr": 5.95,
+   "rg": 11.9,
+   "sz": 200,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "pates",
+   "p": "Rana Tortellini ricotta et épinards 800 g",
+   "pr": 9.5,
+   "rg": 14.2,
+   "sz": 800,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "fromagetr",
+   "p": "Leerdammer Original 18 tranches 450 g",
+   "pr": 5.7,
+   "rg": 8.8,
+   "sz": 18,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "fondue",
+   "p": "Gerber Fondue L'Original 2×800 g (Suisse alémanique et Tessin)",
+   "pr": 19.95,
+   "rg": 29.9,
+   "sz": 1600,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "fondue",
+   "p": "Philippe Rochat fondue moitié-moitié 400 g (Suisse romande)",
+   "pr": 12.95,
+   "rg": 14.5,
+   "sz": 400,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "mais",
+   "p": "Bonduelle maïs doux 3×140 g",
+   "pr": 3.5,
+   "rg": 4.3,
+   "sz": 420,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "fromagetr",
+   "p": "Raclette nature suisse en tranches 2×500 g",
+   "pr": 11.95,
+   "rg": 16.25,
+   "sz": 36,
+   "est": true,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "pdt",
+   "p": "Pommes de terre fermes suisses 2,5 kg",
+   "pr": 2.99,
+   "rg": 3.75,
+   "sz": 2500,
+   "until": "18.11",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "chou",
+   "p": "Chou chinois suisse",
+   "pr": 1.99,
+   "rg": 2.49,
+   "per": 1000,
+   "until": "18.11",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "chou",
+   "p": "Pak-choï suisse",
+   "pr": 0.99,
+   "rg": 1.49,
+   "sz": 300,
+   "est": true,
+   "until": "18.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "fromagetr",
+   "p": "Raclette en tranches aromatisée 300 g (Suisse romande)",
+   "pr": 4.19,
+   "rg": 5.49,
+   "sz": 12,
+   "est": true,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "pates",
+   "p": "Italiamo tagliatelle ou pappardelle fraîches 250 g",
+   "pr": 0.75,
+   "rg": 0.85,
+   "sz": 250,
+   "ti": true,
+   "until": "18.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "pates",
+   "p": "Italiamo cappelletti au jambon cru 250 g",
+   "pr": 1.99,
+   "rg": 2.49,
+   "sz": 250,
+   "ti": true,
+   "until": "14.11",
+   "src": [
+    "aktionis"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Menu Malin",
+  "short_name": "Menu Malin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f6ee",
+  "theme_color": "#23573a",
+  "lang": "fr",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

@@ -616,7 +616,7 @@ async function setFav(id,data){if(FDB){try{if(data)await FDB.doc(id).set(data);e
 async function toggleFav(rid){const on=isFav(rid);await setFav('p_'+rid,on?null:{type:'plat',rid,at:Date.now(),by:UID||null});toast(on?'Retiré de tes plats favoris':'Ajouté à tes plats favoris');}
 async function saveEvMeal(){const ev=S.ev;if(!ev.ids)return;const id='m_'+Date.now().toString(36);
   await setFav(id,{type:'repas',name:`${OCC[ev.occ]} · ${DAYS[ev.day]} ${ev.mo}`,occ:ev.occ,persons:ev.persons,day:ev.day,mo:ev.mo,budget:ev.budget,ids:{...ev.ids},at:Date.now(),by:UID||null});toast('Repas enregistré');}
-function rerender(){if(S.view!=='main')return;if(OPEN!==null){const b=document.querySelector('.sheet [data-fav]');const ref=openRef();if(b&&ref)b.textContent=isFav(ref.r.id)?'★ Favori':'☆ Garder en favori';}const el=document.getElementById('panel');if(el&&S.tab!=='liste')el.innerHTML=S.tab==='menu'?menuHTML():evHTML();}
+function rerender(){if(S.view!=='main')return;if(OPEN!==null){const b=document.querySelector('.sheet [data-fav]');const ref=openRef();if(b&&ref)b.textContent=isFav(ref.r.id)?'★ Favori':'☆ Garder en favori';}const el=document.getElementById('panel');if(el&&S.tab!=='liste'){el.innerHTML=S.tab==='menu'?menuHTML():evHTML();applyFolds();}}
 let LIST=[];let SYNC={mode:'local',note:''};let LDB=null,UID=null,USER=null,CANWRITE=true,NAMES={};let EDITING=null;let QTXT='';
 try{LIST=JSON.parse(localStorage.getItem('menu-malin-liste')||'[]');}catch(e){LIST=[];}
 const saveLocal=()=>{try{localStorage.setItem('menu-malin-liste',JSON.stringify(LIST));}catch(e){}};
@@ -631,9 +631,9 @@ function parseFoyer(v){v=(v||'').trim().toLowerCase();const m=v.match(/foyer-([a
 function joinFoyer(c){try{localStorage.setItem('menu-malin-foyer',c);}catch(e){}location.hash='foyer-'+c;location.reload();}
 function shareUrl(){return location.origin+location.pathname+'#foyer-'+foyerCode();}
 // Petit client qui imite l'interface de la base Claude, sur l'API /api/liste (Netlify)
-function restDB(foyer){const base='/api/liste?f='+encodeURIComponent(foyer);const subs={liste:[],favoris:[]};let timer=null;
+function restDB(foyer){const base='/api/liste?f='+encodeURIComponent(foyer);const subs={liste:[],favoris:[]};const last={};let timer=null;
   async function pull(){try{const r=await fetch(base,{cache:'no-store'});if(!r.ok)throw new Error(r.status);const j=await r.json();
-      for(const c in subs){const snap={docs:(j[c]||[]).map(d=>{const {id,...x}=d;return {id,data:()=>x};}),metadata:{fromCache:false}};subs[c].forEach(([cb])=>cb(snap));}}
+      for(const c in subs){const sig=JSON.stringify(j[c]||[]);if(last[c]===sig)continue;last[c]=sig;const snap={docs:(j[c]||[]).map(d=>{const {id,...x}=d;return {id,data:()=>x};}),metadata:{fromCache:false}};subs[c].forEach(([cb])=>cb(snap));}}
     catch(e){for(const c in subs)subs[c].forEach(([,er])=>er&&er({code:'unavailable'}));}}
   function start(){if(timer)return;pull();timer=setInterval(()=>{if(!document.hidden)pull();},4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull();});}
   async function write(body){const r=await fetch(base,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw {code:r.status===413?'quota_exceeded':'unavailable'};pull();}
@@ -711,12 +711,12 @@ function render(){
   document.getElementById('opensetup').hidden=S.view==='setup';
   app.innerHTML=S.view==='setup'?setupHTML():mainHTML();
   if(S.view!=='setup'&&S.tab==='liste')refreshList();
-  renderSheet();persist();
+  renderSheet();persist();applyFolds();
 }
 function refreshTabs(){const n=document.getElementById('tabn');if(n){const c=LIST.filter(i=>!i.done).length;n.textContent=c;n.dataset.n=c;}}
-function refreshList(){refreshTabs();if(OPEN!==null)refreshIngs();const el=document.getElementById('listbody');if(el){el.innerHTML=listBodyHTML();return;}
+function refreshList(){refreshTabs();if(OPEN!==null)refreshIngs();const el=document.getElementById('listbody');if(el){el.innerHTML=listBodyHTML();applyFolds();return;}
   if(S.tab==='liste'&&S.view==='main'){const p=document.getElementById('panel');if(p){p.innerHTML=listShellHTML();return;}}
-  if(S.view==='main'&&OPEN===null){const p=document.getElementById('panel');if(p)p.innerHTML=S.tab==='menu'?menuHTML():evHTML();}}
+  if(S.view==='main'&&OPEN===null){const p=document.getElementById('panel');if(p){p.innerHTML=S.tab==='menu'?menuHTML():evHTML();applyFolds();}}}
 
 /* ---- éléments de formulaire ---- */
 const getP=path=>path.split('.').reduce((o,k)=>o[k],S);
@@ -818,8 +818,8 @@ function menuHTML(){
   ${favDishesHTML()}`;
 }
 function favDishesHTML(){const fs=FAVS.filter(f=>f.type==='plat').map(f=>R.find(r=>r.id===f.rid)).filter(Boolean);
-  return `<details class="fold" style="margin-top:18px"><summary>Mes plats favoris (${fs.length})</summary><div class="fold-body">${fs.length?`<p class="muted small" style="margin-bottom:6px">Ils sont proposés plus souvent dans tes menus.</p>${fs.map(r=>`<div class="dl"><div><div class="p">${esc(r.n)}</div><div class="muted small">${r.c?COURSE[r.c==='entree'?'e':'d']:DTYPE[r.d]} · ${r.t} min · ≈ ${chf0(cost(r))} CHF pour ${S.a.persons}</div></div><div class="row"><button class="btn quiet sm" data-open="f:${r.id}">Recette</button>${favBtn(r.id)}</div></div>`).join('')}`:'<p class="muted small">Touche ☆ sur un plat pour le garder ici.</p>'}</div></details>
-  ${(S.a.banned||[]).length?`<details class="fold"><summary>Plats que tu ne veux plus (${S.a.banned.length})</summary><div class="fold-body">${S.a.banned.map(id=>R.find(r=>r.id===id)).filter(Boolean).map(r=>`<div class="dl"><div class="p">${esc(r.n)}</div><button class="btn quiet sm" data-unban="${r.id}">Proposer à nouveau</button></div>`).join('')}</div></details>`:''}`;}
+  return `<details class="fold" id="fold-favs" style="margin-top:18px"><summary>Mes plats favoris (${fs.length})</summary><div class="fold-body">${fs.length?`<p class="muted small" style="margin-bottom:6px">Ils sont proposés plus souvent dans tes menus.</p>${fs.map(r=>`<div class="dl"><div><div class="p">${esc(r.n)}</div><div class="muted small">${r.c?COURSE[r.c==='entree'?'e':'d']:DTYPE[r.d]} · ${r.t} min · ≈ ${chf0(cost(r))} CHF pour ${S.a.persons}</div></div><div class="row"><button class="btn quiet sm" data-open="f:${r.id}">Recette</button>${favBtn(r.id)}</div></div>`).join('')}`:'<p class="muted small">Touche ☆ sur un plat pour le garder ici.</p>'}</div></details>
+  ${(S.a.banned||[]).length?`<details class="fold" id="fold-banned"><summary>Plats que tu ne veux plus (${S.a.banned.length})</summary><div class="fold-body">${S.a.banned.map(id=>R.find(r=>r.id===id)).filter(Boolean).map(r=>`<div class="dl"><div class="p">${esc(r.n)}</div><button class="btn quiet sm" data-unban="${r.id}">Proposer à nouveau</button></div>`).join('')}</div></details>`:''}`;}
 
 /* ---- repas unique ---- */
 function evHTML(){
@@ -831,7 +831,7 @@ function evHTML(){
     <div class="two"><div class="field"><h3>Combien de personnes ?</h3>${stepper('ev.persons',1,20)}</div>
       <div class="field"><h3>Quand ?</h3>${pills('ev.day',DAYS.map((d,i)=>({v:i,l:d.slice(0,3)+'.'})),false)}<div style="margin-top:8px">${pills('ev.mo',[{v:'midi',l:'Midi'},{v:'soir',l:'Soir'}],false)}</div></div></div>
     <div class="field"><h3>Budget par personne</h3><p class="hint">Pour les trois plats, actions déduites.</p>${pills('ev.budget',[0,15,25,40,60].map(b=>({v:b,l:b?`${b} CHF`:'Sans limite'})),false)}</div>
-    <details class="more" ${S.ev.diet||S.ev.allergies.length||S.ev.dislikes.length?'open':''}><summary>Contraintes pour ce repas${S.ev.diet||S.ev.allergies.length||S.ev.dislikes.length?' (actives)':' (facultatif)'}</summary><div class="sub"><p class="hint">S'ajoutent à tes <button class="btn ghost sm" id="opensetup2" style="min-height:0;padding:0 2px;border:0;font-size:15px">réglages</button>, par exemple pour un invité.</p>
+    <details class="more" id="ev-constraints" ${S.ev.diet||S.ev.allergies.length||S.ev.dislikes.length?'open':''}><summary>Contraintes pour ce repas${S.ev.diet||S.ev.allergies.length||S.ev.dislikes.length?' (actives)':' (facultatif)'}</summary><div class="sub"><p class="hint">S'ajoutent à tes <button class="btn ghost sm" id="opensetup2" style="min-height:0;padding:0 2px;border:0;font-size:15px">réglages</button>, par exemple pour un invité.</p>
       <h4 style="margin:0 0 6px;font-size:15.5px">Régime</h4>${pills('ev.diet',[{v:'',l:'Comme d\'habitude'},{v:'pesco',l:'Pescétarien'},{v:'vege',l:'Végétarien'}],false)}
       <h4 style="margin:14px 0 6px;font-size:15.5px">Allergies</h4>${pills('ev.allergies',ALLERG.map(([v,l])=>({v,l})),true)}
       <h4 style="margin:14px 0 6px;font-size:15.5px">À éviter</h4>${pills('ev.dislikes',DISLIKE.map(v=>({v,l:cap(v)})),true)}</div></details>
@@ -850,12 +850,12 @@ function evHTML(){
    <div class="days">${['e','p','d'].map(c=>{const x=rs.find(y=>y.c===c);if(!x)return `<div class="empty">${COURSE[c]} : aucune recette compatible avec tes réglages.</div>`;const r=x.r;
      return cardHTML(r,p,{cid:'card-e-'+c,ref:'e:'+c,label:COURSE[c],swap:`data-evswap="${c}"`,shop:'e'+r.id,persons:true});}).join('')}</div>
    <div class="row" style="margin:16px 0 22px"><button class="btn" id="addev">Ajouter ce repas à la liste</button><button class="btn quiet" id="saveev">☆ Enregistrer ce repas</button></div>
-   <details class="fold"><summary>Changer l'occasion, les contraintes ou le budget</summary><div class="fold-body">${form}</div></details>
+   <details class="fold" id="fold-evform"><summary>Changer l'occasion, les contraintes ou le budget</summary><div class="fold-body">${form}</div></details>
    ${savedMealsHTML()}`;
 }
 
 function savedMealsHTML(){const ms=FAVS.filter(f=>f.type==='repas').sort((a,b)=>(b.at||0)-(a.at||0));if(!ms.length)return '';
-  return `<details class="fold" ${S.ev.ids?'':'open'}><summary>Mes repas enregistrés (${ms.length})</summary><div class="fold-body">${ms.map(m=>{const names=['e','p','d'].map(c=>m.ids&&R.find(r=>r.id===m.ids[c])).filter(Boolean).map(r=>esc(r.n)).join(' · ');
+  return `<details class="fold" id="fold-saved" ${S.ev.ids?'':'open'}><summary>Mes repas enregistrés (${ms.length})</summary><div class="fold-body">${ms.map(m=>{const names=['e','p','d'].map(c=>m.ids&&R.find(r=>r.id===m.ids[c])).filter(Boolean).map(r=>esc(r.n)).join(' · ');
     return `<div class="dl"><div><div class="p">${esc(m.name)} · ${m.persons} pers.</div><div class="muted small">${names}</div></div><div class="row"><button class="btn quiet sm" data-loadmeal="${esc(m.id)}">Reprendre</button><button class="edit" data-delmeal="${esc(m.id)}" aria-label="Supprimer ce repas">✕</button></div></div>`;}).join('')}</div></details>`;}
 
 /* ---- panneau recette ---- */
@@ -1012,7 +1012,9 @@ document.addEventListener('change',e=>{
   if(e.target.dataset.photo&&e.target.files&&e.target.files[0]){addPhoto(e.target.dataset.photo,e.target.files[0]);return;}
   if(e.target.id==='sel'){S.a.canton=e.target.value;persist();}
 });
-document.addEventListener('toggle',e=>{if(e.target.id==='more'){S.moreOpen=e.target.open;persist();}},true);
+const FOLD={};
+document.addEventListener('toggle',e=>{const d=e.target;if(!d.id||d.tagName!=='DETAILS')return;if(d.dataset.restoring)return;FOLD[d.id]=d.open;if(d.id==='more'){S.moreOpen=d.open;persist();}},true);
+function applyFolds(){document.querySelectorAll('details[id]').forEach(d=>{if(d.id in FOLD&&d.open!==FOLD[d.id]){d.dataset.restoring='1';d.open=FOLD[d.id];setTimeout(()=>delete d.dataset.restoring,0);}});}
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&OPEN!==null){closeSheet();return;}
   if(e.target.id==='q'&&e.key==='Enter'){e.preventDefault();addTyped();}

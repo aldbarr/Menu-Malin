@@ -265,6 +265,11 @@ footer details{background:var(--surface);border-radius:14px;padding:0 14px}
 footer summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--ink)}
 footer .fb{padding-bottom:14px;display:flex;flex-direction:column;gap:8px;max-width:65ch}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(16px);opacity:.6}to{transform:none;opacity:1}}}
+
+/* Version web : la barre flotte au-dessus du badge « Powered by Netlify » */
+.tabbar{left:50%;right:auto;transform:translateX(-50%);width:min(520px,calc(100% - 24px));bottom:calc(64px + env(safe-area-inset-bottom,0px));border:1px solid var(--line);border-radius:22px;box-shadow:0 6px 24px rgba(23,32,26,.16);padding:6px}
+.wrap{padding-bottom:calc(190px + env(safe-area-inset-bottom,0px))}
+.toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
 </style>
 
 <div class="wrap">

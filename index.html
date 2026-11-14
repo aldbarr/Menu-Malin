@@ -57,6 +57,11 @@ button{font:inherit;color:inherit}
 .top .hdr-act{display:flex;gap:8px;flex:none}
 .nbadges{display:flex;gap:6px;flex-wrap:wrap}
 .nut-top{display:flex;gap:14px;align-items:center}
+.nut-sum{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.nut-sum::-webkit-details-marker{display:none}
+.nut-sum .kc{font-size:15px;color:var(--muted)}.nut-sum .kc b{font:800 22px var(--display);color:var(--accent)}
+.nut-sum .nmore{margin-left:auto;color:var(--accent);font-weight:700;font-size:14.5px}
+.nut[open] .nmore{font-size:0}.nut[open] .nmore::after{content:"Masquer";font-size:14.5px}
 .kcal{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:84px;height:84px;border-radius:50%;background:var(--accent-soft);color:var(--accent)}
 .kcal b{font:800 26px var(--display);line-height:1}.kcal span{font-size:13px;font-weight:700}
 .macros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
@@ -570,6 +575,14 @@ const FRIDGE_GROUPS=[['Légumes et fruits',['poireau','courge','tomates','poivro
  ['Frais',['œufs','crème','lait','fromagetr','fraisfromage','mozzarella','feta','yogourt nature','gruyère râpé','parmesan']],
  ['Viandes et poissons',['jambon','lardons','poulet','bœuf haché','porc','saumon','cabillaud','crevettes','saucisse de veau']],
  ['Placard',['riz','pates','pois chiches','lentilles corail','haricots rouges','tomboite','lait de coco','tortillas','semoule','quinoa']]];
+const FRIDGE_KNOWN=()=>new Set(FRIDGE_GROUPS.flatMap(g=>g[1]));
+const sing=t=>norm(t).replace(/\(.*?\)/g,'').replace(/[sx]$/,'').trim();
+// Un ingrédient de recette correspond-il à ce que j'ai ? (cases cochées ou mots ajoutés librement)
+const STOPW=new Set(['de','du','des','la','le','les','d','l','en','ou','et','au','aux','reste','restes','un','une','frais','fraîche']);
+const toks=t=>norm(t).replace(/\(.*?\)/g,' ').split(/[\s']+/).map(w=>w.replace(/[sx]$/,'')).filter(w=>w.length>=2&&!STOPW.has(w));
+// Correspondance mot à mot : « crème fraîche » trouve « crème », mais « chou-fleur » ne trouve pas « chou »
+function wordMatch(typed,k){const a=toks(typed),b=toks(ING[k]||k);if(!a.length||!b.length)return false;return b.every(w=>a.includes(w))||a.every(w=>b.includes(w));}
+function fridgeHas(k){if(FRIDGE.includes(k))return true;const known=FRIDGE_KNOWN();return FRIDGE.some(f=>!known.has(f)&&wordMatch(f,k));}
 const FRIDGE_OPTS=['poireau','courge','tomates','poivrons','courgette','carottes','épinards','brocoli','champignons de Paris','chou','pommes','pdt','œufs','crème','fromagetr','fraisfromage','mozzarella','jambon','lardons','poulet','bœuf haché','saumon','tofu','pois chiches','riz','pates'];
 const NUTRI={proteine:'Riche en protéines',legere:'Peu de matières grasses',equilibre:'Assiette équilibrée'};
 const KCAL={'':'Peu importe',leger:'Léger · moins de 500 kcal',moyen:'Moyen · 500 à 750 kcal',copieux:'Copieux · plus de 750 kcal'};
@@ -591,7 +604,7 @@ const recipeLink=r=>DIRECT[r.id]?{url:DIRECT[r.id],l:'Voir la recette sur Fooby'
 
 /* ================= ÉTAT ================= */
 const DEFAULT={stores:['migros','coop','lidl'],canton:'Vaud',persons:4,meals:7,moments:['soir'],diet:'omni',allergies:[],dislikes:[],dislikeText:'',time:35,shopday:3,promo:50,budget:0,banned:[],cuisines:[],nutris:[],kcal:''};
-const EV0={occ:'amis',persons:6,day:4,mo:'soir',budget:0,seed:1,ids:null,diet:'',allergies:[],dislikes:[],theme:'',nutris:[],kcal:''};
+const EV0={occ:'amis',persons:6,day:4,mo:'soir',budget:0,seed:1,ids:null,diet:'',allergies:[],dislikes:[],theme:'',nutris:[],kcal:'',deals:''};
 let S={v:2,view:'main',tab:'menu',a:{...DEFAULT},ev:{...EV0},menu:[],seed:1,example:true,group:'rayon',moreOpen:false,mf:'all'};
 try{const s=JSON.parse(localStorage.getItem('menu-malin')||'null');if(s&&s.a){const old=s.v!==2;S={...S,...s,a:{...DEFAULT,...s.a},ev:{...EV0,...(s.ev||{})},v:2};if(old){S.menu=[];S.view='main';S.tab='menu';}if(!['menu','ev','frigo','liste','fav'].includes(S.tab))S.tab='menu';if(S.view!=='setup')S.view='main';}}catch(e){}
 if(S.a.nutri){S.a.nutris=[S.a.nutri];delete S.a.nutri;}if(S.ev.nutri){S.ev.nutris=[S.ev.nutri];delete S.ev.nutri;}
@@ -677,7 +690,7 @@ function score(r,menu,slot,target){
   const nv=noteOf(r.id);if(nv>0)sc+=6;else if(nv<0)sc-=14;
   const last=HIST[r.id];if(last&&Date.now()-last<14*864e5)sc-=10;
   const si=seasonInfo(r);if(si.ok)sc+=4;sc-=si.out*3;
-  if(FRIDGE.length){const hit=r.i.filter(([k])=>FRIDGE.includes(k)).length;sc+=hit*12;}
+  if(FRIDGE.length){const hit=r.i.filter(([k])=>fridgeHas(k)).length;sc+=hit*12;}
   const shared=new Set(menu.flatMap(x=>x.r.i.map(y=>y[0]).filter(k=>VEG.has(k)||PROT[k]>=15)));sc+=Math.min(3,r.i.filter(([k])=>shared.has(k)).length)*1.5;
   const prev=menu.at(-1),b=baseOf(r);
   if(prev){if(prev.r.m===r.m)sc-=10;if(prev.b===b)sc-=6;if(prev.r.d===r.d)sc-=3;}
@@ -713,7 +726,7 @@ function evPick(c,ids){
   if(!pool.length)return null;
   const main=ids.p?R.find(r=>r.id===ids.p):null;
   const other=c==='e'?(ids.d?R.find(r=>r.id===ids.d):null):c==='d'?(ids.e?R.find(r=>r.id===ids.e):null):null;
-  const sc=r=>{let s=jit(r.id,ev.seed*7+c.charCodeAt(0))*10+Math.min(recipeSaving(r,p).sv,10)*.3+(isFav(r.id)?3:0);
+  const sc=r=>{const sv=recipeSaving(r,p).sv;let s=jit(r.id,ev.seed*7+c.charCodeAt(0))*10+(ev.deals==='sans'?0:Math.min(sv,10)*.3)+(ev.deals==='avec'?(sv>=1?14:-6):0)+(isFav(r.id)?3:0);
     if(ev.theme&&r.cu===ev.theme)s+=c==='p'?18:10;if(c==='p'&&(ev.nutris||[]).length)s+=nutriMiss(r,ev.nutris)?-16*nutriMiss(r,ev.nutris):14;if(c==='p'&&ev.kcal)s+=kcalOk(r,ev.kcal)?12:-16;if(c==='p'){if(festive&&r.f)s+=10;if(ev.occ==='famille'&&r.t>60)s-=6;if(ev.occ==='amoureux'&&r.m==='fromage')s-=4;}
     if(main&&c==='e'){if(main.m===r.m)s-=12;if(main.d===r.d&&r.d!=='vege')s-=4;}
     if(c==='d'&&main&&main.a.includes('lactose')&&r.a.includes('lactose'))s-=1;
@@ -891,12 +904,12 @@ const GUIDE=[
   ['Calendrier de la semaine','Un point par repas : vert si les courses sont prêtes, safran si le plat est en action. Touche un jour pour aller à son plat.',{tab:'menu',sel:'#w-cal'}],
   ['Plats en action','Le filtre « En action » ne montre que les plats qui profitent des promotions.',{tab:'menu',sel:'#w-filter'}],
   ['Changer un plat','La flèche ↻ sur une carte propose un autre plat ; « Proposer d\'autres plats » refait toute la semaine.',{tab:'menu',sel:'#reshuffle'}],
-  ['Cuisiner avec ce que j\'ai','Onglet Frigo : coche tes restes, vois les plats possibles et ce qu\'il manque, place-les dans ta semaine.',{tab:'frigo',sel:'#panel'}],
+  ['Cuisiner avec ce que j\'ai','Onglet Frigo : coche tes restes ou ajoute les tiens, vois les plats possibles et ce qu\'il manque.',{tab:'frigo',sel:'#panel'}],
   ['Cuisiner en avance','Les plats qui se gardent 2–3 jours, l\'ordre de préparation et les légumes à couper en une fois.',{tab:'menu',fold:'fold-batch'}],
   ['Partager et agenda','Envoie le menu par message ou ajoute les repas à ton calendrier, avec un rappel.',{tab:'menu',sel:'#sharemenu'}],
  ]],
  ['Fiche recette',[
-  ['Valeurs par portion','Kcal, protéines, lipides, glucides et composition de l\'assiette, dans chaque fiche recette.',{tab:'menu',sheet:'w:0',sel:'.nut'}],
+  ['Valeurs par portion','Kcal en un coup d\'œil dans chaque fiche recette ; « Détails » montre protéines, lipides, glucides et assiette.',{tab:'menu',sheet:'w:0',sel:'.nut'}],
   ['Mode cuisine','Toutes les étapes visibles, minuteries avec sonnerie, plusieurs plats en parallèle, écran allumé.',{tab:'menu',sheet:'w:0',sel:'[data-cook]'}],
   ['Ajouter un ingrédient','« + Liste » à côté de chaque ingrédient, ✕ pour le retirer.',{tab:'menu',sheet:'w:0',sel:'#ings'}],
   ['On aime / Pas pour nous','Ta note ajuste les prochains menus.',{tab:'menu',sheet:'w:0',sel:'[data-note]'}],
@@ -904,7 +917,7 @@ const GUIDE=[
  ]],
  ['Un repas',[
   ['Entrée, plat, dessert','Un menu complet pour une occasion, avec coût par personne.',{tab:'ev',sel:'#panel'}],
-  ['Occasion, thème et contraintes','Entre amis, cuisine italienne, invité végétarien, budget par personne…',{tab:'ev',fold:'fold-evform',sel:'#fold-evform, #f-occ'}],
+  ['Occasion, thème et contraintes','Entre amis, cuisine italienne, avec ou sans les actions, invité végétarien, budget par personne…',{tab:'ev',fold:'fold-evform',sel:'#fold-evform, #f-occ'}],
   ['Enregistrer, partager, agenda','Garde le repas dans Favoris, envoie-le à tes invités ou ajoute-le à ton calendrier.',{tab:'ev',sel:'#saveev, #evgo'}],
  ]],
  ['Courses',[
@@ -1008,7 +1021,7 @@ function cardHTML(r,p,o){const info=recipeSaving(r,p),n=info.acts.length,c=cost(
     ${favBtn(r.id)}
     <div class="vc-body"><button class="mc-open" data-open="${o.ref}" aria-label="Voir la recette : ${esc(r.n)}"><span class="mc-day">${esc(o.label)}</span><h3>${esc(r.n)}</h3>
       <span class="mc-meta">${r.t} min · ${r.c?COURSE[r.c==='entree'?'e':'d']+' · '+(CU[r.cu]||''):(CU[r.cu]||DTYPE[r.d])} · ≈ ${chf0(c)} CHF${o.persons?` pour ${p}`:''}${bud&&c>bud?' <span class="over">hors budget</span>':''}</span></button>
-      ${(()=>{const n=nutri(r),si=seasonInfo(r),fr=r.i.filter(([k])=>FRIDGE.includes(k)).map(([k])=>ingName(k)),nv=noteOf(r.id);return `<div class="nbadges"><span class="chip soft">${n.kcal} kcal</span>${r.c?'':`<span class="chip soft">${n.p} g prot.</span>${n.hp?'<span class="chip ok">Protéiné</span>':''}${n.lf?'<span class="chip ok">Peu gras</span>':''}${n.bal?'<span class="chip ok">Équilibré</span>':''}`}${si.ok?'<span class="chip ok">De saison</span>':''}${fr.length?`<span class="chip ok">Utilise : ${esc(fr.join(', ').toLowerCase())}</span>`:''}${nv>0?'<span class="chip ok">Vous aimez</span>':''}</div>`;})()}
+      ${(()=>{const n=nutri(r),si=seasonInfo(r),fr=r.i.filter(([k])=>fridgeHas(k)).map(([k])=>ingName(k)),nv=noteOf(r.id);return `<div class="nbadges"><span class="chip soft">${n.kcal} kcal</span>${r.c?'':`<span class="chip soft">${n.p} g prot.</span>${n.hp?'<span class="chip ok">Protéiné</span>':''}${n.lf?'<span class="chip ok">Peu gras</span>':''}${n.bal?'<span class="chip ok">Équilibré</span>':''}`}${si.ok?'<span class="chip ok">De saison</span>':''}${fr.length?`<span class="chip ok">Utilise : ${esc(fr.join(', ').toLowerCase())}</span>`:''}${nv>0?'<span class="chip ok">Vous aimez</span>':''}</div>`;})()}
       <div class="vc-foot">${shopState(r,p,o.shop)}<button class="swap" ${o.swap} aria-label="Changer ce plat" title="Changer ce plat">↻</button></div></div>
   </article>`;}
 function menuHTML(){
@@ -1058,6 +1071,7 @@ function evHTML(){
   const form=`<section class="setup" style="margin-top:4px">
     <div class="field" id="f-occ"><h3>Quelle occasion ?</h3><p class="hint">Un repas complet : entrée, plat et dessert.</p>${pills('ev.occ',Object.entries(OCC).map(([v,l])=>({v,l})),false)}</div>
     <div class="field" id="f-theme"><h3>Un thème ?</h3><p class="hint">Les plats de cette cuisine passent en priorité.</p>${pills('ev.theme',[{v:'',l:'Peu importe'}].concat(Object.entries(CU).map(([v,l])=>({v,l}))),false)}</div>
+    <div class="field"><h3>Actions de la semaine</h3><p class="hint">Avec : les plats qui profitent des promotions passent en priorité. Sans : le menu est choisi sans en tenir compte.</p>${pills('ev.deals',[{v:'',l:'Peu importe'},{v:'avec',l:'Avec les actions'},{v:'sans',l:'Sans les actions'}],false)}</div>
     <div class="field"><h3>Objectif nutrition</h3><p class="hint">Pour le plat principal ; plusieurs choix possibles.</p>${pills('ev.nutris',[{v:'none',l:'Peu importe'}].concat(Object.entries(NUTRI).map(([v,l])=>({v,l}))),true)}
       <h4 style="margin:14px 0 6px;font-size:15.5px">Énergie du plat</h4>${pills('ev.kcal',Object.entries(KCAL).map(([v,l])=>({v,l})),false)}</div>
     <div class="two"><div class="field"><h3>Combien de personnes ?</h3>${stepper('ev.persons',1,20)}</div>
@@ -1079,7 +1093,7 @@ function evHTML(){
      <div><div class="k">Plats prêts</div><div class="v">${ready} / ${rs.length}</div></div>
      ${veille.length?`<div class="next" style="cursor:default">À préparer la veille : <b>${veille.map(x=>esc(x.r.n)).join(', ')}</b></div>`:''}
    </section>`;
-  const opts=[OCC[ev.occ],ev.theme?CU[ev.theme]:'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
+  const opts=[OCC[ev.occ],ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
   return `<details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details>
    ${['e','p','d'].map((c,i)=>{const x=rs.find(y=>y.c===c);const head=`<h2 class="course-h"><span class="num">${i+1}</span>${COURSE[c]}</h2>`;if(!x)return head+`<div class="empty">Aucune recette compatible avec tes réglages.</div>`;const r=x.r;
      return head+cardHTML(r,p,{cid:'card-e-'+c,ref:'e:'+c,label:CU[r.cu]||COURSE[c],swap:`data-evswap="${c}"`,shop:'e'+r.id,persons:true});}).join('')}
@@ -1124,14 +1138,14 @@ async function shareText(title,text){if(navigator.share&&!IN_CLAUDE){try{await n
   try{await navigator.clipboard.writeText(text);toast('Copié : colle-le dans un message');}catch(e){toast('Copie impossible ici');}}
 function nutriBlock(r){const n=nutri(r),tot=Math.max(1,n.v+n.s+n.pg),pv=Math.round(n.v/tot*100),ps=Math.round(n.s/tot*100),pp=100-pv-ps;
   const tag=(x,lo,hi)=>x<lo?'<span class="nlo">bas</span>':x>hi?'<span class="nhi">élevé</span>':'<span class="nok">dans la cible</span>';
-  return `<div class="sec nut"><h4>Par portion</h4>
-   <div class="nut-top"><div class="kcal"><b>${n.kcal}</b><span>kcal</span></div><p class="small muted">${r.c?(r.c==='entree'?'Une entrée apporte en général 150 à 300 kcal.':'Un dessert apporte en général 150 à 350 kcal.'):`Repère pour un repas principal : 600 à 750 kcal. ${n.kcal<500?'Plat léger.':n.kcal>750?'Plat copieux.':'Dans la moyenne.'}`}</p></div>
+  return `<details class="sec nut" id="fold-nut"><summary class="nut-sum"><span class="kc"><b>${n.kcal}</b> kcal</span><span class="small muted">${n.p} g prot. · ${n.f} g lip. · ${n.c} g gluc.</span><span class="nmore">Détails</span></summary>
+   <div class="nut-top" style="margin-top:10px"><div class="kcal"><b>${n.kcal}</b><span>kcal</span></div><p class="small muted">${r.c?(r.c==='entree'?'Une entrée apporte en général 150 à 300 kcal.':'Un dessert apporte en général 150 à 350 kcal.'):`Repère pour un repas principal : 600 à 750 kcal. ${n.kcal<500?'Plat léger.':n.kcal>750?'Plat copieux.':'Dans la moyenne.'}`}</p></div>
    <div class="macros">
     <div><span>Protéines</span><b>${n.p} g</b><i class="mbar"><i style="width:${Math.min(100,n.pp*2.5)}%"></i></i><small>${n.pp} % de l'énergie · ${tag(n.pp,10,20)}</small></div>
     <div><span>Lipides</span><b>${n.f} g</b><i class="mbar f"><i style="width:${Math.min(100,n.pf*2)}%"></i></i><small>${n.pf} % · ${tag(n.pf,20,35)}</small></div>
     <div><span>Glucides</span><b>${n.c} g</b><i class="mbar c"><i style="width:${Math.min(100,n.pc*1.6)}%"></i></i><small>${n.pc} % · ${tag(n.pc,45,55)}</small></div></div>
    ${r.c?'':`<div class="plate"><span class="small"><b>Assiette</b> · légumes ${pv} % · féculents ${ps} % · protéines ${pp} %</span><div class="pbar"><i class="pv" style="width:${pv}%"></i><i class="ps" style="width:${ps}%"></i><i class="pp" style="width:${pp}%"></i></div><span class="small muted">Repère : 40 % · 40 % · 20 %</span></div>`}
-   <p class="small muted" style="margin-top:6px">Valeurs estimées à partir des ingrédients, huile de cuisson comprise. Repères adulte dans les réglages de la semaine.</p></div>`;}
+   <p class="small muted" style="margin-top:6px">Valeurs estimées à partir des ingrédients, huile de cuisson comprise. Repères adulte dans les réglages de la semaine.</p></details>`;}
 function ingsHTML(r,p,info){return r.i.map(([k,q,u])=>{const a=info.acts.find(x=>x.k===k);
       return `<li><span class="q">${qty(q*p,u)}</span><span>${esc(ING[k]||k)}${a?` <span class="chip">${sn(a.d.s)} −${pct(a.d)} %</span>`:''}</span><span class="ia">${ingAction(k,q*p,u,a?a.d:null,r.n)}</span>${a?`<span class="deal">${esc(a.d.p)} · ${chf(a.d.pr)}${unitP(a.d)} au lieu de ${chf(a.d.rg)} · ${packs(a.d,q*p)} · jusqu'au ${a.d.until||fmtD(META.to)}${srcText(a.d)?` · ${srcText(a.d)}`:''} · ${dealLink(a.d)}</span>`:''}</li>`;}).join('');}
 function refreshIngs(){const ref=openRef(),ul=document.getElementById('ings');if(ref&&ul)ul.innerHTML=ingsHTML(ref.r,ref.p,recipeSaving(ref.r,ref.p));}
@@ -1206,13 +1220,21 @@ function fridgeHTML(){return `<details class="fold" id="fold-fridge"><summary>Cu
   <div class="pills">${FRIDGE_OPTS.map(k=>`<button class="pill" data-fridge="${esc(k)}" aria-pressed="${FRIDGE.includes(k)}">${esc(ingName(k))}</button>`).join('')}</div>
   <div class="row" style="margin-top:12px"><button class="btn" id="fridge-go" ${FRIDGE.length?'':'disabled'}>Recomposer avec ces restes</button>${FRIDGE.length?'<button class="btn quiet" id="fridge-clear">Tout décocher</button>':''}</div></div></details>`;}
 
-function fridgeMatches(){const out=[];R.filter(r=>allowed(r)).forEach(r=>{const ks=r.i.map(x=>x[0]);const hit=ks.filter(k=>FRIDGE.includes(k));if(!hit.length)return;
-  const miss=ks.filter(k=>!FRIDGE.includes(k)&&!inPantry(ingName(k)));out.push({r,hit,miss,sc:hit.length*10-miss.length*2-(r.c?3:0)});});return out.sort((a,b)=>b.sc-a.sc).slice(0,14);}
+function addFridgeText(){const i=document.getElementById('fridge-in');if(!i)return;const words=i.value.split(/,|\bet\b/).map(s=>norm(s)).filter(s=>s.length>=2);if(!words.length)return;
+  let added=[],unused=[];words.forEach(w=>{const key=Object.keys(ING).find(k=>sing(ING[k])===sing(w))||R.flatMap(r=>r.i.map(x=>x[0])).find(k=>sing(k)===sing(w));const v=key||w;if(!FRIDGE.includes(v)){FRIDGE.push(v);added.push(w);}
+    if(!R.some(r=>r.i.some(([k])=>k===v||(!key&&wordMatch(w,k)))))unused.push(w);});
+  saveFridge();const y=window.scrollY;rerender();window.scrollTo(0,y);const ni=document.getElementById('fridge-in');if(ni)ni.focus();
+  toast(unused.length?`Ajouté. Aucune recette n'utilise encore : ${unused.join(', ')}`:`Ajouté : ${added.join(', ')||words.join(', ')}`);}
+function fridgeMatches(){const out=[];R.filter(r=>allowed(r)).forEach(r=>{const ks=r.i.map(x=>x[0]);const hit=ks.filter(k=>fridgeHas(k));if(!hit.length)return;
+  const miss=ks.filter(k=>!fridgeHas(k)&&!inPantry(ingName(k)));out.push({r,hit,miss,sc:hit.length*10-miss.length*2-(r.c?3:0)});});return out.sort((a,b)=>b.sc-a.sc).slice(0,14);}
 let PLACE=null;
 function frigoHTML(){const res=fridgeMatches();
   return `<h2 style="margin:16px 0 4px">Cuisiner avec ce que j'ai</h2><p class="muted small">Coche ce qui reste au frigo et au placard : je te montre les plats qui l'utilisent, et ce qu'il te manque.</p>
   ${FRIDGE.length&&res.length?`<button class="nextbar" id="fr-jump"><span class="k">${FRIDGE.length} ingrédient${FRIDGE.length>1?'s':''} cochés</span><span><b>Voir les ${res.length} idée${res.length>1?'s':''} de plats</b> ↓</span></button>`:''}
   <section class="group" style="padding-bottom:12px">${FRIDGE_GROUPS.map(([g,ks])=>`<h3><span>${g}</span></h3><div class="pills">${ks.map(k=>`<button class="pill" data-fridge="${esc(k)}" aria-pressed="${FRIDGE.includes(k)}">${esc(ingName(k))}</button>`).join('')}</div>`).join('')}
+   <h3><span>Autre chose ?</span></h3>
+   ${(()=>{const known=FRIDGE_KNOWN(),own=FRIDGE.filter(f=>!known.has(f));return own.length?`<div class="pills" style="margin-bottom:8px">${own.map(f=>`<button class="pill" data-fridge="${esc(f)}" aria-pressed="true" aria-label="Retirer ${esc(f)}">${esc(cap(f))} ✕</button>`).join('')}</div>`:'';})()}
+   <div class="addbar"><input type="text" id="fridge-in" placeholder="ex. chou-fleur, restes de jambon, crème fraîche" aria-label="Ajouter un ingrédient au frigo" autocomplete="off"><button class="btn sm" id="fridge-add">Ajouter</button></div>
    ${FRIDGE.length?`<div class="row" style="margin-top:12px"><button class="btn quiet sm" id="fridge-clear">Tout décocher (${FRIDGE.length})</button></div>`:''}</section>
   ${!FRIDGE.length?'<div class="empty">Coche au moins un ingrédient pour voir les idées de plats.</div>':!res.length?'<div class="empty">Aucun plat compatible avec ces ingrédients et tes réglages. Essaie d\'en cocher d\'autres.</div>':
   `<h2 class="course-h" id="fr-results" style="font-size:20px;scroll-margin-top:16px">${res.length} idée${res.length>1?'s':''} avec tes restes</h2>
@@ -1394,6 +1416,7 @@ document.addEventListener('click',e=>{
   if(t.id==='fridge-go'){S.seed++;build();S.tab='menu';render();window.scrollTo(0,0);toast('Semaine recomposée avec tes restes');return;}
   if(t.dataset.fplace){PLACE=PLACE===t.dataset.fplace?null:t.dataset.fplace;rerender();return;}
   if(t.dataset.fslot!==undefined){const i=+t.dataset.fslot,r=R.find(x=>x.id===t.dataset.rid);if(S.menu[i]&&r){S.menu[i].id=r.id;PLACE=null;persist();rerender();toast(`${r.n} : ${DAYS[S.menu[i].day].toLowerCase()} ${S.menu[i].mo}`);}return;}
+  if(t.id==='fridge-add'){addFridgeText();return;}
   if(t.id==='fr-jump'){const el=document.getElementById('fr-results');if(el)el.scrollIntoView({behavior:'smooth'});return;}
   if(t.id==='shareev'){shareText('Notre menu',evText());return;}
   if(t.id==='icsev'){exportEvICS();return;}
@@ -1446,6 +1469,7 @@ function applyFolds(){document.querySelectorAll('details[id]').forEach(d=>{if(d.
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&COOK){closeCook();return;}
   if(e.key==='Escape'&&OPEN!==null){closeSheet();return;}
+  if(e.target.id==='fridge-in'&&e.key==='Enter'){e.preventDefault();addFridgeText();}
   if(e.target.id==='pantry-in'&&e.key==='Enter'){e.preventDefault();const v=e.target.value.trim();if(v&&!inPantry(v))togglePantry(v);e.target.value='';}
   if(e.target.id==='q'&&e.key==='Enter'){e.preventDefault();addTyped();}
   if(e.target.id==='foyer-in'&&e.key==='Enter'){e.preventDefault();const c=parseFoyer(e.target.value);if(c&&c!==foyerCode())joinFoyer(c);else toast('Code non reconnu');}

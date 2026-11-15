@@ -326,6 +326,7 @@ input[type=text]{width:100%}
 .li-end{display:flex;gap:6px;align-items:center}
 .state{font-size:13.5px;color:var(--muted);white-space:nowrap}
 .edit{appearance:none;border:0;background:none;width:36px;height:36px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:16px}
+.envweb{display:flex;flex-wrap:wrap;gap:8px}
 .editrow{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0 12px}
 .editrow input{flex:1 1 180px}
 .mealfoot{display:flex;justify-content:flex-end;padding:6px 0 12px;border-top:1px solid var(--line)}
@@ -640,7 +641,7 @@ const recipeLink=r=>DIRECT[r.id]?{url:DIRECT[r.id],l:'Voir la recette sur Fooby'
 
 /* ================= ÉTAT ================= */
 const DEFAULT={stores:['migros','coop','lidl'],canton:'Vaud',persons:4,meals:7,moments:['soir'],diet:'omni',allergies:[],dislikes:[],dislikeText:'',time:35,shopday:3,promo:50,budget:0,banned:[],cuisines:[],nutris:[],kcal:'',source:''};
-const EV0={occ:'amis',persons:6,day:4,mo:'soir',budget:0,seed:1,ids:null,diet:'',allergies:[],dislikes:[],theme:'',nutris:[],kcal:'',deals:'',source:''};
+const EV0={occ:'amis',persons:6,day:4,mo:'soir',budget:0,seed:1,ids:null,diet:'',allergies:[],dislikes:[],theme:'',nutris:[],kcal:'',deals:'',source:'',envie:''};
 let S={v:2,view:'main',tab:'menu',a:{...DEFAULT},ev:{...EV0},menu:[],seed:1,example:true,group:'rayon',moreOpen:false,mf:'all'};
 try{const s=JSON.parse(localStorage.getItem('menu-malin')||'null');if(s&&s.a){const old=s.v!==2;S={...S,...s,a:{...DEFAULT,...s.a},ev:{...EV0,...(s.ev||{})},v:2};if(old){S.menu=[];S.view='main';S.tab='menu';}if(!['menu','ev','frigo','liste','fav'].includes(S.tab))S.tab='menu';if(S.view!=='setup')S.view='main';}}catch(e){}
 if(S.a.nutri){S.a.nutris=[S.a.nutri];delete S.a.nutri;}if(S.ev.nutri){S.ev.nutris=[S.ev.nutri];delete S.ev.nutri;}
@@ -757,13 +758,48 @@ function swap(i){
 }
 
 /* ---- repas unique : entrée, plat, dessert ---- */
+/* ---- Envies : « boulettes de viande », « curry », « tiramisu »… ---- */
+const deacc=t=>(t||'').toLowerCase().replace(/œ/g,'oe').replace(/æ/g,'ae').normalize('NFD').replace(/[̀-ͯ]/g,'');
+const ENV_STOP=new Set(['de','du','des','la','le','les','d','l','en','ou','et','au','aux','un','une','a','avec','sans','pour','plat','plats','recette','recettes','envie','faire','bon','bonne','style','facon','maison']);
+const etoks=t=>deacc(t).replace(/\(.*?\)/g,' ').split(/[^a-z0-9]+/).map(w=>w.length>3?w.replace(/[sx]$/,''):w).filter(w=>w.length>=2&&!ENV_STOP.has(w));
+const ENV_SYN={viande:['boeuf','porc','veau','agneau','hache','poulet','dinde','saucisse','lardon','jambon','merguez','chorizo','kefta','cervelas','emince','steak','volaille'],
+ boulette:['kefta','polpette','polpetta','kofta','fricadelle','falafel'],kefta:['boulette'],
+ poisson:['saumon','cabillaud','thon','truite','colin','merlu','dorade','perche','sardine','maquereau','lieu','bar','filet'],
+ fruit:['crevette','moule','calamar','gambas','saint'],mer:['crevette','moule','calamar','gambas','saumon','cabillaud','thon'],
+ pate:['spaghetti','penne','tagliatelle','orzo','lasagne','linguine','fusilli','macaroni','farfalle','rigatoni','nouille','ravioli','tortellini','fregola','gnocchi'],
+ nouille:['ramen','udon','soba','pate','nouille'],
+ fromage:['gruyere','raclette','fondue','feta','mozzarella','parmesan','chevre','burrata','emmental','vacherin','ricotta','mascarpone','tomme','halloumi','camembert','brie'],
+ soupe:['veloute','potage','bouillon','minestrone','creme'],veloute:['soupe','potage'],
+ tarte:['quiche','tartelette','tarte','galette'],quiche:['tarte'],
+ chocolat:['choco','cacao','brownie'],epice:['curry','piment','chili','harissa','epice'],epicee:['curry','piment','chili','harissa'],
+ burger:['hamburger','burger'],poulet:['volaille','poulet'],volaille:['poulet','dinde','canard'],
+ riz:['risotto','riz','paella','pilaf'],gratin:['gratine','gratin'],salade:['salade','bowl','poke'],
+ courge:['butternut','potiron','potimarron','courge'],pomme:['pomme','pdt']};
+function envieInfo(r,q){const qt=etoks(q);if(!qt.length)return null;
+  const nm=etoks(r.n+' '+(CU[r.cu]||'')),ig=etoks(r.i.map(([k])=>ING[k]||k).join(' ')+' '+(r.s||[]).slice(0,2).join(' '));
+  const hit=(t,ws)=>{const E=[t,...(ENV_SYN[t]||[])];return ws.some(w=>E.some(e=>w===e||(e.length>=4&&w.length>=4&&(w.startsWith(e)||e.startsWith(w)))));};
+  let inN=0,inI=0;for(const t of qt){if(['vege','vegetarien','vegetarienne','veggie','vegetal'].includes(t)){if(r.d==='vege')inN++;continue;}if(hit(t,nm))inN++;else if(hit(t,ig))inI++;}
+  const found=inN+inI;if(!found)return null;if(found<qt.length&&!hit(qt[0],nm))return null;
+  return {full:found===qt.length,score:(inN*2+inI)/(qt.length*2)};}
+const courseOf=r=>r.c==='entree'?'e':r.c==='dessert'?'d':r.c?null:'p';
+function envieMatches(){const q=(S.ev.envie||'').trim();if(!q)return [];
+  return R.filter(r=>courseOf(r)&&allowed(r,'e')).map(r=>({r,m:envieInfo(r,q)})).filter(x=>x.m).sort((a,b)=>(b.m.full-a.m.full)||(b.m.score-a.m.score));}
+function envieWeb(q){const e=encodeURIComponent,g=s=>`https://www.google.com/search?q=${e('recette '+q+' site:'+s)}`;
+  return [['Fooby (Coop)',g('fooby.ch')],['Migusto (Migros)',g('migusto.migros.ch')],['Betty Bossi',g('bettybossi.ch')],['Swissmilk',g('swissmilk.ch')],['Marmiton','https://www.marmiton.org/recettes/recherche.aspx?aqt='+e(q)],['Kenwood Club',g('kenwoodclub.ch')]];}
+function envieHTML(){const q=(S.ev.envie||'').trim();if(!q)return '';const ms=envieMatches(),cur=S.ev.ids||{},full=ms.filter(x=>x.m.full),list=ms.slice(0,6);
+  const row=x=>{const c=courseOf(x.r),on=cur[c]===x.r.id;return `<div class="dl"><div><div class="p">${esc(x.r.n)}</div><div class="muted small">${COURSE[c]} · ${x.r.t} min${x.r.src==='yana'?' · Carnet de Yana':''}${x.m.full?'':' · proche'}</div></div>${on?'<span class="chip ok">Au menu</span>':`<button class="btn quiet sm" data-envset="${c}:${x.r.id}">Mettre au menu</button>`}</div>`;};
+  return `<details class="fold" id="fold-envie" open><summary>Idées pour ton envie : « ${esc(q)} »</summary><div class="fold-body">
+    ${list.length?`<p class="hint" style="margin:0 0 6px">${full.length?`${full.length} recette${full.length>1?'s':''} du carnet correspond${full.length>1?'ent':''}${ms.length>full.length?`, d'autres s'en approchent`:''}`:'Rien d\'exact dans le carnet, mais ces recettes s\'en approchent'}${S.ev.source==='yana'?' (carnet de Yana)':''}.</p>${list.map(row).join('')}`:`<p class="hint" style="margin:0 0 6px">Aucune recette du carnet ne correspond${S.ev.source==='yana'||S.ev.diet||S.ev.allergies.length?' avec tes filtres actuels':''}. Voici où chercher :</p>`}
+    <h4 style="margin:14px 0 6px;font-size:15.5px">Chercher « ${esc(q)} » sur le web</h4><div class="envweb">${envieWeb(q).map(([l,u])=>`<a class="btn quiet sm" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div></div></details>`;}
 function evPick(c,ids){
   const ev=S.ev,p=ev.persons,bud=ev.budget?ev.budget*p:0,festive=ev.occ!=='famille';
   const pool=(c==='p'?R.filter(r=>!r.c&&allowed(r,'e')):R.filter(r=>r.c===(c==='e'?'entree':'dessert')&&allowed(r,'e'))).filter(r=>!EVSKIP[c].has(r.id));
   if(!pool.length)return null;
   const main=ids.p?R.find(r=>r.id===ids.p):null;
   const other=c==='e'?(ids.d?R.find(r=>r.id===ids.d):null):c==='d'?(ids.e?R.find(r=>r.id===ids.e):null):null;
+  const em=ev.envie?envieMatches():[],etarget=etoks(ev.envie||'').some(t=>/^vege/.test(t))?c:em.length?courseOf(em[0].r):null;
   const sc=r=>{const sv=recipeSaving(r,p).sv;let s=jit(r.id,ev.seed*7+c.charCodeAt(0))*10+(ev.deals==='sans'?0:Math.min(sv,10)*.3)+(ev.deals==='avec'?(sv>=1?14:-6):0)+(isFav(r.id)?3:0);
+    if(ev.envie&&c===etarget){const m=envieInfo(r,ev.envie);if(m)s+=(m.full?60:20)+m.score*20;}
     if(ev.theme&&r.cu===ev.theme)s+=c==='p'?18:10;if(c==='p'&&(ev.nutris||[]).length)s+=nutriMiss(r,ev.nutris)?-16*nutriMiss(r,ev.nutris):14;if(c==='p'&&ev.kcal)s+=kcalOk(r,ev.kcal)?12:-16;if(c==='p'){if(festive&&r.f)s+=10;if(ev.occ==='famille'&&r.t>60)s-=6;if(ev.occ==='amoureux'&&r.m==='fromage')s-=4;}
     if(main&&c==='e'){if(main.m===r.m)s-=12;if(main.d===r.d&&r.d!=='vege')s-=4;}
     if(c==='d'&&main&&main.a.includes('lactose')&&r.a.includes('lactose'))s-=1;
@@ -955,6 +991,7 @@ const GUIDE=[
  ['Un repas',[
   ['Entrée, plat, dessert','Un menu complet pour une occasion, avec coût par personne.',{tab:'ev',sel:'#panel'}],
   ['Occasion, thème et contraintes','Entre amis, cuisine italienne, avec ou sans les actions, invité végétarien, budget par personne…',{tab:'ev',fold:'fold-evform',sel:'#fold-evform, #f-occ'}],
+  ['Une envie précise','Tape « boulettes de viande » ou « curry » : le menu part de là, avec des idées du web en plus.',{tab:'ev',fold:'fold-evform',sel:'#f-envie'}],
   ['Enregistrer, partager, agenda','Garde le repas dans Favoris, envoie-le à tes invités ou ajoute-le à ton calendrier.',{tab:'ev',sel:'#saveev, #evgo'}],
  ]],
  ['Courses',[
@@ -1113,6 +1150,7 @@ function evHTML(){
   const tot=rs.reduce((s,x)=>s+cost(x.r,p),0),sv=rs.reduce((s,x)=>s+recipeSaving(x.r,p).sv,0),bud=ev.budget?ev.budget*p:0;
   const form=`<section class="setup" style="margin-top:4px">
     <div class="field" id="f-occ"><h3>Quelle occasion ?</h3><p class="hint">Un repas complet : entrée, plat et dessert.</p>${pills('ev.occ',Object.entries(OCC).map(([v,l])=>({v,l})),false)}</div>
+    <div class="field" id="f-envie"><h3>Une envie ?</h3><p class="hint">Un plat, un ingrédient ou un style : les recettes qui y correspondent passent en priorité, et des idées du web s'affichent.</p><div class="addbar"><input type="text" id="ev-envie" value="${esc(ev.envie||'')}" placeholder="ex. boulettes de viande, curry, tiramisu" aria-label="Ton envie pour ce repas" autocomplete="off">${ev.envie?'<button class="btn quiet sm" id="envie-clear" aria-label="Effacer l\'envie">Effacer</button>':''}</div></div>
     <div class="field" id="f-theme"><h3>Un thème ?</h3><p class="hint">Les plats de cette cuisine passent en priorité.</p>${pills('ev.theme',[{v:'',l:'Peu importe'}].concat(Object.entries(CU).map(([v,l])=>({v,l}))),false)}</div>
     <div class="field"><h3>Quelles recettes ?</h3><p class="hint">Le carnet de Yana compte ${R.filter(r=>r.src==='yana'&&!r.c).length} plats, ${R.filter(r=>r.src==='yana'&&r.c==='entree').length} entrées et ${R.filter(r=>r.src==='yana'&&r.c==='dessert').length} desserts.</p>${pills('ev.source',[{v:'',l:'Toutes les recettes'},{v:'yana',l:'Uniquement le carnet de Yana'}],false)}</div>
     <div class="field"><h3>Actions de la semaine</h3><p class="hint">Avec : les plats qui profitent des promotions passent en priorité. Sans : le menu est choisi sans en tenir compte.</p>${pills('ev.deals',[{v:'',l:'Peu importe'},{v:'avec',l:'Avec les actions'},{v:'sans',l:'Sans les actions'}],false)}</div>
@@ -1127,7 +1165,7 @@ function evHTML(){
       <h4 style="margin:14px 0 6px;font-size:15.5px">À éviter</h4>${pills('ev.dislikes',DISLIKE.map(v=>({v,l:cap(v)})),true)}</div></details>
     <button class="btn wide" id="evgo">${rs.length?'Nouvelle proposition':'Proposer un menu'}</button>
   </section>`;
-  if(!rs.length)return form;
+  if(!rs.length)return form+envieHTML();
   const ready=rs.filter(x=>{const st=mealState(x.r,p);return st.ok===st.n;}).length,veille=rs.filter(x=>/veille/.test(x.r.s.join(' ')));
   const cock=`<section class="dash" aria-label="Économies et budget du repas">
      <div style="grid-column:1/-1"><div class="k">Budget et économies</div></div>
@@ -1137,8 +1175,8 @@ function evHTML(){
      <div><div class="k">Plats prêts</div><div class="v">${ready} / ${rs.length}</div></div>
      ${veille.length?`<div class="next" style="cursor:default">À préparer la veille : <b>${veille.map(x=>esc(x.r.n)).join(', ')}</b></div>`:''}
    </section>`;
-  const opts=[OCC[ev.occ],ev.source==='yana'?'Carnet de Yana':'',ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
-  return `<details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details>
+  const opts=[OCC[ev.occ],ev.envie?'« '+ev.envie.trim()+' »':'',ev.source==='yana'?'Carnet de Yana':'',ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
+  return `<details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details>${envieHTML()}
    ${['e','p','d'].map((c,i)=>{const x=rs.find(y=>y.c===c);const head=`<h2 class="course-h"><span class="num">${i+1}</span>${COURSE[c]}</h2>`;if(!x)return head+`<div class="empty">Aucune recette compatible avec tes réglages.</div>`;const r=x.r;
      return head+cardHTML(r,p,{cid:'card-e-'+c,ref:'e:'+c,label:CU[r.cu]||COURSE[c],swap:`data-evswap="${c}"`,shop:'e'+r.id,persons:true});}).join('')}
    ${actionsHTML([{attr:'id="addev"',icon:IC.cart,l:'Ajouter ce repas à la liste'}],[{attr:'id="saveev"',icon:IC.star,l:'Enregistrer'},{attr:'id="shareev"',icon:IC.share,l:'Partager'},IN_CLAUDE?null:{attr:'id="icsev"',icon:IC.cal,l:'Agenda'},{attr:'id="evgo2"',icon:IC.idea,l:'Autre menu'}])}
@@ -1420,7 +1458,9 @@ document.addEventListener('click',e=>{
   if(t.id==='closesheet'){closeSheet();return;}
   if(t.dataset.swap!==undefined){swap(+t.dataset.swap);return;}
   if(t.dataset.evswap){swapEv(t.dataset.evswap);return;}
-  if(t.id==='evgo'){S.ev.seed++;composeEv();FOLD['fold-evform']=false;render();window.scrollTo(0,0);toast('Menu proposé');return;}
+  if(t.dataset.envset){const [c,id]=t.dataset.envset.split(':');if(!S.ev.ids)composeEv();S.ev.ids[c]=id;persist();const y=window.scrollY;render();window.scrollTo(0,y);toast('Ajouté au menu');return;}
+  if(t.id==='envie-clear'){S.ev.envie='';persist();render();return;}
+  if(t.id==='evgo'){const i=document.getElementById('ev-envie');if(i)S.ev.envie=i.value.trim();S.ev.seed++;composeEv();FOLD['fold-evform']=false;render();window.scrollTo(0,0);toast(S.ev.envie&&!envieMatches().length?'Rien dans le carnet pour cette envie : vois les idées du web':'Menu proposé');return;}
   if(t.id==='addev'){addMeals(evRecipes().map(x=>({r:x.r,p:S.ev.persons})));return;}
   if(t.id==='reshuffle'){S.seed++;build();render();toast('Nouveaux plats proposés');return;}
   if(t.dataset.rmphoto){delete PHOTOS[t.dataset.rmphoto];savePhotos();render();return;}
@@ -1515,11 +1555,13 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&OPEN!==null){closeSheet();return;}
   if(e.target.id==='fridge-in'&&e.key==='Enter'){e.preventDefault();addFridgeText();}
   if(e.target.id==='pantry-in'&&e.key==='Enter'){e.preventDefault();const v=e.target.value.trim();if(v&&!inPantry(v))togglePantry(v);e.target.value='';}
+  if(e.target.id==='ev-envie'&&e.key==='Enter'){e.preventDefault();S.ev.envie=e.target.value.trim();const g=document.getElementById('evgo');if(g)g.click();}
   if(e.target.id==='q'&&e.key==='Enter'){e.preventDefault();addTyped();}
   if(e.target.id==='foyer-in'&&e.key==='Enter'){e.preventDefault();const c=parseFoyer(e.target.value);if(c&&c!==foyerCode())joinFoyer(c);else toast('Code non reconnu');}
   if(e.target.id==='note-in'&&e.key==='Enter'){e.preventDefault();saveNote(EDITING,e.target.value.trim());}
 });
 document.addEventListener('input',e=>{
+  if(e.target.id==='ev-envie'){S.ev.envie=e.target.value;persist();return;}
   if(e.target.id==='q'){QTXT=e.target.value;renderSugg();return;}
   if(e.target.id==='promo'){S.a.promo=+e.target.value;document.getElementById('promo-out').textContent=promoText();persist();return;}
   if(e.target.id==='dtext'){S.a.dislikeText=e.target.value;persist();const u=unknownWords();document.getElementById('unk').textContent=u.length?`Pas reconnu : ${u.join(', ')}. Ces mots seront ignorés.`:'';}

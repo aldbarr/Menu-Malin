@@ -1,14 +1,4 @@
-<!doctype html>
-<html lang="fr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#23573a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Menu Malin">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Menu Malin</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -342,13 +332,6 @@ details.fold>summary::-webkit-details-marker{display:none}
 .dl:first-child{border-top:0}
 .dl .p{font-weight:700}
 .dl .p s{font-weight:400;color:var(--muted);font-size:14px;margin-left:4px}
-.foyerd{background:var(--accent-soft);border-radius:14px;margin-top:10px}
-.foyerd>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.foyerd>summary::-webkit-details-marker{display:none}
-.foyer{padding:0 14px 12px;display:flex;flex-direction:column;gap:10px}
-.foyer>.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.foyer>.row .btn{justify-content:center;text-align:center}
-.foyer code{font:800 18px var(--display);letter-spacing:.06em;color:var(--accent)}
 .empty{background:var(--surface);border-radius:14px;padding:18px;margin-top:10px;color:var(--muted)}
 
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:15px;z-index:30;max-width:calc(100% - 32px)}
@@ -358,10 +341,36 @@ footer summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--ink)}
 footer .fb{padding-bottom:14px;display:flex;flex-direction:column;gap:8px;max-width:65ch}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(16px);opacity:.6}to{transform:none;opacity:1}}}
 
-/* Version web : la barre flotte au-dessus du badge « Powered by Netlify » */
-.tabbar{left:50%;right:auto;transform:translateX(-50%);width:min(520px,calc(100% - 24px));bottom:calc(64px + env(safe-area-inset-bottom,0px));border:1px solid var(--line);border-radius:22px;box-shadow:0 6px 24px rgba(23,32,26,.16);padding:6px}
-.wrap{padding-bottom:calc(190px + env(safe-area-inset-bottom,0px))}
-.toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+/* --- en-têtes collants (ajout) --- */
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--hh,64px) + var(--sh,0px) + 8px)}
+body.hdr-stick .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:7;background:var(--bg);padding:8px 0;margin-top:-8px}
+.top h1{transition:font-size .15s}
+body.hdr-stick.scrolled .top h1{font-size:22px}
+body.hdr-stick.scrolled .top{box-shadow:0 8px 8px -8px rgba(23,32,26,.18)}
+.stick{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hh,64px));z-index:5;background:var(--bg);padding:8px 0}
+.stick:has(> details[open]){position:static}
+.stick .evbar{margin-top:0;box-shadow:var(--shadow)}
+.cal.stick{padding:8px 0;margin-bottom:4px}
+.stick .addbar{margin:0}
+.chiprow{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.pill.sm{padding:6px 12px;font-size:15px;flex:none}
+.pill.sm small{margin-left:4px}
+.fr-stick .nextbar{margin:8px 0 0;padding:8px 12px}
+/* --- vue Actions --- */
+.act-tot{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;margin-top:8px;font-size:15px}
+.act-tot .big{font:800 22px var(--display);color:var(--ink)}
+.act-tot s{color:var(--muted)}
+.stores-sum{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
+.ssum{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;color:var(--ink);font-size:14.5px}
+.ssum b{font:800 17px var(--display)}
+.ssum[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.ssum .g{color:var(--accent);font-weight:700}
+.ssum.off{cursor:default;opacity:.7}
+.dl .pk{font-size:14px;color:var(--muted)}
+.tabbar-in{grid-template-columns:repeat(6,1fr)}
+.tb{font-size:12.5px}
+.tb .ic{width:46px}
+@media (max-width:360px){.tb{font-size:11.5px}.tb .ic{width:40px}}
 </style>
 
 <div class="wrap">
@@ -391,8 +400,9 @@ footer .fb{padding-bottom:14px;display:flex;flex-direction:column;gap:8px;max-wi
 /* ================= DONNÉES ================= */
 const STORES=[{id:'migros',name:'Migros'},{id:'coop',name:'Coop'},{id:'denner',name:'Denner'},{id:'lidl',name:'Lidl'},{id:'aldi',name:'Aldi',off:true}];
 const sn=id=>(STORES.find(s=>s.id===id)||{name:id}).name;
-let DEALS=[];
-let META={from:'2026-11-12',to:'2026-11-18',collected:'2026-11-13',missing:[]};
+/* Données des actions intégrées (secours si deals.json ne se charge pas) */
+let DEALS=[{"s":"migros","k":"cabillaud","p":"Filets de dos de cabillaud MSC 450 g","pr":14.95,"rg":26.75,"sz":450,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"saumon","p":"Filet de saumon sans peau ASC 500 g","pr":12.95,"rg":22.25,"sz":500,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"saumon","p":"Pelican filets de saumon ASC surgelés 750 g","pr":17.95,"rg":24.0,"sz":750,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"saumonfume","p":"Saumon fumé Atlantique Migros 300 g","pr":8.95,"rg":13.5,"sz":300,"until":"25.11","src":["aktionis","rappn"]},{"s":"migros","k":"poulet","p":"Optigal mini filets de poulet","pr":2.95,"rg":3.6,"per":100,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"pilons","p":"Optigal hauts de cuisse de poulet","pr":9.35,"rg":14.0,"per":1000,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"porc","p":"Rôti de porc tessinois","pr":1.95,"rg":2.6,"per":100,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"porc","p":"Émincé de porc IP-Suisse","pr":1.6,"rg":1.85,"per":100,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"lardons","p":"Lard à rôtir IP-Suisse","pr":1.8,"rg":2.35,"per":100,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"jambon","p":"Tradition jambon paysan 2×150 g","pr":7.9,"rg":9.9,"sz":300,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"schufeli","p":"Schüfeli Quick IP-Suisse","pr":1.65,"rg":2.5,"per":100,"until":"30.12","src":["aktionis","rappn"]},{"s":"migros","k":"jambon","p":"Noix de jambon Quick IP-Suisse (jambon cuit)","pr":1.95,"rg":2.95,"per":100,"until":"30.12","src":["aktionis","rappn"]},{"s":"migros","k":"jambon","p":"Rollschinkli Quick M-Classic (jambon cuit)","pr":1.6,"rg":2.4,"per":100,"until":"30.12","src":["aktionis","rappn"]},{"s":"migros","k":"pommes","p":"Pommes Jazz suisses","pr":3.95,"rg":5.2,"per":1000,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"poireau","p":"Poireau entier suisse","pr":3.8,"rg":4.8,"per":1000,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"tomates","p":"Tomates cerises mélangées 500 g","pr":3.45,"rg":4.95,"sz":500,"until":"25.11","src":["aktionis","rappn"]},{"s":"migros","k":"fraisfromage","p":"Philadelphia nature 2×200 g","pr":3.85,"rg":5.5,"sz":400,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"pates","p":"Anna's Best ravioli 4×250 g","pr":9.5,"rg":19.0,"sz":1000,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"pates","p":"Knöpfli bio aux œufs 2×500 g","pr":5.9,"rg":7.9,"sz":1000,"until":"25.11","src":["aktionis"]},{"s":"migros","k":"pates","p":"La Molisana spaghetti 1 kg","pr":3.0,"rg":5.0,"sz":1000,"until":"25.11","src":["rappn"]},{"s":"coop","k":"pates","p":"Sapori d'Italia spaghetti, rigatoni ou radiatori 500 g (dès 3 paquets)","pr":1.5,"rg":2.5,"sz":500,"until":"25.11","src":["rappn"]},{"s":"coop","k":"pates","p":"Betty Bossi tortellini à la viande 500 g (dès 3 paquets)","pr":3.99,"rg":5.95,"sz":500,"until":"25.11","src":["rappn"]},{"s":"coop","k":"pilons","p":"Pilons de poulet env. 690 g","pr":6.9,"rg":10.35,"sz":690,"until":"25.11","src":["rappn"]},{"s":"coop","k":"pilons","p":"Cuisses de poulet env. 840 g","pr":6.25,"rg":10.9,"sz":840,"until":"25.11","src":["rappn"]},{"s":"coop","k":"porc","p":"Côtelettes de cou de porc Naturafarm 4 pièces 1 kg","pr":11.25,"rg":22.5,"sz":1000,"until":"25.11","src":["rappn"]},{"s":"coop","k":"porc","p":"Côtelettes de porc Naturafarm 3 pièces 600 g","pr":9.0,"rg":15.3,"sz":600,"until":"25.11","src":["rappn"]},{"s":"coop","k":"porc","p":"Émincé de porc env. 600 g","pr":9.9,"rg":14.7,"sz":600,"until":"25.11","src":["rappn"]},{"s":"coop","k":"porc","p":"Steak de porc bio Naturaplan 300 g","pr":9.6,"rg":15.0,"sz":300,"until":"25.11","src":["rappn"]},{"s":"coop","k":"jambon","p":"Bell noix de jambon Quick 1,1 kg","pr":20.35,"rg":40.7,"sz":1100,"until":"25.11","src":["rappn"]},{"s":"coop","k":"jambon","p":"Bell mini épaule Quick 385 g","pr":8.2,"rg":11.9,"sz":385,"until":"25.11","src":["rappn"]},{"s":"coop","k":"lardons","p":"Lard Naturafarm env. 450 g","pr":9.85,"rg":14.6,"sz":450,"until":"25.11","src":["rappn"]},{"s":"coop","k":"cabillaud","p":"Filet de cabillaud Royal 450 g","pr":17.5,"rg":29.9,"sz":450,"until":"25.11","src":["rappn"]},{"s":"coop","k":"cabillaud","p":"Filets de cabillaud du Pacifique MSC 1,2 kg","pr":17.9,"rg":29.85,"sz":1200,"until":"25.11","src":["rappn"]},{"s":"coop","k":"saumonfume","p":"Saumon fumé écossais en tranches 300 g","pr":11.9,"rg":19.85,"sz":300,"until":"25.11","src":["rappn"]},{"s":"coop","k":"fondue","p":"Gerber fondue moitié-moitié 800 g","pr":20.7,"rg":30.9,"sz":800,"until":"25.11","src":["rappn"]},{"s":"coop","k":"fromagetr","p":"Fol Epi Classic 24 tranches 450 g","pr":7.35,"rg":10.8,"sz":24,"until":"25.11","src":["rappn"]},{"s":"coop","k":"fromagetr","p":"Fol Epi Caractère en tranches 260 g","pr":4.95,"rg":7.2,"sz":12,"est":true,"until":"25.11","src":["rappn"]},{"s":"coop","k":"courge","p":"Courge butternut, la pièce","pr":3.5,"rg":4.4,"sz":1200,"est":true,"until":"25.11","src":["rappn"]},{"s":"denner","k":"porc","p":"Filet de porc Denner en pièce env. 900 g","pr":1.67,"rg":2.25,"per":100,"u":"https://www.denner.ch/fr/actions/filet-de-porc-denner~p1100499","until":"25.11","src":["aktionis","officiel"]},{"s":"denner","k":"boeuf","p":"Entrecôte de bœuf Florentino's Prime Black Angus 2×220 g","pr":3.99,"rg":4.99,"per":100,"u":"https://www.denner.ch/fr/actions/entrecote-de-boeuf-florentino-s-prime-black-angus~p1139954","until":"25.11","src":["aktionis","officiel"]},{"s":"denner","k":"jambon","p":"Jambon cuit Puccini Rapelli extra-fin 250 g","pr":5.1,"rg":9.85,"sz":250,"u":"https://www.denner.ch/fr/actions/jambon-cuit-puccini-rapelli~p1101326","until":"25.11","src":["aktionis","officiel"]},{"s":"denner","k":"jambon","p":"Jambon de la Forêt-Noire en pièce 300 g","pr":5.9,"rg":10.95,"sz":300,"u":"https://www.denner.ch/fr/actions/jambon-de-la-foret-noire~p1009083","until":"25.11","src":["aktionis","officiel"]},{"s":"denner","k":"porc","p":"Rôti impérial Denner (porc) 600 g","pr":10.9,"rg":15.9,"sz":600,"u":"https://www.denner.ch/fr/actions/roti-imperial-denner~p1003181","until":"25.11","src":["aktionis","officiel"]},{"s":"denner","k":"pilons","p":"Cuisses de poulet Denner assaisonnées env. 1 kg","pr":0.59,"rg":0.75,"per":100,"u":"https://www.denner.ch/fr/actions/cuisses-de-poulet-denner~p1102932","until":"22.11","src":["aktionis","officiel"]},{"s":"denner","k":"lardons","p":"Lard pour petit-déjeuner Denner en tranches 3×200 g","pr":9.0,"rg":11.8,"sz":600,"u":"https://www.denner.ch/fr/actions/lard-pour-petit-dejeuner-denner~p1101295","until":"25.11","src":["aktionis","officiel"]},{"s":"denner","k":"pates","p":"Barilla Fusilli n°98 6×500 g","pr":7.5,"rg":15.0,"sz":3000,"until":"25.11","src":["aktionis"]},{"s":"denner","k":"fromagetr","p":"Raclette suisse Surchoix en tranches 2×300 g","pr":9.95,"rg":13.2,"sz":24,"est":true,"until":"25.11","src":["aktionis"]},{"s":"denner","k":"saumonfume","p":"Ancora saumon sauvage d'Alaska en tranches 2×100 g","pr":7.2,"rg":9.0,"sz":200,"until":"25.11","src":["aktionis"]},{"s":"lidl","k":"poulet","p":"Carnesi poitrine de poulet XXL 700 g","pr":8.49,"rg":9.45,"sz":700,"until":"25.11","src":["aktionis","rappn"]},{"s":"lidl","k":"jambon","p":"Deluxe Jamón Ibérico 24 mois 80 g (avec Lidl Plus)","pr":5.79,"rg":6.99,"sz":80,"until":"25.11","src":["aktionis","rappn"]},{"s":"lidl","k":"pommes","p":"Pommes rouges suisses","pr":2.19,"rg":2.79,"per":1000,"until":"25.11","src":["aktionis","rappn"]},{"s":"lidl","k":"saumon","p":"Ocean Sea morceaux de saumon ASC 455 g (avec Lidl Plus)","pr":8.49,"rg":10.99,"sz":455,"until":"21.11","src":["aktionis","rappn"]},{"s":"lidl","k":"saumonfume","p":"Nautica saumon fumé ASC 200 g","pr":3.95,"rg":4.95,"sz":200,"until":"21.11","src":["rappn"]}];
+let META={"from":"2026-11-19","to":"2026-11-25","collected":"2026-11-19","sources":["https://www.aktionis.ch/vendors/migros","https://www.aktionis.ch/vendors/migros?page=2","https://www.aktionis.ch/vendors/migros/3","https://www.aktionis.ch/vendors/migros/4","https://www.aktionis.ch/vendors/migros/futuredeals","https://www.aktionis.ch/vendors/coop","https://www.aktionis.ch/vendors/coop?page=2","https://www.aktionis.ch/vendors/coop/futuredeals","https://www.aktionis.ch/vendors/denner","https://www.aktionis.ch/vendors/denner?page=2","https://www.aktionis.ch/vendors/denner/3","https://www.aktionis.ch/vendors/denner/4","https://www.aktionis.ch/vendors/denner/5","https://www.aktionis.ch/vendors/denner/6","https://www.aktionis.ch/vendors/denner/futuredeals","https://www.aktionis.ch/vendors/lidl","https://www.aktionis.ch/vendors/lidl?page=2","https://www.aktionis.ch/vendors/lidl/3","https://www.aktionis.ch/vendors/lidl/futuredeals","https://www.aktionis.ch/vendors/lidl/futuredeals/2","https://rappn.ch/en/offers/migros","https://rappn.ch/en/offers/migros/page/2","https://rappn.ch/en/offers/migros/page/3","https://rappn.ch/en/offers/coop","https://rappn.ch/en/offers/coop/page/2","https://rappn.ch/en/offers/coop/page/3","https://rappn.ch/en/offers/coop/page/4","https://rappn.ch/en/offers/lidl","https://rappn.ch/en/offers/lidl-switzerland/page/2","https://www.denner.ch/fr/actions","https://www.denner.ch/fr/actions/actions-d%C3%A8s-jeudi"],"missing":["aldi"]};
 const ING={pates:'pâtes',boeuf:'steak de bœuf',burger:'steaks hachés de bœuf',poulet:'poulet (émincé ou poitrine)',pilons:'pilons de poulet',porc:'porc (steaks ou émincé)',cabillaud:'cabillaud',saumon:'filets de saumon',saumonfume:'saumon fumé',moules:'moules',sandre:'filet de sandre',fondue:'mélange fondue',lardons:'lardons',jambon:'jambon',schufeli:'Schüfeli',pdt:'pommes de terre',tomates:'tomates',tomboite:'tomates concassées',poivrons:'poivrons',mais:'maïs',chou:'chou',courge:'courge',poireau:'poireau',pommes:'pommes',fraisfromage:'fromage frais',fromagetr:'fromage en tranches'};
 // Prix courants estimés (CHF) : par kg pour g, par litre pour ml, sinon par unité de la recette
 const PRICE={rhubarbe:6,'farine de sarrasin':8,'gingembre':12,'céleri':4.5,'huile de truffe':0.6,'pak-choï':9,'herbes fraîches':40,'pois cassés':6,'garam masala':0.15,'radicchio':12,'cumin':0.1,'travers de porc':18,'choucroute':6,'saucisses fumées':20,'saint-jacques':90,'thon frais':50,'betterave':5,'pain croustillant':0.15,'farine de pois chiches':8,'bolets':45,'roquefort':35,'noix de pécan':40,'asperges':14,'romanesco':8,'raisins secs':10,'anchois':60,'levure':8,'tomates séchées':30,'bananes':0.45,'fraises':10,'pruneaux secs':12,'petits-beurre':8,'pruneaux':5,'huile de colza':0.1,'citron vert':0.5,'thé noir':0.15,'vanille':2.5,pates:5,boeuf:45,burger:1.6,poulet:28,pilons:12,porc:26,cabillaud:30,saumon:40,saumonfume:60,moules:8,sandre:55,fondue:22,lardons:25,jambon:35,schufeli:22,pdt:2.2,tomates:6,tomboite:3.5,poivrons:7,mais:4.5,chou:3,courge:4,poireau:6,pommes:4,fraisfromage:20,fromagetr:0.35,
@@ -732,7 +742,7 @@ const recipeLink=r=>r.src==='kenwood'?{url:KWURL+r.u,l:'Voir la recette sur Kenw
 /* ================= ÉTAT ================= */
 const DEFAULT={stores:['migros','coop','lidl'],canton:'Vaud',persons:4,meals:7,moments:['soir'],diet:'omni',allergies:[],dislikes:[],dislikeText:'',time:35,shopday:3,promo:50,budget:0,banned:[],cuisines:[],nutris:[],kcal:'',source:''};
 const EV0={occ:'amis',persons:6,day:4,mo:'soir',budget:0,seed:1,ids:null,diet:'',allergies:[],dislikes:[],theme:'',nutris:[],kcal:'',deals:'',source:'',envie:''};
-let S={v:2,view:'main',tab:'menu',a:{...DEFAULT},ev:{...EV0},menu:[],seed:1,example:true,group:'rayon',moreOpen:false,mf:'all'};
+let S={v:2,view:'main',tab:'menu',a:{...DEFAULT},ev:{...EV0},menu:[],seed:1,example:true,group:'rayon',moreOpen:false,mf:'all',af:'all',as:'pct'};
 try{const s=JSON.parse(localStorage.getItem('menu-malin')||'null');if(s&&s.a){const old=s.v!==2;S={...S,...s,a:{...DEFAULT,...s.a},ev:{...EV0,...(s.ev||{})},v:2};if(old){S.menu=[];S.view='main';S.tab='menu';}if(!['menu','ev','frigo','liste','fav'].includes(S.tab))S.tab='menu';if(S.view!=='setup')S.view='main';}}catch(e){}
 if(S.a.nutri){S.a.nutris=[S.a.nutri];delete S.a.nutri;}if(S.ev.nutri){S.ev.nutris=[S.ev.nutri];delete S.ev.nutri;}
 const persist=()=>{try{localStorage.setItem('menu-malin',JSON.stringify(S));}catch(e){}};
@@ -884,12 +894,13 @@ function envieHTML(){const q=(S.ev.envie||'').trim();if(!q)return '';const ms=en
     <h4 style="margin:14px 0 6px;font-size:15.5px">Chercher « ${esc(q)} » sur le web</h4><div class="envweb">${envieWeb(q).map(([l,u])=>`<a class="btn quiet sm" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div></div></details>`;}
 function evPick(c,ids){
   const ev=S.ev,p=ev.persons,bud=ev.budget?ev.budget*p:0,festive=ev.occ!=='famille';
-  const pool=(c==='p'?R.filter(r=>!r.c&&allowed(r,'e')):R.filter(r=>r.c===(c==='e'?'entree':'dessert')&&allowed(r,'e'))).filter(r=>!EVSKIP[c].has(r.id));
+  let pool=(c==='p'?R.filter(r=>!r.c&&allowed(r,'e')):R.filter(r=>r.c===(c==='e'?'entree':'dessert')&&allowed(r,'e'))).filter(r=>!EVSKIP[c].has(r.id));
+  if(ev.deals==='seul'){const pp=pool.filter(r=>isPromo(r,p));if(pp.length)pool=pp;}
   if(!pool.length)return null;
   const main=ids.p?R.find(r=>r.id===ids.p):null;
   const other=c==='e'?(ids.d?R.find(r=>r.id===ids.d):null):c==='d'?(ids.e?R.find(r=>r.id===ids.e):null):null;
   const em=ev.envie?envieMatches():[],etarget=etoks(ev.envie||'').some(t=>/^vege/.test(t))?c:(em.find(x=>courseOf(x.r))||{r:null}).r?courseOf(em.find(x=>courseOf(x.r)).r):null;
-  const sc=r=>{const sv=recipeSaving(r,p).sv;let s=jit(r.id,ev.seed*7+c.charCodeAt(0))*10+(ev.deals==='sans'?0:Math.min(sv,10)*.3)+(ev.deals==='avec'?(sv>=1?14:-6):0)+(isFav(r.id)?3:0);
+  const sc=r=>{const sv=recipeSaving(r,p).sv;let s=jit(r.id,ev.seed*7+c.charCodeAt(0))*10+(ev.deals==='sans'?0:Math.min(sv,10)*.3)+((ev.deals==='avec'||ev.deals==='seul')?(sv>=1?14:-6):0)+(isFav(r.id)?3:0);
     if(ev.envie&&c===etarget){const m=envieInfo(r,ev.envie);if(m)s+=(m.full?60:20)+m.score*20;}
     if(ev.theme&&r.cu===ev.theme)s+=c==='p'?18:10;if(c==='p'&&(ev.nutris||[]).length)s+=nutriMiss(r,ev.nutris)?-16*nutriMiss(r,ev.nutris):14;if(c==='p'&&ev.kcal)s+=kcalOk(r,ev.kcal)?12:-16;if(c==='p'){if(festive&&r.f)s+=10;if(ev.occ==='famille'&&r.t>60)s-=6;if(ev.occ==='amoureux'&&r.m==='fromage')s-=4;}
     if(main&&c==='e'){if(main.m===r.m)s-=12;if(main.d===r.d&&r.d!=='vege')s-=4;}
@@ -946,28 +957,9 @@ let LIST=[];let SYNC={mode:'local',note:''};let LDB=null,UID=null,USER=null,CANW
 try{LIST=JSON.parse(localStorage.getItem('menu-malin-liste')||'[]');}catch(e){LIST=[];}
 const saveLocal=()=>{try{localStorage.setItem('menu-malin-liste',JSON.stringify(LIST));}catch(e){}};
 const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-const WEB=!(window.claude&&window.claude.use)&&/^https?:$/.test(location.protocol);
-function foyerCode(){let m=location.hash.match(/foyer-([a-z0-9]{6,40})/i),c=m?m[1].toLowerCase():null;
-  try{if(c)localStorage.setItem('menu-malin-foyer',c);else c=localStorage.getItem('menu-malin-foyer');}catch(e){}
-  if(!c){c=(crypto.getRandomValues(new Uint32Array(2))).reduce((s,n)=>s+n.toString(36),'').slice(0,8);try{localStorage.setItem('menu-malin-foyer',c);}catch(e){}}
-  if(!m)history.replaceState(null,'',location.pathname+'#foyer-'+c);return c;}
-let JOINING=false,NEWING=false;
-function parseFoyer(v){v=(v||'').trim().toLowerCase();const m=v.match(/foyer-([a-z0-9]{6,40})/);if(m)return m[1];return /^[a-z0-9]{6,40}$/.test(v)?v:null;}
-function joinFoyer(c){try{localStorage.setItem('menu-malin-foyer',c);}catch(e){}location.hash='foyer-'+c;location.reload();}
-function shareUrl(){return location.origin+location.pathname+'#foyer-'+foyerCode();}
-// Petit client qui imite l'interface de la base Claude, sur l'API /api/liste (Netlify)
-function restDB(foyer){const base='/api/liste?f='+encodeURIComponent(foyer);const subs={liste:[],favoris:[]};const last={};let timer=null;
-  async function pull(){try{const r=await fetch(base,{cache:'no-store'});if(!r.ok)throw new Error(r.status);const j=await r.json();
-      for(const c in subs){const sig=JSON.stringify(j[c]||[]);if(last[c]===sig)continue;last[c]=sig;const snap={docs:(j[c]||[]).map(d=>{const {id,...x}=d;return {id,data:()=>x};}),metadata:{fromCache:false}};subs[c].forEach(([cb])=>cb(snap));}}
-    catch(e){for(const c in subs)subs[c].forEach(([,er])=>er&&er({code:'unavailable'}));}}
-  function start(){if(timer)return;pull();timer=setInterval(()=>{if(!document.hidden)pull();},4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull();});}
-  async function write(body){const r=await fetch(base,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw {code:r.status===413?'quota_exceeded':'unavailable'};pull();}
-  return {collection:c=>({doc:id=>({set:d=>write({op:'set',coll:c,id,data:d}),update:d=>write({op:'update',coll:c,id,data:d}),delete:()=>write({op:'delete',coll:c,id})}),onSnapshot:(cb,er)=>{subs[c].push([cb,er]);start();}})};}
 async function initSync(){
-  let db,user=null;
-  if(WEB){db=restDB(foyerCode());}
-  else if(!window.claude||!window.claude.use){SYNC={mode:'local',note:''};refreshList();return;}
-  else [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
+  if(!window.claude||!window.claude.use){SYNC={mode:'local',note:''};refreshList();return;}
+  const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
   USER=user;
   if(!db){SYNC={mode:'local',note:''};refreshList();return;}
   if(user){try{UID=await user.id();}catch(e){}const c=await user.can('data.write');if(c===false)CANWRITE=false;}
@@ -1044,7 +1036,7 @@ function render(){
   document.getElementById('opensetup').hidden=!(S.view==='main'&&S.tab==='menu');document.getElementById('themebtn').hidden=!(S.view==='setup'||S.tab==='menu');const ft=document.querySelector('footer');if(ft)ft.hidden=!(S.view==='main'&&S.tab==='liste');applyTheme();
   app.innerHTML=S.view==='setup'?setupHTML():mainHTML();
   if(S.view!=='setup'&&S.tab==='liste')refreshList();
-  renderSheet();persist();applyFolds();
+  renderSheet();persist();applyFolds();document.body.classList.toggle('hdr-stick',S.view==='main'&&S.tab==='act');measureStick();
 }
 function refreshTabs(){const n=document.getElementById('tabn');if(n){const c=LIST.filter(i=>!i.done).length;n.textContent=c;n.dataset.n=c;}}
 function refreshList(){refreshTabs();if(OPEN!==null)refreshIngs();const el=document.getElementById('listbody');if(el){el.innerHTML=listBodyHTML();applyFolds();return;}
@@ -1085,6 +1077,10 @@ const GUIDE=[
   ['Recettes Kenwood Club','77 plats choisis dans 9 thèmes : dans tes menus, ta liste de courses et Favoris ; la préparation s\'ouvre sur leur site.',{tab:'fav',fold:'fold-kenwood',sel:'#fold-kenwood'}],
   ['Une envie précise','Tape « boulettes de viande » ou « curry » : le menu part de là, avec des idées du web en plus.',{tab:'ev',fold:'fold-evform',sel:'#f-envie'}],
   ['Enregistrer, partager, agenda','Garde le repas dans Favoris, envoie-le à tes invités ou ajoute-le à ton calendrier.',{tab:'ev',sel:'#saveev, #evgo'}],
+ ]],
+ ['Actions',[
+  ['Toutes les actions','Onglet Actions : le total et le gain par magasin, un filtre par enseigne et le tri par rabais, gain ou produit.',{tab:'act',sel:'#act-head'}],
+  ['Un repas uniquement en action','Dans Un repas, « Uniquement en action » ne propose que des plats qui profitent des promotions.',{tab:'ev',fold:'fold-evform',sel:'#fold-evform'}],
  ]],
  ['Courses',[
   ['Vue par repas','Coche ce que tu as acheté ou déjà à la maison ; chaque repas affiche « Prêt » quand tout y est.',{tab:'liste',group:'repas',sel:'#listbody'}],
@@ -1162,15 +1158,15 @@ function setupHTML(){
 }
 
 /* ---- vue principale ---- */
-const TABICON={frigo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M5 10h14M8.5 6v1.5M8.5 13v3"/></svg>',fav:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>',menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',ev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h16a8 8 0 0 1-16 0zM12 4v4M8 6l1 2M16 6l-1 2"/></svg>',liste:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 11h11L20 8H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>'};
+const TABICON={frigo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="3"/><path d="M5 10h14M8.5 6v1.5M8.5 13v3"/></svg>',fav:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>',menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',ev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h16a8 8 0 0 1-16 0zM12 4v4M8 6l1 2M16 6l-1 2"/></svg>',act:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l9.5 9.5-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>',liste:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 11h11L20 8H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>'};
 function mainHTML(){
   const nList=LIST.filter(i=>!i.done).length;
   const tb=(k,l)=>`<button class="tb" role="tab" id="tab-${k}" data-tab="${k}" aria-selected="${S.tab===k}"><span class="ic">${TABICON[k]}</span>${l}${k==='liste'?`<span class="cnt" id="tabn" data-n="${nList}">${nList}</span>`:''}</button>`;
   return `${S.example?`<div class="note" style="margin-top:14px"><p><b>Ceci est un exemple.</b> Indique tes magasins, ton budget et vos goûts pour un menu fait pour vous.</p><button class="btn sm" id="startsetup">Personnaliser</button></div>`:''}
   <div role="tabpanel" id="panel">${panelHTML()}</div>
-  <nav class="tabbar" aria-label="Vues"><div class="tabbar-in" role="tablist">${tb('menu','Semaine')}${tb('ev','Un repas')}${tb('frigo','Frigo')}${tb('liste','Courses')}${tb('fav','Favoris')}</div></nav>`;
+  <nav class="tabbar" aria-label="Vues"><div class="tabbar-in" role="tablist">${tb('menu','Semaine')}${tb('ev','Un repas')}${tb('act','Actions')}${tb('frigo','Frigo')}${tb('liste','Courses')}${tb('fav','Favoris')}</div></nav>`;
 }
-function panelHTML(){return S.tab==='menu'?menuHTML():S.tab==='ev'?evHTML():S.tab==='fav'?favHTML():S.tab==='frigo'?frigoHTML():listShellHTML();
+function panelHTML(){return S.tab==='menu'?menuHTML():S.tab==='ev'?evHTML():S.tab==='fav'?favHTML():S.tab==='frigo'?frigoHTML():S.tab==='act'?dealsViewHTML():listShellHTML();
 }
 function missingNote(){const miss=(META.missing||[]).filter(s=>s!=='aldi'&&S.a.stores.includes(s));return miss.length?`<div class="note warn" style="margin-bottom:12px"><p>Pas encore d'actions ${miss.map(sn).join(' et ')} pour cette semaine. Tes menus utilisent les autres enseignes.</p></div>`:'';}
 function dealsBlock(info){return `<div class="mc-deals">${info.acts.length?`<span class="mc-dh">En action</span><ul>${info.acts.map(a=>`<li><span class="dn">${esc(ingName(a.k))}</span><span class="chip">${sn(a.d.s)} −${pct(a.d)} %</span>${dealLink(a.d,'Voir')}</li>`).join('')}</ul>`:'<span class="muted small">Aucun ingrédient en action · prix normaux</span>'}</div>`;}
@@ -1215,7 +1211,7 @@ function menuHTML(){
     <div><div class="k">En action</div><div class="v">${nP} <small>plat${nP>1?'s':''}</small></div></div>
   </section></details>
   ${nm?`<button class="nextbar" data-open="w:${ni}"><span class="k">${whenLabel(nm.m)}</span><span><b>${esc(nm.r.n)}</b> · ${nm.r.t} min · ${nst.ok===nst.n?'tout est prêt':`il manque ${nst.n-nst.ok} ingrédient${nst.n-nst.ok>1?'s':''}`}</span></button>`:''}
-  <nav class="cal" id="w-cal" aria-label="Jours de la semaine">${cal}</nav>
+  <nav class="cal stick" id="w-cal" aria-label="Jours de la semaine">${cal}</nav>
   <div class="cal-leg"><span><i style="background:var(--accent)"></i>courses prêtes</span><span><i style="background:var(--tag)"></i>plat en action</span><span><i style="background:var(--line)"></i>à préparer</span></div>
   ${items.length<a.meals?`<div class="note warn" style="margin-bottom:12px"><p>Seulement ${items.length} plats respectent tous tes réglages (${excluded} recettes exclues).</p></div>`:''}
   <div class="seg" id="w-filter" role="group" aria-label="Filtrer les plats"><button data-mf="all" aria-pressed="${S.mf!=='promo'}">Tous les plats</button><button data-mf="promo" aria-pressed="${S.mf==='promo'}">En action (${nP})</button></div>
@@ -1247,7 +1243,7 @@ function evHTML(){
     <div class="field" id="f-envie"><h3>Une envie ?</h3><p class="hint">Un plat, un ingrédient ou un style : les recettes qui y correspondent passent en priorité, et des idées du web s'affichent.</p><div class="addbar"><input type="text" id="ev-envie" value="${esc(ev.envie||'')}" placeholder="ex. boulettes de viande, curry, tiramisu" aria-label="Ton envie pour ce repas" autocomplete="off">${ev.envie?'<button class="btn quiet sm" id="envie-clear" aria-label="Effacer l\'envie">Effacer</button>':''}</div></div>
     <div class="field" id="f-theme"><h3>Un thème ?</h3><p class="hint">Les plats de cette cuisine passent en priorité.</p>${pills('ev.theme',[{v:'',l:'Peu importe'}].concat(Object.entries(CU).map(([v,l])=>({v,l}))),false)}</div>
     <div class="field"><h3>Quelles recettes ?</h3><p class="hint">Kenwood Club : ${R.filter(r=>r.src==='kenwood'&&!r.c).length} plats, ${R.filter(r=>r.src==='kenwood'&&r.c==='entree').length} entrées et ${R.filter(r=>r.src==='kenwood'&&r.c==='dessert').length} desserts (préparation sur leur site). Le carnet de Yana compte ${R.filter(r=>r.src==='yana'&&!r.c).length} plats, ${R.filter(r=>r.src==='yana'&&r.c==='entree').length} entrées et ${R.filter(r=>r.src==='yana'&&r.c==='dessert').length} desserts.</p>${pills('ev.source',[{v:'',l:'Toutes les recettes'},{v:'yana',l:'Uniquement le carnet de Yana'},{v:'kenwood',l:'Uniquement Kenwood Club'}],false)}</div>
-    <div class="field"><h3>Actions de la semaine</h3><p class="hint">Avec : les plats qui profitent des promotions passent en priorité. Sans : le menu est choisi sans en tenir compte.</p>${pills('ev.deals',[{v:'',l:'Peu importe'},{v:'avec',l:'Avec les actions'},{v:'sans',l:'Sans les actions'}],false)}</div>
+    <div class="field"><h3>Actions de la semaine</h3><p class="hint">Avec : les plats qui profitent des promotions passent en priorité. Sans : le menu est choisi sans en tenir compte. Uniquement : seulement des plats dont un ingrédient est en action (s'il en existe pour l'entrée, le plat et le dessert).</p>${pills('ev.deals',[{v:'',l:'Peu importe'},{v:'avec',l:'Avec les actions'},{v:'seul',l:'Uniquement en action'},{v:'sans',l:'Sans les actions'}],false)}</div>
     <div class="field"><h3>Objectif nutrition</h3><p class="hint">Pour le plat principal ; plusieurs choix possibles.</p>${pills('ev.nutris',[{v:'none',l:'Peu importe'}].concat(Object.entries(NUTRI).map(([v,l])=>({v,l}))),true)}
       <h4 style="margin:14px 0 6px;font-size:15.5px">Énergie du plat</h4>${pills('ev.kcal',Object.entries(KCAL).map(([v,l])=>({v,l})),false)}</div>
     <div class="two"><div class="field"><h3>Combien de personnes ?</h3>${stepper('ev.persons',1,20)}</div>
@@ -1269,8 +1265,8 @@ function evHTML(){
      <div><div class="k">Plats prêts</div><div class="v">${ready} / ${rs.length}</div></div>
      ${veille.length?`<div class="next" style="cursor:default">À préparer la veille : <b>${veille.map(x=>esc(x.r.n)).join(', ')}</b></div>`:''}
    </section>`;
-  const opts=[OCC[ev.occ],ev.envie?'« '+ev.envie.trim()+' »':'',SRCN[ev.source]||'',ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
-  return `<details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details>${envieHTML()}
+  const opts=[OCC[ev.occ],ev.envie?'« '+ev.envie.trim()+' »':'',SRCN[ev.source]||'',ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='seul'?'Uniquement en action':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
+  return `<div class="stick"><details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details></div>${envieHTML()}
    ${['e','p','d'].map((c,i)=>{const x=rs.find(y=>y.c===c);const head=`<h2 class="course-h"><span class="num">${i+1}</span>${COURSE[c]}</h2>`;if(!x)return head+`<div class="empty">Aucune recette compatible avec tes réglages.</div>`;const r=x.r;
      return head+cardHTML(r,p,{cid:'card-e-'+c,ref:'e:'+c,label:CU[r.cu]||COURSE[c],swap:`data-evswap="${c}"`,shop:'e'+r.id,persons:true});}).join('')}
    ${actionsHTML([{attr:'id="addev"',icon:IC.cart,l:'Ajouter ce repas à la liste'}],[{attr:'id="saveev"',icon:IC.star,l:'Enregistrer'},{attr:'id="shareev"',icon:IC.share,l:'Partager'},IN_CLAUDE?null:{attr:'id="icsev"',icon:IC.cal,l:'Agenda'},{attr:'id="evgo2"',icon:IC.idea,l:'Autre menu'}])}
@@ -1390,6 +1386,39 @@ function batchHTML(items){const ks=items.filter(x=>KEEPS.has(x.r.id));if(!ks.len
    ${Object.keys(veg).length?`<p class="small" style="margin-top:8px"><b>À éplucher et couper en une fois :</b> ${Object.entries(veg).map(([k,q])=>`${qty(q,'g')} de ${ING[k]||k}`).join(', ')}.</p>`:''}
    <p class="small muted" style="margin-top:6px">Temps total de cuisson ≈ ${Math.floor(tot/60)} h ${String(tot%60).padStart(2,'0')}, moins en menant les cuissons en parallèle.</p></div></details>`;}
 
+
+/* ---- vue Actions ---- */
+function packG(d){const t=d.p.replace(/(\d),(\d)/g,'$1.$2'),env=/env\.|ca\./i.test(t);
+  let m=t.match(/(\d+)\s*[×x]\s*(?:env\.\s*)?(\d+(?:\.\d+)?)\s*(kg|g)\b/i);if(m)return {g:+m[1]*+m[2]*(m[3].toLowerCase()==='kg'?1000:1),est:env};
+  m=t.match(/(\d+(?:\.\d+)?)\s*(kg|g)\b/i);if(m)return {g:+m[1]*(m[2].toLowerCase()==='kg'?1000:1),est:env};
+  return {g:d.per===100?500:1000,est:true,def:true};}
+function packPrice(d){if(!d.per)return {pr:d.pr,rg:d.rg,est:false};const k=packG(d);return {pr:d.pr*k.g/d.per,rg:d.rg*k.g/d.per,est:true,g:k.g,def:k.def};}
+function dealsSum(ds){return ds.reduce((a,d)=>{const x=packPrice(d);a.pr+=x.pr;a.rg+=x.rg;a.n++;if(x.est)a.est++;return a;},{pr:0,rg:0,n:0,est:0});}
+const gTxt=g=>g>=1000?`${(g/1000).toLocaleString('fr-CH',{maximumFractionDigits:1})} kg`:`${Math.round(g)} g`;
+function dealRowHTML(d){const x=packPrice(d);
+  return `<div class="dl"><div><div class="p">${esc(d.p)}</div><div class="muted small"><b style="color:var(--ink)">${sn(d.s)}</b>${d.ti?' · Tessin':''} · ${chf(d.pr)}${unitP(d)} <s>${chf(d.rg)}</s> · jusqu'au ${d.until||fmtD(META.to)}${srcText(d)?` · ${srcText(d)}`:''} · ${dealLink(d)}</div>${d.per?`<div class="pk">≈ ${chf(x.pr)} CHF pour ${x.def?'env. ':''}${gTxt(x.g)} · gain ≈ ${chf(x.rg-x.pr)} CHF</div>`:`<div class="pk">Gain ${chf(d.rg-d.pr)} CHF</div>`}</div><div class="row"><span class="chip">−${pct(d)} %</span><button class="btn quiet sm" data-adddeal="${DEALS.indexOf(d)}" aria-label="Ajouter ${esc(d.p)} à la liste">+</button></div></div>`;}
+function dealsViewHTML(){
+  const all=DEALS.filter(d=>ticino()||!d.ti);
+  const stores=STORES.filter(st=>all.some(d=>d.s===st.id));
+  const f=S.af!=='all'&&stores.some(st=>st.id===S.af)?S.af:'all';
+  const list=all.filter(d=>f==='all'||d.s===f);
+  const T=dealsSum(list),gain=T.rg-T.pr,pc=T.rg?Math.round(gain/T.rg*100):0;
+  const chips=[{id:'all',name:'Tous'},...stores].map(st=>`<button class="pill sm" data-af="${st.id}" aria-pressed="${f===st.id}">${st.name}<small>${st.id==='all'?all.length:all.filter(d=>d.s===st.id).length}</small></button>`).join('');
+  const per=stores.map(st=>{const ds=all.filter(d=>d.s===st.id),x=dealsSum(ds);return `<button class="ssum" data-af="${f===st.id?'all':st.id}" aria-pressed="${f===st.id}"><span>${st.name} · ${ds.length} action${ds.length>1?'s':''}</span><b>${chf(x.pr)} CHF</b><span class="muted small"><s>${chf(x.rg)}</s> au prix normal</span><span class="g">Gain ${chf(x.rg-x.pr)} CHF</span></button>`;}).join('');
+  const miss=STORES.filter(st=>!stores.some(x=>x.id===st.id)).map(st=>`<div class="ssum off"><span>${st.name}</span><span class="muted small">${st.id==='aldi'?'Pas de prix normal publié':'Pas encore d\'actions relevées'}</span></div>`).join('');
+  let body;const srt=S.as||'pct';
+  if(!list.length)body='<div class="empty">Aucune action relevée pour cette semaine.</div>';
+  else if(srt==='prod'){const ks=[...new Set(list.map(d=>d.k))].sort((a,b)=>ingName(a).localeCompare(ingName(b),'fr'));
+    body=ks.map(k=>{const ds=list.filter(d=>d.k===k).sort((a,b)=>pct(b)-pct(a));return `<section class="group"><h3><span>${esc(ingName(k))}</span><span>${ds.length}</span></h3>${ds.map(dealRowHTML).join('')}</section>`;}).join('');}
+  else{const ds=list.slice().sort(srt==='gain'?(a,b)=>{const A=packPrice(a),B=packPrice(b);return (B.rg-B.pr)-(A.rg-A.pr);}:(a,b)=>pct(b)-pct(a));
+    body=`<section class="group">${ds.map(dealRowHTML).join('')}</section>`;}
+  return `<h2 style="margin:16px 0 2px">Actions de la semaine</h2><p class="muted small">Toutes les actions alimentaires relevées, magasin par magasin.</p>
+  <div class="stick" id="act-head"><div class="chiprow" role="group" aria-label="Filtrer par magasin">${chips}</div>
+   <div class="act-tot"><span><span class="big">${chf(T.pr)}</span> CHF</span><span><s>${chf(T.rg)}</s></span><span class="save">gain ${chf(gain)} CHF (−${pc} %)</span><span class="muted small">${T.n} action${T.n>1?'s':''}${f==='all'?'':' · '+sn(f)}</span></div></div>
+  <div class="stores-sum">${per}${miss}</div>
+  <p class="muted small" style="margin:6px 0 10px">Total si l'on achète un article de chaque action. Pour les ${T.est} produits vendus au poids, le calcul prend le poids indiqué (sinon 500 g pour un prix aux 100 g, 1 kg pour un prix au kilo) : c'est un ordre de grandeur.</p>
+  <div class="seg" role="group" aria-label="Trier les actions"><button data-as="pct" aria-pressed="${srt==='pct'}">Rabais %</button><button data-as="gain" aria-pressed="${srt==='gain'}">Gain CHF</button><button data-as="prod" aria-pressed="${srt==='prod'}">Par produit</button></div>
+  ${body}`;}
 /* ---- frigo : cuisiner avec ce que j'ai ---- */
 function fridgeHTML(){return `<details class="fold" id="fold-fridge"><summary>Cuisiner avec ce que j'ai${FRIDGE.length?` (${FRIDGE.length})`:''}</summary><div class="fold-body">
   <p class="muted small" style="margin-bottom:8px">Coche ce qui reste au frigo : les plats qui l'utilisent passent en priorité.</p>
@@ -1406,7 +1435,7 @@ function fridgeMatches(){const out=[];R.filter(r=>allowed(r)).forEach(r=>{const 
 let PLACE=null;
 function frigoHTML(){const res=fridgeMatches();
   return `<h2 style="margin:16px 0 4px">Cuisiner avec ce que j'ai</h2><p class="muted small">Coche ce qui reste au frigo et au placard : je te montre les plats qui l'utilisent, et ce qu'il te manque.</p>
-  ${FRIDGE.length&&res.length?`<button class="nextbar" id="fr-jump"><span class="k">${FRIDGE.length} ingrédient${FRIDGE.length>1?'s':''} cochés</span><span><b>Voir les ${res.length} idée${res.length>1?'s':''} de plats</b> ↓</span></button>`:''}
+  <div class="stick fr-stick">${FRIDGE.length?`<div class="chiprow" aria-label="Ingrédients cochés">${FRIDGE.map(k=>`<button class="pill sm" data-fridge="${esc(k)}" aria-pressed="true" aria-label="Retirer ${esc(ingName(k))}">${esc(ingName(k))} ✕</button>`).join('')}</div>${res.length?`<button class="nextbar" id="fr-jump"><span class="k">${FRIDGE.length} ingrédient${FRIDGE.length>1?'s':''} cochés</span><span><b>Voir les ${res.length} idée${res.length>1?'s':''} de plats</b> ↓</span></button>`:''}`:'<p class="muted small">Aucun ingrédient coché pour l\'instant.</p>'}</div>
   <section class="group" style="padding-bottom:12px">${FRIDGE_GROUPS.map(([g,ks])=>`<h3><span>${g}</span></h3><div class="pills">${ks.map(k=>`<button class="pill" data-fridge="${esc(k)}" aria-pressed="${FRIDGE.includes(k)}">${esc(ingName(k))}</button>`).join('')}</div>`).join('')}
    <h3><span>Autre chose ?</span></h3>
    ${(()=>{const known=FRIDGE_KNOWN(),own=FRIDGE.filter(f=>!known.has(f));return own.length?`<div class="pills" style="margin-bottom:8px">${own.map(f=>`<button class="pill" data-fridge="${esc(f)}" aria-pressed="true" aria-label="Retirer ${esc(f)}">${esc(cap(f))} ✕</button>`).join('')}</div>`:'';})()}
@@ -1473,7 +1502,7 @@ function dictate(){if(!CAN_DICT)return;if(REC){REC.stop();return;}REC=new SR();R
   REC.onend=()=>{REC=null;const b=document.getElementById('mic');if(b)b.classList.remove('on');};REC.start();}
 
 /* ---- courses ---- */
-function listShellHTML(){return `<div class="addbar"><input type="text" id="q" placeholder="Ajouter un article, ex. lait" autocomplete="off" aria-label="Ajouter un article" value="${esc(QTXT)}">${CAN_DICT?'<button class="iconbtn mic" id="mic" title="Dicter des articles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="sr">Dicter</span></button>':''}<button class="btn" id="qadd">Ajouter</button></div><div class="sugg" id="sugg"></div><div id="listbody">${listBodyHTML()}</div>`;}
+function listShellHTML(){return `<div class="stick"><div class="addbar"><input type="text" id="q" placeholder="Ajouter un article, ex. lait" autocomplete="off" aria-label="Ajouter un article" value="${esc(QTXT)}">${CAN_DICT?'<button class="iconbtn mic" id="mic" title="Dicter des articles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="sr">Dicter</span></button>':''}<button class="btn" id="qadd">Ajouter</button></div><div class="sugg" id="sugg"></div></div><div id="listbody">${listBodyHTML()}</div>`;}
 function syncLine(){
   if(SYNC.mode==='db')return `<span class="dot ${SYNC.note?'warn':'on'}"></span><span>${SYNC.note?esc(SYNC.note):'Liste partagée avec ton foyer, à jour en direct'}${CANWRITE?'':' · lecture seule'}</span>`;
   if(SYNC.mode==='loading')return `<span class="dot warn"></span><span>${SYNC.note?esc(SYNC.note):'Connexion à la liste partagée…'}</span>`;
@@ -1497,11 +1526,6 @@ function mealGroupsHTML(){
        return `<div class="li ${x.ok?'done have':''}"><button class="ck" data-mealck="${esc(name)}" data-q="${esc(qty(x.q,x.u))}" data-r="${esc(r.n)}" aria-label="${esc(name)} : ${x.ok?'pas encore':'je l\'ai'}" aria-pressed="${x.ok}">✓</button><div class="li-txt"><span class="nm">${esc(name)}</span><span class="nt">${qty(x.q,x.u)}</span></div><span class="state">${state}</span></div>`;}).join('')}
      ${st.ok<st.n?`<div class="mealfoot"><button class="btn quiet sm" data-haveall="${id}">J'ai déjà tout</button></div>`:''}</section>`;}).join('');
 }
-function foyerBox(){if(!WEB)return '';const c=foyerCode();
-  return `<details class="foyerd" id="fold-foyer"><summary><span class="nm">Liste partagée · code <code>${c}</code></span><span class="dchev" aria-hidden="true"></span></summary><div class="foyer"><span class="nt">Tous ceux qui utilisent ce code partagent la liste de courses et les favoris. « Partager avec mon foyer » envoie ce code ; « Recommander l'app » envoie un lien sans code, qui crée une liste séparée pour chaque nouvelle personne.</span>
-  <div class="row"><button class="btn sm" id="sharelink">Partager avec mon foyer</button><button class="btn quiet sm" id="shareapp">Recommander l'app</button><button class="btn quiet sm" id="joinfoyer">Rejoindre un autre foyer</button><button class="btn quiet sm" id="newfoyer">Créer un nouveau foyer</button></div>
-  ${NEWING?`<div class="note warn"><p>Un nouveau foyer démarre avec une liste vide, sur cet appareil. Ta liste actuelle reste accessible avec le code <b>${c}</b> : note-le si tu veux y revenir.</p><div class="row"><button class="btn sm" id="newfoyer-ok">Créer le foyer</button><button class="btn quiet sm" id="newfoyer-no">Annuler</button></div></div>`:''}
-  ${JOINING?`<div class="editrow" style="width:100%"><input type="text" id="foyer-in" placeholder="Colle le lien ou tape le code reçu" aria-label="Code ou lien du foyer" autocomplete="off"><button class="btn sm" id="foyer-ok">Rejoindre</button></div>`:''}</div></details>`;}
 function listBodyHTML(){
   const act=LIST.filter(i=>!i.done),done=LIST.filter(i=>i.done).sort((a,b)=>(b.doneAt||0)-(a.doneAt||0));
   const deals=storeDeals().slice().sort((a,b)=>pct(b)-pct(a));
@@ -1515,7 +1539,7 @@ function listBodyHTML(){
     else groups=aisleOrder().map(([c,l])=>[l,act.filter(i=>(i.cat||catOf(i.name))===c)]);
     groups=groups.filter(g=>g[1].length).map(([l,it])=>[l,it.sort((a,b)=>a.name.localeCompare(b.name,'fr'))]);
     body=groups.map(([l,items])=>`<section class="group"><h3><span>${l}</span><span>${items.length}</span></h3>${items.map(itemHTML).join('')}</section>`).join('');}
-  return `${foyerBox()}<p class="sync">${syncLine()}</p>${seg}${body}
+  return `<p class="sync">${syncLine()}</p>${seg}${body}
    ${done.length&&S.group!=='repas'?`<details class="fold" id="fold-done"><summary>Dans le panier (${done.length})</summary><div class="fold-body">${done.slice(0,40).map(itemHTML).join('')}<div class="row" style="margin-top:10px"><button class="btn quiet sm" id="cleardone">Retirer les articles cochés</button></div></div></details>`:''}
    ${pantryHTML()}
    ${S.group==='rayon'?aisleHTML():''}
@@ -1622,17 +1646,8 @@ document.addEventListener('click',e=>{
   if(t.dataset.adddeal!==undefined){const d=DEALS[+t.dataset.adddeal];if(d)addItem(ingName(d.k),'',d);return;}
   if(t.dataset.group){S.group=t.dataset.group;persist();refreshList();return;}
   if(t.dataset.mf){S.mf=t.dataset.mf;render();return;}
-  if(t.id==='sharelink'){const u=shareUrl(),msg=`Rejoins notre liste de courses Menu Malin : ${u} (code du foyer : ${foyerCode()})`;
-    if(navigator.share){navigator.share({title:'Menu Malin',text:msg}).catch(()=>{});return;}
-    navigator.clipboard.writeText(msg).then(()=>toast('Lien copié : colle-le dans un message')).catch(()=>toast(u));return;}
-  if(t.id==='newfoyer'){NEWING=!NEWING;JOINING=false;refreshList();return;}
-  if(t.id==='newfoyer-no'){NEWING=false;refreshList();return;}
-  if(t.id==='newfoyer-ok'){const c=(crypto.getRandomValues(new Uint32Array(2))).reduce((s,n)=>s+n.toString(36),'').slice(0,8);NEWING=false;joinFoyer(c);return;}
-  if(t.id==='shareapp'){const u=location.origin+location.pathname,msg=`Essaie Menu Malin, des menus de la semaine avec les actions Migros, Coop, Denner et Lidl : ${u} (tu auras ta propre liste de courses)`;
-    if(navigator.share){navigator.share({title:'Menu Malin',text:msg}).catch(()=>{});return;}
-    navigator.clipboard.writeText(msg).then(()=>toast('Lien copié : ce lien crée un nouveau foyer pour chaque personne')).catch(()=>toast(u));return;}
-  if(t.id==='joinfoyer'){NEWING=false;JOINING=!JOINING;refreshList();setTimeout(()=>{const i=document.getElementById('foyer-in');if(i)i.focus();},0);return;}
-  if(t.id==='foyer-ok'){const i=document.getElementById('foyer-in'),c=parseFoyer(i&&i.value);if(!c){toast('Code non reconnu : 6 lettres ou chiffres au moins');return;}if(c===foyerCode()){toast('Tu es déjà dans ce foyer');return;}joinFoyer(c);return;}
+  if(t.dataset.af){S.af=t.dataset.af;render();return;}
+  if(t.dataset.as){S.as=t.dataset.as;render();return;}
   if(t.id==='cleardone'){clearDone();return;}
   if(t.id==='qadd'){addTyped();return;}
   if(t.id==='copy'){const txt=listText();navigator.clipboard.writeText(txt).then(()=>toast('Liste copiée')).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Liste copiée');}catch(_){toast('Copie impossible ici');}ta.remove();});}
@@ -1651,7 +1666,6 @@ document.addEventListener('keydown',e=>{
   if(e.target.id==='pantry-in'&&e.key==='Enter'){e.preventDefault();const v=e.target.value.trim();if(v&&!inPantry(v))togglePantry(v);e.target.value='';}
   if(e.target.id==='ev-envie'&&e.key==='Enter'){e.preventDefault();S.ev.envie=e.target.value.trim();const g=document.getElementById('evgo');if(g)g.click();}
   if(e.target.id==='q'&&e.key==='Enter'){e.preventDefault();addTyped();}
-  if(e.target.id==='foyer-in'&&e.key==='Enter'){e.preventDefault();const c=parseFoyer(e.target.value);if(c&&c!==foyerCode())joinFoyer(c);else toast('Code non reconnu');}
   if(e.target.id==='note-in'&&e.key==='Enter'){e.preventDefault();saveNote(EDITING,e.target.value.trim());}
 });
 document.addEventListener('input',e=>{
@@ -1661,6 +1675,13 @@ document.addEventListener('input',e=>{
   if(e.target.id==='dtext'){S.a.dislikeText=e.target.value;persist();const u=unknownWords();document.getElementById('unk').textContent=u.length?`Pas reconnu : ${u.join(', ')}. Ces mots seront ignorés.`:'';}
 });
 
+
+function measureStick(){const r=document.documentElement,h=document.querySelector('header.top');if(h)r.style.setProperty('--hh',(document.body.classList.contains('hdr-stick')?h.offsetHeight:0)+'px');
+  const st=S.view==='main'?document.querySelector('#panel > .stick'):null;r.style.setProperty('--sh',(st&&getComputedStyle(st).position==='sticky'?st.offsetHeight:0)+'px');}
+if(window.ResizeObserver){const ro=new ResizeObserver(()=>measureStick());ro.observe(document.querySelector('header.top'));ro.observe(document.getElementById('app'));}
+window.addEventListener('resize',measureStick);
+window.addEventListener('scroll',()=>{const y=window.scrollY,b=document.body;if(y>40&&!b.classList.contains('scrolled'))b.classList.add('scrolled');else if(y<4&&b.classList.contains('scrolled'))b.classList.remove('scrolled');},{passive:true});
+document.addEventListener('toggle',()=>measureStick(),true);
 /* ================= DÉMARRAGE ================= */
 function boot(){renderValidity();const stamp=META.to+'|'+META.collected;
   if(!S.menu.length){build();}
@@ -1668,8 +1689,7 @@ function boot(){renderValidity();const stamp=META.to+'|'+META.collected;
   if(S.ev.ids&&!['e','p','d'].every(c=>!S.ev.ids[c]||R.some(r=>r.id===S.ev.ids[c])))S.ev.ids=null;
   S.dealsTo=stamp;render();}
 const getJ=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
-window.addEventListener('hashchange',()=>{const m=location.hash.match(/foyer-([a-z0-9]{6,40})/i);if(m){let cur=null;try{cur=localStorage.getItem('menu-malin-foyer');}catch(e){}if(m[1].toLowerCase()!==cur)joinFoyer(m[1].toLowerCase());}});
-Promise.all([getJ('photos.json'),getJ('deals.json')]).then(([ph,j])=>{if(ph&&Array.isArray(ph.ids))AIPHOTOS=ph.ids;if(j&&Array.isArray(j.deals)){DEALS=j.deals;META={...META,...j.meta};}}).finally(()=>{boot();initSync();});
+Promise.all([getJ('photos.json'),getJ('deals.json')]).then(([ph,j])=>{if(ph&&Array.isArray(ph.ids))AIPHOTOS=ph.ids;if(j&&Array.isArray(j.deals)&&j.meta&&(!META.from||j.meta.from>=META.from)){DEALS=j.deals;META={...META,...j.meta};}}).finally(()=>{boot();initSync();});
 </script>
 
 </body></html>

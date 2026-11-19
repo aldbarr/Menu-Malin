@@ -1,10 +1,16 @@
 {
   "name": "Menu Malin",
   "short_name": "Menu Malin",
+  "description": "Menus de la semaine construits sur les actions Migros, Coop, Denner et Lidl, avec liste de courses.",
+  "lang": "fr-CH",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f4f6ee",
   "theme_color": "#23573a",
-  "lang": "fr",
-  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }

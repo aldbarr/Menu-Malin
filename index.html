@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset="utf-8"><title>Menu Malin</title><meta name="theme-color" content="#23573a"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Menu Malin</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -341,44 +341,55 @@ footer summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--ink)}
 footer .fb{padding-bottom:14px;display:flex;flex-direction:column;gap:8px;max-width:65ch}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(16px);opacity:.6}to{transform:none;opacity:1}}}
 
-/* --- en-têtes collants (ajout) --- */
-html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--hh,64px) + var(--sh,0px) + 8px)}
-body.hdr-stick .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:7;background:var(--bg);padding:8px 0;margin-top:-8px}
-.top h1{transition:font-size .15s}
-body.hdr-stick.scrolled .top h1{font-size:22px}
-body.hdr-stick.scrolled .top{box-shadow:0 8px 8px -8px rgba(23,32,26,.18)}
-.stick{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hh,64px));z-index:5;background:var(--bg);padding:8px 0}
-.stick:has(> details[open]){position:static}
-.stick .evbar{margin-top:0;box-shadow:var(--shadow)}
-.cal.stick{padding:8px 0;margin-bottom:4px}
-.stick .addbar{margin:0}
-.chiprow{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
-.pill.sm{padding:6px 12px;font-size:15px;flex:none}
-.pill.sm small{margin-left:4px}
-.fr-stick .nextbar{margin:8px 0 0;padding:8px 12px}
+/* en-tête collant : marque + contexte de la vue */
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--stickh,0px) + 8px)}
+/* La marque défile normalement ; seule la vue Actions la garde fixée (#hdr.pin). Le contexte de la vue (#ctx) reste toujours fixé. */
+#hdr.pin{position:sticky;top:env(safe-area-inset-top,0px);z-index:7;background:var(--bg);margin:-16px calc(-1*max(16px,env(safe-area-inset-right,0px))) 0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:12px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.ctx{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hdrh,0px));z-index:7;background:var(--bg);margin:0 calc(-1*max(16px,env(safe-area-inset-right,0px))) 0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));transition:box-shadow .15s}
+.ctx:empty{display:none}
+.ctx.stuck{box-shadow:0 1px 0 var(--line),0 8px 14px -10px rgba(10,14,11,.35)}
+#hdr.pin.solo{box-shadow:0 1px 0 var(--line)}
+.ctx .cal{margin-bottom:0}
+.ctx .sugg{flex-wrap:nowrap;overflow-x:auto;margin-top:6px;padding-bottom:2px}
+.ctx .sugg:empty{display:none}
+.ctx .sugg .btn{flex:none}
+.ctx .seg{margin:0}
+.vc,.group,#fr-results{scroll-margin-top:12px}
+@media (max-width:520px){#hdr.pin h1{font-size:24px}#hdr.pin .validity{font-size:13px;line-height:1.3}#hdr.pin .iconbtn{width:40px;height:40px}}
+.psum .nd{grid-column:2/-1;text-align:right;color:var(--muted);font-size:13.5px;white-space:normal}
+.psum .off{font-weight:400;color:var(--muted);font-size:12.5px}
+.ctx-ev{display:flex;justify-content:space-between;align-items:center;gap:8px 12px;flex-wrap:wrap;background:var(--surface);border-radius:12px;padding:8px 12px;font-size:15px}
+.ctx-ev b{font-family:var(--display)}
+.sw{appearance:none;border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:4px 12px 4px 5px;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;cursor:pointer;color:var(--ink);white-space:nowrap}
+.sw-k{width:30px;height:18px;border-radius:9px;background:var(--line);position:relative;flex:none;transition:background .15s}
+.sw-k::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--surface);transition:left .15s}
+.sw[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.sw[aria-checked="true"] .sw-k{background:var(--accent)}.sw[aria-checked="true"] .sw-k::after{left:14px}
+.fchips{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.fchips.many{display:grid;grid-auto-flow:column;grid-template-rows:auto auto;grid-auto-columns:max-content;overflow-x:auto;padding-bottom:2px;justify-content:start}
+.fchip{appearance:none;border:0;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13px;border-radius:999px;padding:3px 10px;white-space:nowrap;cursor:pointer}
+.fchips .lab{font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
 /* --- vue Actions --- */
-.act-tot{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;margin-top:8px;font-size:15px}
-.act-tot .big{font:800 22px var(--display);color:var(--ink)}
-.act-tot s{color:var(--muted)}
-.stores-sum{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:12px 0 4px}
-.ssum{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;color:var(--ink);font-size:14.5px}
-.ssum b{font:800 17px var(--display)}
-.ssum[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
-.ssum .g{color:var(--accent);font-weight:700}
-.ssum.off{cursor:default;opacity:.7}
-.dl .pk{font-size:14px;color:var(--muted)}
-.tabbar-in{grid-template-columns:repeat(6,1fr)}
+.ptot{font-size:14.5px;color:var(--muted);margin-top:6px}
+.ptot b{color:var(--ink)}
+.psum{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:4px 12px;font-size:14.5px;align-items:baseline;padding:4px 0 10px}
+.psum>span{white-space:nowrap}.psum .h{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.psum .n{text-align:right}.psum .tot{font-weight:700;border-top:1px solid var(--line);padding-top:4px}
+.pd .p{font-weight:700}
+.pd .pm{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;font-size:14.5px;color:var(--muted)}
+.pd .pm s{font-size:14px}.pd .pm .pp{color:var(--ink);font-weight:700}
+.tabbar-in{max-width:600px;grid-template-columns:repeat(6,minmax(0,1fr))}
 .tb{font-size:12.5px}
 .tb .ic{width:46px}
 @media (max-width:360px){.tb{font-size:11.5px}.tb .ic{width:40px}}
 </style>
 
 <div class="wrap">
-  <header class="top">
+  <header class="top" id="hdr">
     <div class="brand"><h1>Menu Malin</h1><span class="validity" id="validity"></span></div>
     <div class="hdr-act"><button class="iconbtn" id="themebtn" title="Thème"></button>
     <button class="iconbtn" id="opensetup" title="Réglages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span class="sr">Réglages</span></button></div>
-  </header>
+  </header><div class="ctx" id="ctx"></div>
   <main id="app"></main>
   <footer>
     <details id="howto">
@@ -743,7 +754,7 @@ const recipeLink=r=>r.src==='kenwood'?{url:KWURL+r.u,l:'Voir la recette sur Kenw
 const DEFAULT={stores:['migros','coop','lidl'],canton:'Vaud',persons:4,meals:7,moments:['soir'],diet:'omni',allergies:[],dislikes:[],dislikeText:'',time:35,shopday:3,promo:50,budget:0,banned:[],cuisines:[],nutris:[],kcal:'',source:''};
 const EV0={occ:'amis',persons:6,day:4,mo:'soir',budget:0,seed:1,ids:null,diet:'',allergies:[],dislikes:[],theme:'',nutris:[],kcal:'',deals:'',source:'',envie:''};
 let S={v:2,view:'main',tab:'menu',a:{...DEFAULT},ev:{...EV0},menu:[],seed:1,example:true,group:'rayon',moreOpen:false,mf:'all',af:'all',as:'pct'};
-try{const s=JSON.parse(localStorage.getItem('menu-malin')||'null');if(s&&s.a){const old=s.v!==2;S={...S,...s,a:{...DEFAULT,...s.a},ev:{...EV0,...(s.ev||{})},v:2};if(old){S.menu=[];S.view='main';S.tab='menu';}if(!['menu','ev','frigo','liste','fav'].includes(S.tab))S.tab='menu';if(S.view!=='setup')S.view='main';}}catch(e){}
+try{const s=JSON.parse(localStorage.getItem('menu-malin')||'null');if(s&&s.a){const old=s.v!==2;S={...S,...s,a:{...DEFAULT,...s.a},ev:{...EV0,...(s.ev||{})},v:2};if(old){S.menu=[];S.view='main';S.tab='menu';}if(!['menu','ev','frigo','liste','fav','act'].includes(S.tab))S.tab='menu';if(S.view!=='setup')S.view='main';}}catch(e){}
 if(S.a.nutri){S.a.nutris=[S.a.nutri];delete S.a.nutri;}if(S.ev.nutri){S.ev.nutris=[S.ev.nutri];delete S.ev.nutri;}
 const persist=()=>{try{localStorage.setItem('menu-malin',JSON.stringify(S));}catch(e){}};
 let OPEN=null;const SKIP={};
@@ -884,18 +895,18 @@ function envieInfo(r,q){const qt=etoks(q);if(!qt.length)return null;
 const courseOf=r=>r.c==='entree'?'e':r.c==='dessert'?'d':r.c?null:'p';
 const envOk=r=>courseOf(r)||r.src==='kenwood';
 function envieMatches(){const q=(S.ev.envie||'').trim();if(!q)return [];
-  return R.filter(r=>envOk(r)&&(courseOf(r)?allowed(r,'e'):true)).map(r=>({r,m:envieInfo(r,q)})).filter(x=>x.m).sort((a,b)=>(b.m.full-a.m.full)||(b.m.score-a.m.score));}
+  return R.filter(r=>envOk(r)&&(courseOf(r)?allowed(r,'e'):true)&&evOnly(r)).map(r=>({r,m:envieInfo(r,q)})).filter(x=>x.m).sort((a,b)=>(b.m.full-a.m.full)||(b.m.score-a.m.score));}
 function envieWeb(q){const e=encodeURIComponent,g=s=>`https://www.google.com/search?q=${e('recette '+q+' site:'+s)}`;
   return [['Fooby (Coop)',g('fooby.ch')],['Migusto (Migros)',g('migusto.migros.ch')],['Betty Bossi',g('bettybossi.ch')],['Swissmilk',g('swissmilk.ch')],['Marmiton','https://www.marmiton.org/recettes/recherche.aspx?aqt='+e(q)],['Kenwood Club',g('kenwoodclub.ch')]];}
 function envieHTML(){const q=(S.ev.envie||'').trim();if(!q)return '';const ms=envieMatches(),cur=S.ev.ids||{},full=ms.filter(x=>x.m.full),list=ms.slice(0,6);
   const row=x=>{const c=courseOf(x.r),on=c&&cur[c]===x.r.id;return `<div class="dl"><div><div class="p">${esc(x.r.n)}</div><div class="muted small">${c?COURSE[c]:courseLabel(x.r)} · ${x.r.t} min${SRCN[x.r.src]?' · '+SRCN[x.r.src]:''}${x.m.full?'':' · proche'}</div></div>${!c?`<button class="btn quiet sm" data-open="f:${x.r.id}">Recette</button>`:on?'<span class="chip ok">Au menu</span>':`<button class="btn quiet sm" data-envset="${c}:${x.r.id}">Mettre au menu</button>`}</div>`;};
   return `<details class="fold" id="fold-envie" open><summary>Idées pour ton envie : « ${esc(q)} »</summary><div class="fold-body">
-    ${list.length?`<p class="hint" style="margin:0 0 6px">${full.length?`${full.length} recette${full.length>1?'s':''} du carnet correspond${full.length>1?'ent':''}${ms.length>full.length?`, d'autres s'en approchent`:''}`:'Rien d\'exact dans le carnet, mais ces recettes s\'en approchent'}${S.ev.source==='yana'?' (carnet de Yana)':''}.</p>${list.map(row).join('')}`:`<p class="hint" style="margin:0 0 6px">Aucune recette du carnet ne correspond${S.ev.source==='yana'||S.ev.diet||S.ev.allergies.length?' avec tes filtres actuels':''}. Voici où chercher :</p>`}
+    ${list.length?`<p class="hint" style="margin:0 0 6px">${full.length?`${full.length} recette${full.length>1?'s':''} du carnet correspond${full.length>1?'ent':''}${ms.length>full.length?`, d'autres s'en approchent`:''}`:'Rien d\'exact dans le carnet, mais ces recettes s\'en approchent'}${S.ev.source==='yana'?' (carnet de Yana)':''}.</p>${list.map(row).join('')}`:`<p class="hint" style="margin:0 0 6px">Aucune recette du carnet ne correspond${S.ev.source==='yana'||S.ev.diet||S.ev.allergies.length||S.ev.deals==='seul'?' avec tes filtres actuels':''}${S.ev.deals==='seul'?' (uniquement les plats en action)':''}. Voici où chercher :</p>`}
     <h4 style="margin:14px 0 6px;font-size:15.5px">Chercher « ${esc(q)} » sur le web</h4><div class="envweb">${envieWeb(q).map(([l,u])=>`<a class="btn quiet sm" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div></div></details>`;}
 function evPick(c,ids){
   const ev=S.ev,p=ev.persons,bud=ev.budget?ev.budget*p:0,festive=ev.occ!=='famille';
   let pool=(c==='p'?R.filter(r=>!r.c&&allowed(r,'e')):R.filter(r=>r.c===(c==='e'?'entree':'dessert')&&allowed(r,'e'))).filter(r=>!EVSKIP[c].has(r.id));
-  if(ev.deals==='seul'){const pp=pool.filter(r=>isPromo(r,p));if(pp.length)pool=pp;}
+  pool=pool.filter(evOnly);
   if(!pool.length)return null;
   const main=ids.p?R.find(r=>r.id===ids.p):null;
   const other=c==='e'?(ids.d?R.find(r=>r.id===ids.d):null):c==='d'?(ids.e?R.find(r=>r.id===ids.e):null):null;
@@ -912,9 +923,16 @@ function evPick(c,ids){
 function composeEv(){const ids={e:null,p:null,d:null};ids.p=evPick('p',ids);ids.e=evPick('e',ids);ids.d=evPick('d',ids);S.ev.ids=ids;EVSKIP.e.clear();EVSKIP.p.clear();EVSKIP.d.clear();}
 function swapEv(c){const ids=S.ev.ids;if(!ids)return;if(ids[c])EVSKIP[c].add(ids[c]);let n=evPick(c,ids);
   if(!n){EVSKIP[c].clear();if(ids[c])EVSKIP[c].add(ids[c]);n=evPick(c,ids);}
-  if(!n){toast('Aucune autre proposition compatible');return;}
+  if(!n){toast(S.ev.deals==='seul'?'Aucun autre plat avec un ingrédient en action':'Aucune autre proposition compatible');return;}
   ids[c]=n;persist();render();toast(`${COURSE[c]} : ${R.find(r=>r.id===n).n}`);}
 const evLabel=()=>`${OCC[S.ev.occ]} · ${DAYS[S.ev.day]} ${S.ev.mo}`;
+// « Uniquement actions » : seuls les plats dont au moins un ingrédient est en action dans mes magasins
+const hasAct=(r,p)=>recipeSaving(r,p).acts.length>0;
+const evOnly=r=>S.ev.deals!=='seul'||hasAct(r,S.ev.persons);
+const evLabel2=()=>`${DAYS[S.ev.day]} ${S.ev.mo} · ${S.ev.persons} personne${S.ev.persons>1?'s':''} · ${OCC[S.ev.occ].toLowerCase()}`;
+function fixEvDeals(){const ev=S.ev;if(ev.deals!=='seul'||!ev.ids)return;['p','e','d'].forEach(c=>{const r=ev.ids[c]&&R.find(x=>x.id===ev.ids[c]);if(!r||!hasAct(r,ev.persons)){EVSKIP[c].clear();ev.ids[c]=evPick(c,ev.ids);}});}
+function toggleOnlyDeals(){const ev=S.ev;ev.deals=ev.deals==='seul'?'':'seul';fixEvDeals();
+  persist();render();toast(ev.deals==='seul'?'Seulement les plats avec un ingrédient en action':'Tous les plats sont à nouveau proposés');}
 const evRecipes=()=>S.ev.ids?['e','p','d'].map(c=>({c,r:R.find(x=>x.id===S.ev.ids[c])})).filter(x=>x.r):[];
 
 /* ---- quantités ---- */
@@ -952,7 +970,7 @@ async function setFav(id,data){if(FDB){try{if(data)await FDB.doc(id).set(data);e
 async function toggleFav(rid){const on=isFav(rid);await setFav('p_'+rid,on?null:{type:'plat',rid,at:Date.now(),by:UID||null});toast(on?'Retiré de tes plats favoris':'Ajouté à tes plats favoris');}
 async function saveEvMeal(){const ev=S.ev;if(!ev.ids)return;const id='m_'+Date.now().toString(36);
   await setFav(id,{type:'repas',name:`${OCC[ev.occ]} · ${DAYS[ev.day]} ${ev.mo}`,occ:ev.occ,persons:ev.persons,day:ev.day,mo:ev.mo,budget:ev.budget,ids:{...ev.ids},at:Date.now(),by:UID||null});toast('Repas enregistré');}
-function rerender(){if(S.view!=='main')return;if(OPEN!==null){const b=document.querySelector('.sheet .act[data-fav]');const ref=openRef();if(b&&ref)b.innerHTML=(isFav(ref.r.id)?IC.starOn:IC.star)+`<span>${isFav(ref.r.id)?'Favori':'Garder'}</span>`;}const el=document.getElementById('panel');if(el&&S.tab!=='liste'){el.innerHTML=panelHTML();applyFolds();}else if(S.tab==='liste'){const lb=document.getElementById('listbody');if(lb){lb.innerHTML=listBodyHTML();applyFolds();}}}
+function rerender(){if(S.view!=='main')return;if(OPEN!==null){const b=document.querySelector('.sheet .act[data-fav]');const ref=openRef();if(b&&ref)b.innerHTML=(isFav(ref.r.id)?IC.starOn:IC.star)+`<span>${isFav(ref.r.id)?'Favori':'Garder'}</span>`;}const el=document.getElementById('panel');if(el&&S.tab!=='liste'){el.innerHTML=panelHTML();applyFolds();renderCtx();}else if(S.tab==='liste'){const lb=document.getElementById('listbody');if(lb){lb.innerHTML=listBodyHTML();applyFolds();}}}
 let LIST=[];let SYNC={mode:'local',note:''};let LDB=null,UID=null,USER=null,CANWRITE=true,NAMES={};let EDITING=null;let QTXT='';
 try{LIST=JSON.parse(localStorage.getItem('menu-malin-liste')||'[]');}catch(e){LIST=[];}
 const saveLocal=()=>{try{localStorage.setItem('menu-malin-liste',JSON.stringify(LIST));}catch(e){}};
@@ -1034,14 +1052,14 @@ function applyTheme(){const r=document.documentElement;if(THEME==='auto'){if(HOS
   const m=document.querySelector('meta[name="theme-color"]');if(m){const dark=THEME==='dark'||(THEME==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);m.setAttribute('content',dark?'#111612':'#23573a');}}
 function render(){
   document.getElementById('opensetup').hidden=!(S.view==='main'&&S.tab==='menu');document.getElementById('themebtn').hidden=!(S.view==='setup'||S.tab==='menu');const ft=document.querySelector('footer');if(ft)ft.hidden=!(S.view==='main'&&S.tab==='liste');applyTheme();
-  app.innerHTML=S.view==='setup'?setupHTML():mainHTML();
+  app.innerHTML=S.view==='setup'?setupHTML():mainHTML();renderCtx();
   if(S.view!=='setup'&&S.tab==='liste')refreshList();
-  renderSheet();persist();applyFolds();document.body.classList.toggle('hdr-stick',S.view==='main'&&S.tab==='act');measureStick();
+  renderSheet();persist();applyFolds();
 }
 function refreshTabs(){const n=document.getElementById('tabn');if(n){const c=LIST.filter(i=>!i.done).length;n.textContent=c;n.dataset.n=c;}}
 function refreshList(){refreshTabs();if(OPEN!==null)refreshIngs();const el=document.getElementById('listbody');if(el){el.innerHTML=listBodyHTML();applyFolds();return;}
-  if(S.tab==='liste'&&S.view==='main'){const p=document.getElementById('panel');if(p){p.innerHTML=listShellHTML();return;}}
-  if(S.view==='main'&&OPEN===null){const p=document.getElementById('panel');if(p){p.innerHTML=panelHTML();applyFolds();}}}
+  if(S.tab==='liste'&&S.view==='main'){const p=document.getElementById('panel');if(p){p.innerHTML=listShellHTML();renderCtx();return;}}
+  if(S.view==='main'&&OPEN===null){const p=document.getElementById('panel');if(p){p.innerHTML=panelHTML();applyFolds();renderCtx();}}}
 
 /* ---- éléments de formulaire ---- */
 const getP=path=>path.split('.').reduce((o,k)=>o[k],S);
@@ -1079,8 +1097,8 @@ const GUIDE=[
   ['Enregistrer, partager, agenda','Garde le repas dans Favoris, envoie-le à tes invités ou ajoute-le à ton calendrier.',{tab:'ev',sel:'#saveev, #evgo'}],
  ]],
  ['Actions',[
-  ['Toutes les actions','Onglet Actions : le total et le gain par magasin, un filtre par enseigne et le tri par rabais, gain ou produit.',{tab:'act',sel:'#act-head'}],
-  ['Un repas uniquement en action','Dans Un repas, « Uniquement en action » ne propose que des plats qui profitent des promotions.',{tab:'ev',fold:'fold-evform',sel:'#fold-evform'}],
+  ['Toutes les actions','Onglet Actions : toutes les promotions de tes magasins, le total et le gain par magasin, un filtre par enseigne, le tri par rabais, gain, magasin ou rayon, et « + Courses ».',{tab:'act',sel:'#ctx'}],
+  ['Un repas uniquement en action','Dans Un repas, l\'interrupteur « Uniquement actions » ne propose que des plats dont au moins un ingrédient est en action.',{tab:'ev',sel:'#onlydeals'}],
  ]],
  ['Courses',[
   ['Vue par repas','Coche ce que tu as acheté ou déjà à la maison ; chaque repas affiche « Prêt » quand tout y est.',{tab:'liste',group:'repas',sel:'#listbody'}],
@@ -1189,6 +1207,12 @@ function cardHTML(r,p,o){const info=recipeSaving(r,p),n=info.acts.length,c=cost(
       ${(()=>{const n=nutri(r),si=seasonInfo(r),fr=r.i.filter(([k])=>fridgeHas(k)).map(([k])=>ingName(k)),nv=noteOf(r.id);return `<div class="nbadges">${SRCN[r.src]?`<span class="chip ok">${SRCN[r.src]}</span>`:''}<span class="chip soft">${n.kcal} kcal</span>${r.c?'':`<span class="chip soft">${n.p} g prot.</span>${n.hp?'<span class="chip ok">Protéiné</span>':''}${n.lf?'<span class="chip ok">Peu gras</span>':''}${n.bal?'<span class="chip ok">Équilibré</span>':''}`}${si.ok?'<span class="chip ok">De saison</span>':''}${fr.length?`<span class="chip ok">Utilise : ${esc(fr.join(', ').toLowerCase())}</span>`:''}${nv>0?'<span class="chip ok">Vous aimez</span>':''}</div>`;})()}
       <div class="vc-foot">${shopState(r,p,o.shop)}<button class="swap" ${o.swap} aria-label="Changer ce plat" title="Changer ce plat">↻</button></div></div>
   </article>`;}
+function calHTML(items){const a=S.a,start=weekStart(),i0=todayOff();
+  const cal=Array.from({length:7},(_,o)=>{const d=new Date(start);d.setDate(start.getDate()+o);const day=(S.a.shopday+o)%7;
+    const ms=items.map((x,i)=>({x,i})).filter(y=>y.x.m.day===day);
+    const dots=ms.map(({x})=>{const st=mealState(x.r,a.persons);return `<i class="${st.ok===st.n?'ok':isPromo(x.r)?'p':''}"></i>`;}).join('');
+    return `<button class="cday ${o===i0?'today':''}" ${ms.length?`data-jump="${ms[0].i}"`:'disabled'} aria-label="${DAYS[day]} ${d.getDate()} : ${ms.length?ms.map(y=>esc(y.x.r.n)).join(', '):'aucun repas'}">${DAYS[day].slice(0,3).toLowerCase()}.<b>${d.getDate()}</b><span class="dots">${dots}</span></button>`;}).join('');
+  return `<nav class="cal" id="w-cal" aria-label="Jours de la semaine">${cal}</nav>`;}
 function menuHTML(){
   const items=weekMeals(),a=S.a;
   const nP=items.filter(x=>isPromo(x.r)).length;
@@ -1197,21 +1221,15 @@ function menuHTML(){
   const ready=items.filter(x=>{const st=mealState(x.r,a.persons);return st.ok===st.n;}).length;
   const ni=nextMealIdx(),nm=ni>=0?items[ni]:null,nst=nm?mealState(nm.r,a.persons):null;
   const excluded=R.filter(r=>!r.c).length-MAINS().length;
-  const start=weekStart(),i0=todayOff();
-  const cal=Array.from({length:7},(_,o)=>{const d=new Date(start);d.setDate(start.getDate()+o);const day=(S.a.shopday+o)%7;
-    const ms=items.map((x,i)=>({x,i})).filter(y=>y.x.m.day===day);
-    const dots=ms.map(({x})=>{const st=mealState(x.r,a.persons);return `<i class="${st.ok===st.n?'ok':isPromo(x.r)?'p':''}"></i>`;}).join('');
-    return `<button class="cday ${o===i0?'today':''}" ${ms.length?`data-jump="${ms[0].i}"`:'disabled'} aria-label="${DAYS[day]} ${d.getDate()} : ${ms.length?ms.map(y=>y.x.r.n).join(', '):'aucun repas'}">${DAYS[day].slice(0,3).toLowerCase()}.<b>${d.getDate()}</b><span class="dots">${dots}</span></button>`;}).join('');
   return `${missingNote()}
   <details class="dashd" id="fold-dash"><summary><span><b>${sv>0.05?`−${chf(sv)} CHF`:'0 CHF'}</b> économisés · <b>${ready}/${items.length}</b> repas prêts${bud?` · <b>${chf0(tot)}/${bud}</b> CHF`:''}</span><span class="dchev" aria-hidden="true"></span></summary>
   <section class="dash" id="w-dash" aria-label="Résumé de la semaine">
     <div><div class="k">Économies</div><div class="v">${sv>0.05?`−${chf(sv)}`:'0.00'} <small>CHF</small></div></div>
     <div><div class="k">${bud?'Budget':'Coût estimé'}</div><div class="v">${bud?`${chf0(tot)} / ${bud}`:`≈ ${chf0(tot)}`} <small>CHF</small></div>${bud?`<div class="dbar"><i class="${tot>bud?'over':''}" style="width:${Math.min(100,tot/bud*100)}%"></i></div>`:`<button class="lnk" id="startsetup">Fixer un budget</button>`}</div>
     <div><div class="k">Repas prêts</div><div class="v">${ready} / ${items.length}</div></div>
-    <div><div class="k">En action</div><div class="v">${nP} <small>plat${nP>1?'s':''}</small></div></div>
+    <div><div class="k">En action</div><div class="v">${nP} <small>plat${nP>1?'s':''}</small></div><button class="lnk" data-tab="act">Toutes les actions (${allDeals().length})</button></div>
   </section></details>
   ${nm?`<button class="nextbar" data-open="w:${ni}"><span class="k">${whenLabel(nm.m)}</span><span><b>${esc(nm.r.n)}</b> · ${nm.r.t} min · ${nst.ok===nst.n?'tout est prêt':`il manque ${nst.n-nst.ok} ingrédient${nst.n-nst.ok>1?'s':''}`}</span></button>`:''}
-  <nav class="cal stick" id="w-cal" aria-label="Jours de la semaine">${cal}</nav>
   <div class="cal-leg"><span><i style="background:var(--accent)"></i>courses prêtes</span><span><i style="background:var(--tag)"></i>plat en action</span><span><i style="background:var(--line)"></i>à préparer</span></div>
   ${items.length<a.meals?`<div class="note warn" style="margin-bottom:12px"><p>Seulement ${items.length} plats respectent tous tes réglages (${excluded} recettes exclues).</p></div>`:''}
   <div class="seg" id="w-filter" role="group" aria-label="Filtrer les plats"><button data-mf="all" aria-pressed="${S.mf!=='promo'}">Tous les plats</button><button data-mf="promo" aria-pressed="${S.mf==='promo'}">En action (${nP})</button></div>
@@ -1243,7 +1261,7 @@ function evHTML(){
     <div class="field" id="f-envie"><h3>Une envie ?</h3><p class="hint">Un plat, un ingrédient ou un style : les recettes qui y correspondent passent en priorité, et des idées du web s'affichent.</p><div class="addbar"><input type="text" id="ev-envie" value="${esc(ev.envie||'')}" placeholder="ex. boulettes de viande, curry, tiramisu" aria-label="Ton envie pour ce repas" autocomplete="off">${ev.envie?'<button class="btn quiet sm" id="envie-clear" aria-label="Effacer l\'envie">Effacer</button>':''}</div></div>
     <div class="field" id="f-theme"><h3>Un thème ?</h3><p class="hint">Les plats de cette cuisine passent en priorité.</p>${pills('ev.theme',[{v:'',l:'Peu importe'}].concat(Object.entries(CU).map(([v,l])=>({v,l}))),false)}</div>
     <div class="field"><h3>Quelles recettes ?</h3><p class="hint">Kenwood Club : ${R.filter(r=>r.src==='kenwood'&&!r.c).length} plats, ${R.filter(r=>r.src==='kenwood'&&r.c==='entree').length} entrées et ${R.filter(r=>r.src==='kenwood'&&r.c==='dessert').length} desserts (préparation sur leur site). Le carnet de Yana compte ${R.filter(r=>r.src==='yana'&&!r.c).length} plats, ${R.filter(r=>r.src==='yana'&&r.c==='entree').length} entrées et ${R.filter(r=>r.src==='yana'&&r.c==='dessert').length} desserts.</p>${pills('ev.source',[{v:'',l:'Toutes les recettes'},{v:'yana',l:'Uniquement le carnet de Yana'},{v:'kenwood',l:'Uniquement Kenwood Club'}],false)}</div>
-    <div class="field"><h3>Actions de la semaine</h3><p class="hint">Avec : les plats qui profitent des promotions passent en priorité. Sans : le menu est choisi sans en tenir compte. Uniquement : seulement des plats dont un ingrédient est en action (s'il en existe pour l'entrée, le plat et le dessert).</p>${pills('ev.deals',[{v:'',l:'Peu importe'},{v:'avec',l:'Avec les actions'},{v:'seul',l:'Uniquement en action'},{v:'sans',l:'Sans les actions'}],false)}</div>
+    <div class="field"><h3>Actions de la semaine</h3><p class="hint">Avec : les plats qui profitent des promotions passent en priorité. Sans : le menu est choisi sans en tenir compte. Uniquement actions : seuls les plats dont au moins un ingrédient est en action dans tes magasins (même réglage que l'interrupteur en haut).</p>${pills('ev.deals',[{v:'',l:'Peu importe'},{v:'avec',l:'Avec les actions'},{v:'seul',l:'Uniquement actions'},{v:'sans',l:'Sans les actions'}],false)}</div>
     <div class="field"><h3>Objectif nutrition</h3><p class="hint">Pour le plat principal ; plusieurs choix possibles.</p>${pills('ev.nutris',[{v:'none',l:'Peu importe'}].concat(Object.entries(NUTRI).map(([v,l])=>({v,l}))),true)}
       <h4 style="margin:14px 0 6px;font-size:15.5px">Énergie du plat</h4>${pills('ev.kcal',Object.entries(KCAL).map(([v,l])=>({v,l})),false)}</div>
     <div class="two"><div class="field"><h3>Combien de personnes ?</h3>${stepper('ev.persons',1,20)}</div>
@@ -1255,7 +1273,7 @@ function evHTML(){
       <h4 style="margin:14px 0 6px;font-size:15.5px">À éviter</h4>${pills('ev.dislikes',DISLIKE.map(v=>({v,l:cap(v)})),true)}</div></details>
     <button class="btn wide" id="evgo">${rs.length?'Nouvelle proposition':'Proposer un menu'}</button>
   </section>`;
-  if(!rs.length)return form+envieHTML();
+  if(!rs.length)return (ev.deals==='seul'&&ev.ids?`<div class="empty" style="margin-bottom:10px">Aucune entrée, aucun plat ni dessert n'a d'ingrédient en action cette semaine dans tes magasins. Désactive « Uniquement actions » en haut pour voir toutes les recettes.</div>`:'')+form+envieHTML();
   const ready=rs.filter(x=>{const st=mealState(x.r,p);return st.ok===st.n;}).length,veille=rs.filter(x=>/veille/.test(x.r.s.join(' ')));
   const cock=`<section class="dash" aria-label="Économies et budget du repas">
      <div style="grid-column:1/-1"><div class="k">Budget et économies</div></div>
@@ -1265,9 +1283,9 @@ function evHTML(){
      <div><div class="k">Plats prêts</div><div class="v">${ready} / ${rs.length}</div></div>
      ${veille.length?`<div class="next" style="cursor:default">À préparer la veille : <b>${veille.map(x=>esc(x.r.n)).join(', ')}</b></div>`:''}
    </section>`;
-  const opts=[OCC[ev.occ],ev.envie?'« '+ev.envie.trim()+' »':'',SRCN[ev.source]||'',ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='seul'?'Uniquement en action':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
-  return `<div class="stick"><details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details></div>${envieHTML()}
-   ${['e','p','d'].map((c,i)=>{const x=rs.find(y=>y.c===c);const head=`<h2 class="course-h"><span class="num">${i+1}</span>${COURSE[c]}</h2>`;if(!x)return head+`<div class="empty">Aucune recette compatible avec tes réglages.</div>`;const r=x.r;
+  const opts=[OCC[ev.occ],ev.envie?'« '+ev.envie.trim()+' »':'',SRCN[ev.source]||'',ev.theme?CU[ev.theme]:'',ev.deals==='avec'?'Avec les actions':ev.deals==='seul'?'Uniquement actions':ev.deals==='sans'?'Sans les actions':'',...(ev.nutris||[]).map(g=>NUTRI[g]),ev.kcal?KCAL[ev.kcal].split(' · ')[0]:'',ev.budget?ev.budget+' CHF/pers.':''].filter(Boolean).join(' · ');
+  return `<details class="evbar" id="fold-evform"><summary><span><b>${esc(DAYS[ev.day])} ${ev.mo} · ${p} personnes</b><br><span class="muted small">${esc(opts)}</span></span><span class="chg">Changer</span></summary><div class="fold-body">${form}</div></details>${envieHTML()}
+   ${['e','p','d'].map((c,i)=>{const x=rs.find(y=>y.c===c);const head=`<h2 class="course-h"><span class="num">${i+1}</span>${COURSE[c]}</h2>`;if(!x)return head+`<div class="empty">${S.ev.deals==='seul'?`Aucun${c==='e'?'e entrée':c==='d'?' dessert':' plat'} avec un ingrédient en action cette semaine dans tes magasins. Désactive « Uniquement actions » en haut pour en voir d'autres.`:'Aucune recette compatible avec tes réglages.'}</div>`;const r=x.r;
      return head+cardHTML(r,p,{cid:'card-e-'+c,ref:'e:'+c,label:CU[r.cu]||COURSE[c],swap:`data-evswap="${c}"`,shop:'e'+r.id,persons:true});}).join('')}
    ${actionsHTML([{attr:'id="addev"',icon:IC.cart,l:'Ajouter ce repas à la liste'}],[{attr:'id="saveev"',icon:IC.star,l:'Enregistrer'},{attr:'id="shareev"',icon:IC.share,l:'Partager'},IN_CLAUDE?null:{attr:'id="icsev"',icon:IC.cal,l:'Agenda'},{attr:'id="evgo2"',icon:IC.idea,l:'Autre menu'}])}
    ${cock}`;
@@ -1387,38 +1405,32 @@ function batchHTML(items){const ks=items.filter(x=>KEEPS.has(x.r.id));if(!ks.len
    <p class="small muted" style="margin-top:6px">Temps total de cuisson ≈ ${Math.floor(tot/60)} h ${String(tot%60).padStart(2,'0')}, moins en menant les cuissons en parallèle.</p></div></details>`;}
 
 
-/* ---- vue Actions ---- */
-function packG(d){const t=d.p.replace(/(\d),(\d)/g,'$1.$2'),env=/env\.|ca\./i.test(t);
-  let m=t.match(/(\d+)\s*[×x]\s*(?:env\.\s*)?(\d+(?:\.\d+)?)\s*(kg|g)\b/i);if(m)return {g:+m[1]*+m[2]*(m[3].toLowerCase()==='kg'?1000:1),est:env};
-  m=t.match(/(\d+(?:\.\d+)?)\s*(kg|g)\b/i);if(m)return {g:+m[1]*(m[2].toLowerCase()==='kg'?1000:1),est:env};
-  return {g:d.per===100?500:1000,est:true,def:true};}
-function packPrice(d){if(!d.per)return {pr:d.pr,rg:d.rg,est:false};const k=packG(d);return {pr:d.pr*k.g/d.per,rg:d.rg*k.g/d.per,est:true,g:k.g,def:k.def};}
-function dealsSum(ds){return ds.reduce((a,d)=>{const x=packPrice(d);a.pr+=x.pr;a.rg+=x.rg;a.n++;if(x.est)a.est++;return a;},{pr:0,rg:0,n:0,est:0});}
-const gTxt=g=>g>=1000?`${(g/1000).toLocaleString('fr-CH',{maximumFractionDigits:1})} kg`:`${Math.round(g)} g`;
-function dealRowHTML(d){const x=packPrice(d);
-  return `<div class="dl"><div><div class="p">${esc(d.p)}</div><div class="muted small"><b style="color:var(--ink)">${sn(d.s)}</b>${d.ti?' · Tessin':''} · ${chf(d.pr)}${unitP(d)} <s>${chf(d.rg)}</s> · jusqu'au ${d.until||fmtD(META.to)}${srcText(d)?` · ${srcText(d)}`:''} · ${dealLink(d)}</div>${d.per?`<div class="pk">≈ ${chf(x.pr)} CHF pour ${x.def?'env. ':''}${gTxt(x.g)} · gain ≈ ${chf(x.rg-x.pr)} CHF</div>`:`<div class="pk">Gain ${chf(d.rg-d.pr)} CHF</div>`}</div><div class="row"><span class="chip">−${pct(d)} %</span><button class="btn quiet sm" data-adddeal="${DEALS.indexOf(d)}" aria-label="Ajouter ${esc(d.p)} à la liste">+</button></div></div>`;}
-function dealsViewHTML(){
-  const all=DEALS.filter(d=>ticino()||!d.ti);
-  const stores=STORES.filter(st=>all.some(d=>d.s===st.id));
-  const f=S.af!=='all'&&stores.some(st=>st.id===S.af)?S.af:'all';
-  const list=all.filter(d=>f==='all'||d.s===f);
-  const T=dealsSum(list),gain=T.rg-T.pr,pc=T.rg?Math.round(gain/T.rg*100):0;
-  const chips=[{id:'all',name:'Tous'},...stores].map(st=>`<button class="pill sm" data-af="${st.id}" aria-pressed="${f===st.id}">${st.name}<small>${st.id==='all'?all.length:all.filter(d=>d.s===st.id).length}</small></button>`).join('');
-  const per=stores.map(st=>{const ds=all.filter(d=>d.s===st.id),x=dealsSum(ds);return `<button class="ssum" data-af="${f===st.id?'all':st.id}" aria-pressed="${f===st.id}"><span>${st.name} · ${ds.length} action${ds.length>1?'s':''}</span><b>${chf(x.pr)} CHF</b><span class="muted small"><s>${chf(x.rg)}</s> au prix normal</span><span class="g">Gain ${chf(x.rg-x.pr)} CHF</span></button>`;}).join('');
-  const miss=STORES.filter(st=>!stores.some(x=>x.id===st.id)).map(st=>`<div class="ssum off"><span>${st.name}</span><span class="muted small">${st.id==='aldi'?'Pas de prix normal publié':'Pas encore d\'actions relevées'}</span></div>`).join('');
-  let body;const srt=S.as||'pct';
-  if(!list.length)body='<div class="empty">Aucune action relevée pour cette semaine.</div>';
-  else if(srt==='prod'){const ks=[...new Set(list.map(d=>d.k))].sort((a,b)=>ingName(a).localeCompare(ingName(b),'fr'));
-    body=ks.map(k=>{const ds=list.filter(d=>d.k===k).sort((a,b)=>pct(b)-pct(a));return `<section class="group"><h3><span>${esc(ingName(k))}</span><span>${ds.length}</span></h3>${ds.map(dealRowHTML).join('')}</section>`;}).join('');}
-  else{const ds=list.slice().sort(srt==='gain'?(a,b)=>{const A=packPrice(a),B=packPrice(b);return (B.rg-B.pr)-(A.rg-A.pr);}:(a,b)=>pct(b)-pct(a));
-    body=`<section class="group">${ds.map(dealRowHTML).join('')}</section>`;}
-  return `<h2 style="margin:16px 0 2px">Actions de la semaine</h2><p class="muted small">Toutes les actions alimentaires relevées, magasin par magasin.</p>
-  <div class="stick" id="act-head"><div class="chiprow" role="group" aria-label="Filtrer par magasin">${chips}</div>
-   <div class="act-tot"><span><span class="big">${chf(T.pr)}</span> CHF</span><span><s>${chf(T.rg)}</s></span><span class="save">gain ${chf(gain)} CHF (−${pc} %)</span><span class="muted small">${T.n} action${T.n>1?'s':''}${f==='all'?'':' · '+sn(f)}</span></div></div>
-  <div class="stores-sum">${per}${miss}</div>
-  <p class="muted small" style="margin:6px 0 10px">Total si l'on achète un article de chaque action. Pour les ${T.est} produits vendus au poids, le calcul prend le poids indiqué (sinon 500 g pour un prix aux 100 g, 1 kg pour un prix au kilo) : c'est un ordre de grandeur.</p>
-  <div class="seg" role="group" aria-label="Trier les actions"><button data-as="pct" aria-pressed="${srt==='pct'}">Rabais %</button><button data-as="gain" aria-pressed="${srt==='gain'}">Gain CHF</button><button data-as="prod" aria-pressed="${srt==='prod'}">Par produit</button></div>
-  ${body}`;}
+/* ---- vue Actions : toutes les promotions de mes magasins ---- */
+// Vue Actions : toutes les enseignes présentes dans les données, quels que soient les magasins des réglages
+// (règle Tessin conservée, sauf si elle masquerait une enseigne entière). Les menus continuent d'utiliser storeDeals().
+function allDeals(){return STORES.flatMap(s=>{const ds=DEALS.filter(d=>d.s===s.id);if(ticino())return ds;const nt=ds.filter(d=>!d.ti);return nt.length?nt:ds;});}
+const promoStores=()=>{const a=allDeals();return STORES.filter(s=>a.some(d=>d.s===s.id));};
+function promoDeals(){const st=promoStores().map(s=>s.id),f=st.includes(S.af)?S.af:'all';return allDeals().filter(d=>f==='all'||d.s===f);}
+function dealTot(ds){return ds.reduce((t,d)=>({n:t.n+1,pr:t.pr+d.pr,rg:t.rg+d.rg}),{n:0,pr:0,rg:0});}
+const dealCat=d=>catOf(d.k?ingName(d.k):d.p||'');
+function totLine(t){return t.n?`<b>${t.n} action${t.n>1?'s':''}</b> · ${chf(t.pr)} au lieu de ${chf(t.rg)} CHF · <span class="save">−${chf(t.rg-t.pr)} CHF</span>`:'Aucune action';}
+function dealRow(d){const g=d.rg-d.pr;return `<div class="dl pd"><div><div class="p">${esc(d.p)}</div><div class="pm"><span>${sn(d.s)}${d.ti?' · Tessin':''}</span><span class="pp">${chf(d.pr)}${unitP(d)}</span><s>${chf(d.rg)}</s><span class="chip">−${pct(d)} %</span><span class="save">−${chf(g)} CHF</span><span>jusqu'au ${esc(d.until||fmtD(META.to))}</span>${dealLink(d)}</div></div><button class="btn quiet sm" data-adddeal="${DEALS.indexOf(d)}" aria-label="Ajouter ${esc(d.p)} à la liste">+ Courses</button></div>`;}
+function dealsViewHTML(){const all=allDeals(),ds=promoDeals(),stores=promoStores(),srt=['pct','gain','store','cat'].includes(S.as)?S.as:'pct';
+  const head=`<h2 style="margin:16px 0 4px">Actions de la semaine</h2><p class="muted small">Toutes les promotions relevées cette semaine, dans tous les magasins, indépendamment du menu et de tes réglages.</p>`;
+  if(!all.length)return head+`<div class="empty">Aucune action relevée cette semaine.</div>`;
+  const rows=STORES.map(s=>({s,t:dealTot(all.filter(d=>d.s===s.id))}));const T=dealTot(all);
+  const mine=s=>S.a.stores.includes(s.id)?'':' <span class="off">hors réglages</span>';
+  const sum=`<section class="group"><h3><span>Résumé par magasin</span></h3><div class="psum"><span class="h">Magasin</span><span class="h n">Actions</span><span class="h n">Prix action</span><span class="h n">Gain</span>
+    ${rows.map(({s,t})=>!t.n?`<span>${s.name}</span><span class="nd">pas de données cette semaine</span>`:`<span>${s.name}${mine(s)}</span><span class="n">${t.n}</span><span class="n">${chf(t.pr)} <s class="muted">${chf(t.rg)}</s></span><span class="n save">−${chf(t.rg-t.pr)}</span>`).join('')}
+    <span class="tot">Total</span><span class="tot n">${T.n}</span><span class="tot n">${chf(T.pr)} <s class="muted">${chf(T.rg)}</s></span><span class="tot n save">−${chf(T.rg-T.pr)}</span></div>
+    <p class="muted small" style="padding-bottom:10px">Montants en CHF, pour un emballage ou une unité de vente de chaque action ; pour les produits vendus au poids, prix pour 100 g ou pour 1 kg. Ce n'est pas le coût d'un panier.</p></section>`;
+  const sort=`<div class="seg" role="group" aria-label="Trier les actions" style="margin-top:12px">${[['pct','Rabais %'],['gain','Gain CHF'],['store','Magasin'],['cat','Rayon']].map(([v,l])=>`<button data-as="${v}" aria-pressed="${srt===v}">${l}</button>`).join('')}</div>`;
+  const byPct=(a,b)=>pct(b)-pct(a),byGain=(a,b)=>(b.rg-b.pr)-(a.rg-a.pr);let list;
+  if(!ds.length)list=`<div class="empty">Aucune action pour ce magasin cette semaine.</div>`;
+  else if(srt==='store')list=stores.map(s=>{const it=ds.filter(d=>d.s===s.id).sort(byPct);return it.length?`<section class="group"><h3><span>${s.name}</span><span>${it.length}</span></h3>${it.map(dealRow).join('')}</section>`:'';}).join('');
+  else if(srt==='cat')list=CATS.map(([c,l])=>{const it=ds.filter(d=>dealCat(d)===c).sort(byPct);return it.length?`<section class="group"><h3><span>${l}</span><span>${it.length}</span></h3>${it.map(dealRow).join('')}</section>`:'';}).join('');
+  else list=`<section class="group">${ds.slice().sort(srt==='gain'?byGain:byPct).map(dealRow).join('')}</section>`;
+  return head+missingNote()+sum+sort+`<div id="promo-list">${list}</div>`;}
 /* ---- frigo : cuisiner avec ce que j'ai ---- */
 function fridgeHTML(){return `<details class="fold" id="fold-fridge"><summary>Cuisiner avec ce que j'ai${FRIDGE.length?` (${FRIDGE.length})`:''}</summary><div class="fold-body">
   <p class="muted small" style="margin-bottom:8px">Coche ce qui reste au frigo : les plats qui l'utilisent passent en priorité.</p>
@@ -1435,7 +1447,7 @@ function fridgeMatches(){const out=[];R.filter(r=>allowed(r)).forEach(r=>{const 
 let PLACE=null;
 function frigoHTML(){const res=fridgeMatches();
   return `<h2 style="margin:16px 0 4px">Cuisiner avec ce que j'ai</h2><p class="muted small">Coche ce qui reste au frigo et au placard : je te montre les plats qui l'utilisent, et ce qu'il te manque.</p>
-  <div class="stick fr-stick">${FRIDGE.length?`<div class="chiprow" aria-label="Ingrédients cochés">${FRIDGE.map(k=>`<button class="pill sm" data-fridge="${esc(k)}" aria-pressed="true" aria-label="Retirer ${esc(ingName(k))}">${esc(ingName(k))} ✕</button>`).join('')}</div>${res.length?`<button class="nextbar" id="fr-jump"><span class="k">${FRIDGE.length} ingrédient${FRIDGE.length>1?'s':''} cochés</span><span><b>Voir les ${res.length} idée${res.length>1?'s':''} de plats</b> ↓</span></button>`:''}`:'<p class="muted small">Aucun ingrédient coché pour l\'instant.</p>'}</div>
+  ${FRIDGE.length&&res.length?`<button class="nextbar" id="fr-jump"><span class="k">${FRIDGE.length} ingrédient${FRIDGE.length>1?'s':''} cochés</span><span><b>Voir les ${res.length} idée${res.length>1?'s':''} de plats</b> ↓</span></button>`:''}
   <section class="group" style="padding-bottom:12px">${FRIDGE_GROUPS.map(([g,ks])=>`<h3><span>${g}</span></h3><div class="pills">${ks.map(k=>`<button class="pill" data-fridge="${esc(k)}" aria-pressed="${FRIDGE.includes(k)}">${esc(ingName(k))}</button>`).join('')}</div>`).join('')}
    <h3><span>Autre chose ?</span></h3>
    ${(()=>{const known=FRIDGE_KNOWN(),own=FRIDGE.filter(f=>!known.has(f));return own.length?`<div class="pills" style="margin-bottom:8px">${own.map(f=>`<button class="pill" data-fridge="${esc(f)}" aria-pressed="true" aria-label="Retirer ${esc(f)}">${esc(cap(f))} ✕</button>`).join('')}</div>`:'';})()}
@@ -1502,7 +1514,8 @@ function dictate(){if(!CAN_DICT)return;if(REC){REC.stop();return;}REC=new SR();R
   REC.onend=()=>{REC=null;const b=document.getElementById('mic');if(b)b.classList.remove('on');};REC.start();}
 
 /* ---- courses ---- */
-function listShellHTML(){return `<div class="stick"><div class="addbar"><input type="text" id="q" placeholder="Ajouter un article, ex. lait" autocomplete="off" aria-label="Ajouter un article" value="${esc(QTXT)}">${CAN_DICT?'<button class="iconbtn mic" id="mic" title="Dicter des articles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="sr">Dicter</span></button>':''}<button class="btn" id="qadd">Ajouter</button></div><div class="sugg" id="sugg"></div></div><div id="listbody">${listBodyHTML()}</div>`;}
+function listShellHTML(){return `<div id="listbody">${listBodyHTML()}</div>`;}
+function addbarHTML(){return `<div class="addbar"><input type="text" id="q" placeholder="Ajouter un article, ex. lait" autocomplete="off" aria-label="Ajouter un article" value="${esc(QTXT)}">${CAN_DICT?'<button class="iconbtn mic" id="mic" title="Dicter des articles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="sr">Dicter</span></button>':''}<button class="btn" id="qadd">Ajouter</button></div><div class="sugg" id="sugg"></div>`;}
 function syncLine(){
   if(SYNC.mode==='db')return `<span class="dot ${SYNC.note?'warn':'on'}"></span><span>${SYNC.note?esc(SYNC.note):'Liste partagée avec ton foyer, à jour en direct'}${CANWRITE?'':' · lecture seule'}</span>`;
   if(SYNC.mode==='loading')return `<span class="dot warn"></span><span>${SYNC.note?esc(SYNC.note):'Connexion à la liste partagée…'}</span>`;
@@ -1557,6 +1570,31 @@ async function mealCheck(name,q,rname){const it=findItem(name);
   else await addItem(name,q+' · déjà à la maison',null,true,{for:[rname],done:true});
   refreshList();}
 
+/* ---- en-tête collant : contexte de chaque vue ---- */
+let CTXKEY='';
+function ctxHTML(){if(S.view!=='main')return '';
+  if(S.tab==='menu')return calHTML(weekMeals());
+  if(S.tab==='ev')return `<div class="ctx-ev"><span><b>${esc(evLabel2())}</b></span><button class="sw" id="onlydeals" role="switch" aria-checked="${S.ev.deals==='seul'}"><span class="sw-k" aria-hidden="true"></span>Uniquement actions</button></div>`;
+  if(S.tab==='frigo'){if(!FRIDGE.length)return `<div class="fchips"><span class="lab">Au frigo :</span><span class="muted small">rien de coché pour l'instant</span></div>`;
+    return `<div class="fchips ${FRIDGE.length>5?'many':''}" aria-label="Ingrédients cochés">${FRIDGE.length>5?'':'<span class="lab">Au frigo :</span>'}${FRIDGE.map(k=>`<button class="fchip" data-fridge="${esc(k)}" aria-label="Retirer ${esc(ingName(k))}">${esc(ingName(k))} ✕</button>`).join('')}</div>`;}
+  if(S.tab==='liste')return addbarHTML();
+  if(S.tab==='act'){const stores=promoStores(),f=stores.some(s=>s.id===S.af)?S.af:'all',all=allDeals();
+    return `<div class="seg" role="group" aria-label="Filtrer par magasin"><button data-af="all" aria-pressed="${f==='all'}">Tous</button>${stores.map(s=>`<button data-af="${s.id}" aria-pressed="${f===s.id}">${s.name}</button>`).join('')}</div><p class="ptot" id="ptot">${totLine(dealTot(promoDeals()))}${all.length?' · <span class="small">par unité de vente</span>':''}</p>`;}
+  return '';}
+function renderCtx(){const el=document.getElementById('ctx');if(!el)return;const key=S.view==='main'?S.tab:'';
+  // le champ « Ajouter un article » n'est jamais recréé tant que la vue Courses reste affichée : il garde le focus et le texte
+  if(key==='liste'&&CTXKEY==='liste'&&document.getElementById('q')){updStick();return;}
+  CTXKEY=key;el.innerHTML=ctxHTML();if(key==='liste')renderSugg();
+  const h=document.getElementById('hdr');if(h){h.classList.toggle('pin',key==='act');h.classList.toggle('solo',key==='act'&&!el.innerHTML);}updStick();}
+function updStick(){const h=document.getElementById('hdr'),c=document.getElementById('ctx');if(!h||!c)return;
+  const hh=h.classList.contains('pin')?h.offsetHeight:0,ch=c.innerHTML?c.offsetHeight:0,r=document.documentElement.style;
+  r.setProperty('--hdrh',hh+'px');r.setProperty('--stickh',(hh+ch)+'px');markStuck();}
+function markStuck(){const c=document.getElementById('ctx');if(!c||!c.innerHTML)return;const top=parseFloat(getComputedStyle(c).top)||0;
+  c.classList.toggle('stuck',window.scrollY>0&&c.getBoundingClientRect().top<=top+1);}
+window.addEventListener('scroll',markStuck,{passive:true});
+window.addEventListener('resize',updStick);
+if(window.ResizeObserver){try{const ro=new ResizeObserver(updStick);ro.observe(document.getElementById('hdr'));ro.observe(document.getElementById('ctx'));}catch(e){}}
+
 /* ================= ÉVÉNEMENTS ================= */
 document.addEventListener('click',e=>{
   if(e.target.id==='overlay'){closeSheet();return;}
@@ -1565,6 +1603,7 @@ document.addEventListener('click',e=>{
     if(!t.dataset.multi)setP(k,v);
     else if(v==='none')setP(k,[]);
     else{const cur=getP(k);setP(k,cur.includes(v)?cur.filter(x=>x!==v):[...cur,v]);}
+    if(k==='ev.deals')fixEvDeals();
     render();return;}
   if(t.dataset.step){const k=t.dataset.step;setP(k,Math.min(+t.dataset.max,Math.max(+t.dataset.min,getP(k)+ +t.dataset.d)));render();return;}
   if(t.id==='themebtn'){THEME=THEME==='auto'?'light':THEME==='light'?'dark':'auto';try{localStorage.setItem('menu-malin-theme',THEME);}catch(e){}applyTheme();toast('Thème '+THEME_L[THEME]);return;}
@@ -1647,7 +1686,8 @@ document.addEventListener('click',e=>{
   if(t.dataset.group){S.group=t.dataset.group;persist();refreshList();return;}
   if(t.dataset.mf){S.mf=t.dataset.mf;render();return;}
   if(t.dataset.af){S.af=t.dataset.af;render();return;}
-  if(t.dataset.as){S.as=t.dataset.as;render();return;}
+  if(t.dataset.as){S.as=t.dataset.as;const y=window.scrollY;render();window.scrollTo(0,y);return;}
+  if(t.id==='onlydeals'){const y=window.scrollY;toggleOnlyDeals();window.scrollTo(0,y);return;}
   if(t.id==='cleardone'){clearDone();return;}
   if(t.id==='qadd'){addTyped();return;}
   if(t.id==='copy'){const txt=listText();navigator.clipboard.writeText(txt).then(()=>toast('Liste copiée')).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Liste copiée');}catch(_){toast('Copie impossible ici');}ta.remove();});}
@@ -1676,12 +1716,6 @@ document.addEventListener('input',e=>{
 });
 
 
-function measureStick(){const r=document.documentElement,h=document.querySelector('header.top');if(h)r.style.setProperty('--hh',(document.body.classList.contains('hdr-stick')?h.offsetHeight:0)+'px');
-  const st=S.view==='main'?document.querySelector('#panel > .stick'):null;r.style.setProperty('--sh',(st&&getComputedStyle(st).position==='sticky'?st.offsetHeight:0)+'px');}
-if(window.ResizeObserver){const ro=new ResizeObserver(()=>measureStick());ro.observe(document.querySelector('header.top'));ro.observe(document.getElementById('app'));}
-window.addEventListener('resize',measureStick);
-window.addEventListener('scroll',()=>{const y=window.scrollY,b=document.body;if(y>40&&!b.classList.contains('scrolled'))b.classList.add('scrolled');else if(y<4&&b.classList.contains('scrolled'))b.classList.remove('scrolled');},{passive:true});
-document.addEventListener('toggle',()=>measureStick(),true);
 /* ================= DÉMARRAGE ================= */
 function boot(){renderValidity();const stamp=META.to+'|'+META.collected;
   if(!S.menu.length){build();}
@@ -1692,4 +1726,6 @@ const getJ=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>
 Promise.all([getJ('photos.json'),getJ('deals.json')]).then(([ph,j])=>{if(ph&&Array.isArray(ph.ids))AIPHOTOS=ph.ids;if(j&&Array.isArray(j.deals)&&j.meta&&(!META.from||j.meta.from>=META.from)){DEALS=j.deals;META={...META,...j.meta};}}).finally(()=>{boot();initSync();});
 </script>
 
+
+<script>if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body></html>

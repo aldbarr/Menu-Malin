@@ -1,16 +1,40 @@
 {
  "meta": {
-  "from": "2026-11-12",
-  "to": "2026-11-18",
-  "collected": "2026-11-13",
+  "from": "2026-11-19",
+  "to": "2026-11-25",
+  "collected": "2026-11-19",
   "sources": [
    "https://www.aktionis.ch/vendors/migros",
+   "https://www.aktionis.ch/vendors/migros?page=2",
+   "https://www.aktionis.ch/vendors/migros/3",
+   "https://www.aktionis.ch/vendors/migros/4",
+   "https://www.aktionis.ch/vendors/migros/futuredeals",
+   "https://www.aktionis.ch/vendors/coop",
+   "https://www.aktionis.ch/vendors/coop?page=2",
+   "https://www.aktionis.ch/vendors/coop/futuredeals",
+   "https://www.aktionis.ch/vendors/denner",
+   "https://www.aktionis.ch/vendors/denner?page=2",
+   "https://www.aktionis.ch/vendors/denner/3",
+   "https://www.aktionis.ch/vendors/denner/4",
+   "https://www.aktionis.ch/vendors/denner/5",
+   "https://www.aktionis.ch/vendors/denner/6",
    "https://www.aktionis.ch/vendors/denner/futuredeals",
+   "https://www.aktionis.ch/vendors/lidl",
+   "https://www.aktionis.ch/vendors/lidl?page=2",
+   "https://www.aktionis.ch/vendors/lidl/3",
    "https://www.aktionis.ch/vendors/lidl/futuredeals",
+   "https://www.aktionis.ch/vendors/lidl/futuredeals/2",
    "https://rappn.ch/en/offers/migros",
+   "https://rappn.ch/en/offers/migros/page/2",
+   "https://rappn.ch/en/offers/migros/page/3",
    "https://rappn.ch/en/offers/coop",
+   "https://rappn.ch/en/offers/coop/page/2",
+   "https://rappn.ch/en/offers/coop/page/3",
+   "https://rappn.ch/en/offers/coop/page/4",
    "https://rappn.ch/en/offers/lidl",
-   "https://www.denner.ch/fr/actions"
+   "https://rappn.ch/en/offers/lidl-switzerland/page/2",
+   "https://www.denner.ch/fr/actions",
+   "https://www.denner.ch/fr/actions/actions-d%C3%A8s-jeudi"
   ],
   "missing": [
    "aldi"
@@ -19,87 +43,123 @@
  "deals": [
   {
    "s": "migros",
+   "k": "cabillaud",
+   "p": "Filets de dos de cabillaud MSC 450 g",
+   "pr": 14.95,
+   "rg": 26.75,
+   "sz": 450,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "saumon",
+   "p": "Filet de saumon sans peau ASC 500 g",
+   "pr": 12.95,
+   "rg": 22.25,
+   "sz": 500,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "saumon",
+   "p": "Pelican filets de saumon ASC surgelés 750 g",
+   "pr": 17.95,
+   "rg": 24.0,
+   "sz": 750,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
    "k": "saumonfume",
-   "p": "Saumon fumé d'Islande 250 g",
-   "pr": 9.95,
-   "rg": 17.35,
-   "sz": 250,
-   "until": "18.11",
+   "p": "Saumon fumé Atlantique Migros 300 g",
+   "pr": 8.95,
+   "rg": 13.5,
+   "sz": 300,
+   "until": "25.11",
    "src": [
+    "aktionis",
     "rappn"
    ]
   },
   {
    "s": "migros",
-   "k": "tomates",
-   "p": "Tomates datterini 250 g",
-   "pr": 1.75,
-   "rg": 2.95,
-   "sz": 250,
-   "until": "18.11",
+   "k": "poulet",
+   "p": "Optigal mini filets de poulet",
+   "pr": 2.95,
+   "rg": 3.6,
+   "per": 100,
+   "until": "25.11",
    "src": [
-    "rappn"
+    "aktionis"
    ]
   },
   {
    "s": "migros",
-   "k": "courge",
-   "p": "Courge Hokkaïdo bio 1 kg",
-   "pr": 3.75,
-   "rg": 5.8,
-   "sz": 1000,
-   "until": "18.11",
+   "k": "pilons",
+   "p": "Optigal hauts de cuisse de poulet",
+   "pr": 9.35,
+   "rg": 14.0,
+   "per": 1000,
+   "until": "25.11",
    "src": [
-    "rappn"
+    "aktionis"
    ]
   },
   {
    "s": "migros",
-   "k": "pdt",
-   "p": "Pommes de terre 2,5 kg",
-   "pr": 3.45,
-   "rg": 4.6,
-   "sz": 2500,
-   "until": "18.11",
+   "k": "porc",
+   "p": "Rôti de porc tessinois",
+   "pr": 1.95,
+   "rg": 2.6,
+   "per": 100,
+   "until": "25.11",
    "src": [
-    "rappn"
+    "aktionis"
    ]
   },
   {
    "s": "migros",
-   "k": "poireau",
-   "p": "Poireaux bio 1 kg",
-   "pr": 6.95,
-   "rg": 9.95,
-   "sz": 1000,
-   "until": "18.11",
+   "k": "porc",
+   "p": "Émincé de porc IP-Suisse",
+   "pr": 1.6,
+   "rg": 1.85,
+   "per": 100,
+   "until": "25.11",
    "src": [
-    "rappn"
+    "aktionis"
    ]
   },
   {
    "s": "migros",
-   "k": "tomboite",
-   "p": "Longobardi tomates concassées 6×230 g",
-   "pr": 5.45,
-   "rg": 7.8,
-   "sz": 1380,
-   "until": "18.11",
+   "k": "lardons",
+   "p": "Lard à rôtir IP-Suisse",
+   "pr": 1.8,
+   "rg": 2.35,
+   "per": 100,
+   "until": "25.11",
    "src": [
-    "rappn"
+    "aktionis"
    ]
   },
   {
    "s": "migros",
-   "k": "fromagetr",
-   "p": "Fol Epi en tranches 270 g",
-   "pr": 4.95,
-   "rg": 6.3,
-   "sz": 12,
-   "est": true,
-   "until": "18.11",
+   "k": "jambon",
+   "p": "Tradition jambon paysan 2×150 g",
+   "pr": 7.9,
+   "rg": 9.9,
+   "sz": 300,
+   "until": "25.11",
    "src": [
-    "rappn"
+    "aktionis"
    ]
   },
   {
@@ -142,13 +202,182 @@
    ]
   },
   {
+   "s": "migros",
+   "k": "pommes",
+   "p": "Pommes Jazz suisses",
+   "pr": 3.95,
+   "rg": 5.2,
+   "per": 1000,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "poireau",
+   "p": "Poireau entier suisse",
+   "pr": 3.8,
+   "rg": 4.8,
+   "per": 1000,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "tomates",
+   "p": "Tomates cerises mélangées 500 g",
+   "pr": 3.45,
+   "rg": 4.95,
+   "sz": 500,
+   "until": "25.11",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "fraisfromage",
+   "p": "Philadelphia nature 2×200 g",
+   "pr": 3.85,
+   "rg": 5.5,
+   "sz": 400,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "pates",
+   "p": "Anna's Best ravioli 4×250 g",
+   "pr": 9.5,
+   "rg": 19.0,
+   "sz": 1000,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "pates",
+   "p": "Knöpfli bio aux œufs 2×500 g",
+   "pr": 5.9,
+   "rg": 7.9,
+   "sz": 1000,
+   "until": "25.11",
+   "src": [
+    "aktionis"
+   ]
+  },
+  {
+   "s": "migros",
+   "k": "pates",
+   "p": "La Molisana spaghetti 1 kg",
+   "pr": 3.0,
+   "rg": 5.0,
+   "sz": 1000,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
    "s": "coop",
-   "k": "schufeli",
-   "p": "Bell Schüfeli Quick 820 g",
-   "pr": 11.85,
-   "rg": 23.75,
-   "sz": 820,
-   "until": "18.11",
+   "k": "pates",
+   "p": "Sapori d'Italia spaghetti, rigatoni ou radiatori 500 g (dès 3 paquets)",
+   "pr": 1.5,
+   "rg": 2.5,
+   "sz": 500,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "pates",
+   "p": "Betty Bossi tortellini à la viande 500 g (dès 3 paquets)",
+   "pr": 3.99,
+   "rg": 5.95,
+   "sz": 500,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "pilons",
+   "p": "Pilons de poulet env. 690 g",
+   "pr": 6.9,
+   "rg": 10.35,
+   "sz": 690,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "pilons",
+   "p": "Cuisses de poulet env. 840 g",
+   "pr": 6.25,
+   "rg": 10.9,
+   "sz": 840,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "porc",
+   "p": "Côtelettes de cou de porc Naturafarm 4 pièces 1 kg",
+   "pr": 11.25,
+   "rg": 22.5,
+   "sz": 1000,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "porc",
+   "p": "Côtelettes de porc Naturafarm 3 pièces 600 g",
+   "pr": 9.0,
+   "rg": 15.3,
+   "sz": 600,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "porc",
+   "p": "Émincé de porc env. 600 g",
+   "pr": 9.9,
+   "rg": 14.7,
+   "sz": 600,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "porc",
+   "p": "Steak de porc bio Naturaplan 300 g",
+   "pr": 9.6,
+   "rg": 15.0,
+   "sz": 300,
+   "until": "25.11",
    "src": [
     "rappn"
    ]
@@ -156,11 +385,59 @@
   {
    "s": "coop",
    "k": "jambon",
-   "p": "Jambon cru, chutes env. 300 g",
-   "pr": 7.05,
-   "rg": 14.1,
-   "sz": 300,
-   "until": "18.11",
+   "p": "Bell noix de jambon Quick 1,1 kg",
+   "pr": 20.35,
+   "rg": 40.7,
+   "sz": 1100,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "jambon",
+   "p": "Bell mini épaule Quick 385 g",
+   "pr": 8.2,
+   "rg": 11.9,
+   "sz": 385,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "lardons",
+   "p": "Lard Naturafarm env. 450 g",
+   "pr": 9.85,
+   "rg": 14.6,
+   "sz": 450,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "cabillaud",
+   "p": "Filet de cabillaud Royal 450 g",
+   "pr": 17.5,
+   "rg": 29.9,
+   "sz": 450,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "cabillaud",
+   "p": "Filets de cabillaud du Pacifique MSC 1,2 kg",
+   "pr": 17.9,
+   "rg": 29.85,
+   "sz": 1200,
+   "until": "25.11",
    "src": [
     "rappn"
    ]
@@ -168,11 +445,23 @@
   {
    "s": "coop",
    "k": "saumonfume",
-   "p": "Norske saumon fumé ASC 250 g",
-   "pr": 8.5,
-   "rg": 17.0,
-   "sz": 250,
-   "until": "18.11",
+   "p": "Saumon fumé écossais en tranches 300 g",
+   "pr": 11.9,
+   "rg": 19.85,
+   "sz": 300,
+   "until": "25.11",
+   "src": [
+    "rappn"
+   ]
+  },
+  {
+   "s": "coop",
+   "k": "fondue",
+   "p": "Gerber fondue moitié-moitié 800 g",
+   "pr": 20.7,
+   "rg": 30.9,
+   "sz": 800,
+   "until": "25.11",
    "src": [
     "rappn"
    ]
@@ -180,12 +469,11 @@
   {
    "s": "coop",
    "k": "fromagetr",
-   "p": "Tranches de fromage fondu Burger XXL 200 g",
-   "pr": 1.6,
-   "rg": 3.25,
-   "sz": 10,
-   "est": true,
-   "until": "18.11",
+   "p": "Fol Epi Classic 24 tranches 450 g",
+   "pr": 7.35,
+   "rg": 10.8,
+   "sz": 24,
+   "until": "25.11",
    "src": [
     "rappn"
    ]
@@ -198,44 +486,33 @@
    "rg": 7.2,
    "sz": 12,
    "est": true,
-   "until": "18.11",
+   "until": "25.11",
    "src": [
     "rappn"
    ]
   },
   {
    "s": "coop",
-   "k": "pates",
-   "p": "Barilla Bavette n°13 500 g",
-   "pr": 1.5,
-   "rg": 2.5,
-   "sz": 500,
-   "until": "18.11",
-   "src": [
-    "rappn"
-   ]
-  },
-  {
-   "s": "coop",
-   "k": "mais",
-   "p": "Maïs doux 6×285 g",
-   "pr": 3.9,
-   "rg": 7.8,
-   "sz": 1710,
-   "until": "18.11",
+   "k": "courge",
+   "p": "Courge butternut, la pièce",
+   "pr": 3.5,
+   "rg": 4.4,
+   "sz": 1200,
+   "est": true,
+   "until": "25.11",
    "src": [
     "rappn"
    ]
   },
   {
    "s": "denner",
-   "k": "boeuf",
-   "p": "Romsteck de bœuf Black Angus en pièce env. 800 g",
-   "pr": 2.99,
-   "rg": 5.9,
+   "k": "porc",
+   "p": "Filet de porc Denner en pièce env. 900 g",
+   "pr": 1.67,
+   "rg": 2.25,
    "per": 100,
-   "u": "https://www.denner.ch/fr/actions/romsteck-de-boeuf-black-angus~p1002961",
-   "until": "18.11",
+   "u": "https://www.denner.ch/fr/actions/filet-de-porc-denner~p1100499",
+   "until": "25.11",
    "src": [
     "aktionis",
     "officiel"
@@ -244,12 +521,40 @@
   {
    "s": "denner",
    "k": "boeuf",
-   "p": "Prime Black Angus filet Florentino 4× env. 170 g",
-   "pr": 5.19,
-   "rg": 6.49,
+   "p": "Entrecôte de bœuf Florentino's Prime Black Angus 2×220 g",
+   "pr": 3.99,
+   "rg": 4.99,
    "per": 100,
-   "u": "https://www.denner.ch/fr/actions/prime-black-angus-filet-florentino~p1139588",
-   "until": "15.11",
+   "u": "https://www.denner.ch/fr/actions/entrecote-de-boeuf-florentino-s-prime-black-angus~p1139954",
+   "until": "25.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "jambon",
+   "p": "Jambon cuit Puccini Rapelli extra-fin 250 g",
+   "pr": 5.1,
+   "rg": 9.85,
+   "sz": 250,
+   "u": "https://www.denner.ch/fr/actions/jambon-cuit-puccini-rapelli~p1101326",
+   "until": "25.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "jambon",
+   "p": "Jambon de la Forêt-Noire en pièce 300 g",
+   "pr": 5.9,
+   "rg": 10.95,
+   "sz": 300,
+   "u": "https://www.denner.ch/fr/actions/jambon-de-la-foret-noire~p1009083",
+   "until": "25.11",
    "src": [
     "aktionis",
     "officiel"
@@ -258,12 +563,26 @@
   {
    "s": "denner",
    "k": "porc",
-   "p": "Quasi de porc Denner en pièce env. 600 g",
-   "pr": 0.89,
-   "rg": 1.85,
+   "p": "Rôti impérial Denner (porc) 600 g",
+   "pr": 10.9,
+   "rg": 15.9,
+   "sz": 600,
+   "u": "https://www.denner.ch/fr/actions/roti-imperial-denner~p1003181",
+   "until": "25.11",
+   "src": [
+    "aktionis",
+    "officiel"
+   ]
+  },
+  {
+   "s": "denner",
+   "k": "pilons",
+   "p": "Cuisses de poulet Denner assaisonnées env. 1 kg",
+   "pr": 0.59,
+   "rg": 0.75,
    "per": 100,
-   "u": "https://www.denner.ch/fr/actions/quasi-de-porc-denner~p1003706",
-   "until": "18.11",
+   "u": "https://www.denner.ch/fr/actions/cuisses-de-poulet-denner~p1102932",
+   "until": "22.11",
    "src": [
     "aktionis",
     "officiel"
@@ -271,13 +590,13 @@
   },
   {
    "s": "denner",
-   "k": "poulet",
-   "p": "Blancs de poulet Denner env. 1 kg",
-   "pr": 1.09,
-   "rg": 1.56,
-   "per": 100,
-   "u": "https://www.denner.ch/fr/actions/blancs-de-poulet-denner~p1118498",
-   "until": "18.11",
+   "k": "lardons",
+   "p": "Lard pour petit-déjeuner Denner en tranches 3×200 g",
+   "pr": 9.0,
+   "rg": 11.8,
+   "sz": 600,
+   "u": "https://www.denner.ch/fr/actions/lard-pour-petit-dejeuner-denner~p1101295",
+   "until": "25.11",
    "src": [
     "aktionis",
     "officiel"
@@ -285,125 +604,49 @@
   },
   {
    "s": "denner",
-   "k": "courge",
-   "p": "Courge butternut IP-Suisse",
-   "pr": 1.95,
-   "rg": 2.85,
-   "per": 1000,
-   "u": "https://www.denner.ch/fr/actions/courge-butternut-ip-suisse~p1006110",
-   "until": "18.11",
+   "k": "pates",
+   "p": "Barilla Fusilli n°98 6×500 g",
+   "pr": 7.5,
+   "rg": 15.0,
+   "sz": 3000,
+   "until": "25.11",
    "src": [
-    "aktionis",
-    "officiel"
+    "aktionis"
    ]
   },
   {
    "s": "denner",
-   "k": "chou",
-   "p": "Pak-choï 2 pièces",
-   "pr": 1.49,
-   "rg": 1.95,
-   "sz": 500,
+   "k": "fromagetr",
+   "p": "Raclette suisse Surchoix en tranches 2×300 g",
+   "pr": 9.95,
+   "rg": 13.2,
+   "sz": 24,
    "est": true,
-   "u": "https://www.denner.ch/fr/actions/pak-choi~p1102514",
-   "until": "18.11",
+   "until": "25.11",
    "src": [
-    "officiel"
+    "aktionis"
    ]
   },
   {
    "s": "denner",
-   "k": "jambon",
-   "p": "Menatti jambon cru italien tranché 2×100 g",
-   "pr": 5.95,
-   "rg": 11.9,
+   "k": "saumonfume",
+   "p": "Ancora saumon sauvage d'Alaska en tranches 2×100 g",
+   "pr": 7.2,
+   "rg": 9.0,
    "sz": 200,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "denner",
-   "k": "pates",
-   "p": "Rana Tortellini ricotta et épinards 800 g",
-   "pr": 9.5,
-   "rg": 14.2,
-   "sz": 800,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "denner",
-   "k": "fromagetr",
-   "p": "Leerdammer Original 18 tranches 450 g",
-   "pr": 5.7,
-   "rg": 8.8,
-   "sz": 18,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "denner",
-   "k": "fondue",
-   "p": "Gerber Fondue L'Original 2×800 g (Suisse alémanique et Tessin)",
-   "pr": 19.95,
-   "rg": 29.9,
-   "sz": 1600,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "denner",
-   "k": "fondue",
-   "p": "Philippe Rochat fondue moitié-moitié 400 g (Suisse romande)",
-   "pr": 12.95,
-   "rg": 14.5,
-   "sz": 400,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "denner",
-   "k": "mais",
-   "p": "Bonduelle maïs doux 3×140 g",
-   "pr": 3.5,
-   "rg": 4.3,
-   "sz": 420,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "denner",
-   "k": "fromagetr",
-   "p": "Raclette nature suisse en tranches 2×500 g",
-   "pr": 11.95,
-   "rg": 16.25,
-   "sz": 36,
-   "est": true,
-   "until": "18.11",
+   "until": "25.11",
    "src": [
     "aktionis"
    ]
   },
   {
    "s": "lidl",
-   "k": "pdt",
-   "p": "Pommes de terre fermes suisses 2,5 kg",
-   "pr": 2.99,
-   "rg": 3.75,
-   "sz": 2500,
-   "until": "18.11",
+   "k": "poulet",
+   "p": "Carnesi poitrine de poulet XXL 700 g",
+   "pr": 8.49,
+   "rg": 9.45,
+   "sz": 700,
+   "until": "25.11",
    "src": [
     "aktionis",
     "rappn"
@@ -411,12 +654,25 @@
   },
   {
    "s": "lidl",
-   "k": "chou",
-   "p": "Chou chinois suisse",
-   "pr": 1.99,
-   "rg": 2.49,
+   "k": "jambon",
+   "p": "Deluxe Jamón Ibérico 24 mois 80 g (avec Lidl Plus)",
+   "pr": 5.79,
+   "rg": 6.99,
+   "sz": 80,
+   "until": "25.11",
+   "src": [
+    "aktionis",
+    "rappn"
+   ]
+  },
+  {
+   "s": "lidl",
+   "k": "pommes",
+   "p": "Pommes rouges suisses",
+   "pr": 2.19,
+   "rg": 2.79,
    "per": 1000,
-   "until": "18.11",
+   "until": "25.11",
    "src": [
     "aktionis",
     "rappn"
@@ -424,54 +680,27 @@
   },
   {
    "s": "lidl",
-   "k": "chou",
-   "p": "Pak-choï suisse",
-   "pr": 0.99,
-   "rg": 1.49,
-   "sz": 300,
-   "est": true,
-   "until": "18.11",
+   "k": "saumon",
+   "p": "Ocean Sea morceaux de saumon ASC 455 g (avec Lidl Plus)",
+   "pr": 8.49,
+   "rg": 10.99,
+   "sz": 455,
+   "until": "21.11",
    "src": [
+    "aktionis",
     "rappn"
    ]
   },
   {
    "s": "lidl",
-   "k": "fromagetr",
-   "p": "Raclette en tranches aromatisée 300 g (Suisse romande)",
-   "pr": 4.19,
-   "rg": 5.49,
-   "sz": 12,
-   "est": true,
-   "until": "18.11",
+   "k": "saumonfume",
+   "p": "Nautica saumon fumé ASC 200 g",
+   "pr": 3.95,
+   "rg": 4.95,
+   "sz": 200,
+   "until": "21.11",
    "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "lidl",
-   "k": "pates",
-   "p": "Italiamo tagliatelle ou pappardelle fraîches 250 g",
-   "pr": 0.75,
-   "rg": 0.85,
-   "sz": 250,
-   "ti": true,
-   "until": "18.11",
-   "src": [
-    "aktionis"
-   ]
-  },
-  {
-   "s": "lidl",
-   "k": "pates",
-   "p": "Italiamo cappelletti au jambon cru 250 g",
-   "pr": 1.99,
-   "rg": 2.49,
-   "sz": 250,
-   "ti": true,
-   "until": "14.11",
-   "src": [
-    "aktionis"
+    "rappn"
    ]
   }
  ]
